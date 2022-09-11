@@ -31,8 +31,12 @@ app.get('*', (req, res) => {
 // WEBSOCKETS!!!!
 // on connection console log the unique id for the client
 io.on('connection', (socket) => {
-  console.log('a user connected');
+  //console.log('a user connected');
   console.log(socket.id);
+
+  // NOT SECURE!!!!!!!!!!!!!!!!!!!!
+  // send google maps API Key back to client upon connection
+  io.emit('message', {"googleMapsAPIKey" : String(process.env.googleMapsAPIKey)})
 });
 
 server.listen(PORT, () => {
