@@ -13,7 +13,7 @@ if(props.parcel != null) {
 	
 	for (const [key, value] of Object.entries(props.parcel)) {
 		if (key != 'location'){
-    		console.log(`${key}: ${value}`);
+    		//console.log(`${key}: ${value}`);
    			parcel.push(<p>{key} : {value} </p>)
    		}
 	}

@@ -14,11 +14,25 @@ const onSelect = item => {
 
 // set the google maps api key if we haven't done it yet
 useEffect(()=>{
+
 	if (!googleMapsAPIKey) {
 		setGoogleMapsAPIKey(props.googleMapsAPIKey);
 	}
 
-	if (googleMapsAPIKey) {
+	if (googleMapsAPIKey && props.data) {
+	// filter out properties that don't have a valid latitude.
+	let filteredList = props.data.filter(item => item.location.lat != null);
+
+	const markers = filteredList.map(item=> {
+
+  	return(
+  		<Marker
+  		key={item.PARCEL_NUM}
+  		position={item.location}
+  		onMouseOver={() => onSelect(item)}
+  		/>)
+  })
+
 	setMapRender(
 		<LoadScript googleMapsApiKey = {googleMapsAPIKey}>
 			<GoogleMap
@@ -46,12 +60,12 @@ useEffect(()=>{
 		</LoadScript>
 		)
 }
-},[props])
+},[props, googleMapsAPIKey])
 
 // went with the LoadScript wrapper becase this was giving a typeError...
 // const {isLoaded} = useJsApiLoader({
 // 	id: 'google-map-script',
-// 	//googleMapsApiKey: 'AIzaSyB2U6f1qmwk4mce7ekmALZ9GQUbMKYzf7c'
+// 	//googleMapsApiKey: apikeyyyyy
 // })
 
 const [map, setMap] = useState(null);
@@ -76,17 +90,6 @@ const center = {
   lng: -122.087
 };
 
-
-const markers = props.data.map(item=> {
-  	return(
-  		<Marker
-  		key={item.PARCEL_NUM}
-  		position={item.location}
-  		onMouseOver={() => onSelect(item)}
-  		/>)
-  })
-
-console.log(googleMapsAPIKey);
 
 return (
 	<div>

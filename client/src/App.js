@@ -18,6 +18,11 @@ const [newUserRegistered, setNewUserRegistered] = useState(false);
 const [socket, setSocket] = useState();
 const [googleMapsAPIKey, setGoogleMapsAPIKey] = useState();
 
+const [parcelList, setParcelList] = useState();
+const [selectedParcel, setSelectedParcel] = useState();
+
+const [mapRender, setMapRender] = useState();
+
 // establish socket port if we haven't done it already
 useEffect(()=> {
 
@@ -40,10 +45,6 @@ useEffect(()=> {
 
 }, [socket])
 
-
-	const [parcelList, setParcelList] = useState([]);
-	const [selectedParcel, setSelectedParcel] = useState();
-
 	const handleSocketMessage = (res) => {
 		if(res.googleMapsAPIKey) {
 			setGoogleMapsAPIKey(res.googleMapsAPIKey);
@@ -65,15 +66,14 @@ useEffect(()=> {
 
   return (
     <div className="App">
-    <HeaderBar/>
-    <MapCard>
-    	<GetData floatParcelListUp={floatParcelListUp}/>
-    	<MyMap googleMapsAPIKey={googleMapsAPIKey} data={parcelList} floatSelectedParcelUp={floatSelectedParcelUp}/>
-    	<InfoCard parcel={selectedParcel}/>
-    </MapCard>
-    	
+	    <HeaderBar/>
+	    <GetData floatParcelListUp={floatParcelListUp}/>
+	    <MapCard>
+	    	<MyMap googleMapsAPIKey={googleMapsAPIKey} data={parcelList} floatSelectedParcelUp={floatSelectedParcelUp}/>
+	    	<InfoCard parcel={selectedParcel}/>
+	    </MapCard>
     </div>
-  );
+  )
     }
 
 export default App;
