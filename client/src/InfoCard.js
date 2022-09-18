@@ -11,10 +11,14 @@ const InfoCard = (props) => {
 // loop through the parcel object
 if(props.parcel != null) {
 	
-	for (const [key, value] of Object.entries(props.parcel)) {
-		if (key != 'location'){
+	for (const [group, entries] of Object.entries(props.parcel)) {
+		if (group != 'location'){
     		//console.log(`${key}: ${value}`);
-   			parcel.push(<p>{key} : {value} </p>)
+   			//parcel.push(<p>{key} : {value} </p>)
+   			parcel.push(<h3>{group}</h3>);
+   			for (const [key, value] of Object.entries(entries)) {
+   				parcel.push(<p>{key}: {value}</p>);
+   			}
    		}
 	}
 }

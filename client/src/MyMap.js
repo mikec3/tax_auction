@@ -21,7 +21,6 @@ useEffect(()=>{
 
 	if (googleMapsAPIKey && props.data) {
 
-		console.log(props.data);
 	// filter out properties that don't have a valid latitude.
 	let filteredList = props.data.filter(item => item.location.lat != null);
 
@@ -29,7 +28,7 @@ useEffect(()=>{
 
   	return(
   		<Marker
-  		key={item.PARCEL_NUM}
+  		key={item.Basic.PARCEL_NUM}
   		position={item.location}
   		onMouseOver={() => onSelect(item)}
   		/>)
@@ -52,8 +51,8 @@ useEffect(()=>{
 					onCloseClick={() => setSelected({})}
 					>
 					<div>
-						<p>{selected.PARCEL_NUM}</p>
-						<p>{selected.TAXABLE_TOTAL}</p>
+						<p>{selected.Basic.PARCEL_NUM}</p>
+						<p>{selected.Tax.TAXABLE_TOTAL}</p>
 					</div>
 					</InfoWindow>
 					)
