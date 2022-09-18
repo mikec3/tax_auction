@@ -51,12 +51,12 @@ res.json(await getData(db));
 // GET THE DATA!!!!!
 const getData = async (db) => {
 console.log('Retrieving FireBase Data...')
-const snapShot = await getDocs(collection(db, "parcels"));
+const snapShot = await getDocs(collection(db, "parcels_v2"));
 
 //console.log(snapShot);
 
-// store the results in a temporary array of objects
-// adds the 'location' part to the object (so markers can read location key)
+//store the results in a temporary array of objects
+//adds the 'location' part to the object (so markers can read location key)
 const tempArray = []
 snapShot.forEach((doc) => {
 	//console.log(doc.data);
@@ -64,8 +64,8 @@ snapShot.forEach((doc) => {
 
 	const loc = {
 		location: {
-			lat: parseFloat(rawDoc.LAT),
-			lng: parseFloat(rawDoc.LON)
+			lat: parseFloat(rawDoc.Location.LAT),
+			lng: parseFloat(rawDoc.Location.LON)
 		}
 	}
 

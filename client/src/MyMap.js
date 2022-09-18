@@ -20,6 +20,8 @@ useEffect(()=>{
 	}
 
 	if (googleMapsAPIKey && props.data) {
+
+		console.log(props.data);
 	// filter out properties that don't have a valid latitude.
 	let filteredList = props.data.filter(item => item.location.lat != null);
 
