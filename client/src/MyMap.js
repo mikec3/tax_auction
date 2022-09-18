@@ -82,8 +82,8 @@ const onUnmount = React.useCallback(function callback(map){
 }, [])
 	
 const containerStyle = {
-  width: '800px',
-  height: '600px'
+  width: '50vw',
+  height: '90vh'
 };
 
 const center = {

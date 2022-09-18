@@ -4,7 +4,7 @@ const HeaderBar = () => {
 
 
 return (
-	<div>
+	<div className='HeaderBar'>
 	<h3> King County Tax Foreclosure Properties </h3>
 	</div>
 )

@@ -1,5 +1,7 @@
 .App {
   text-align: center;
+  max-height: 100vh;
+  border: 2px dashed green;
 }
 
 .App-logo {
@@ -35,4 +37,18 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+.HeaderBar {
+  border: 2px dashed blue;
+  max-height: 10vh;
+}
+
+.InfoCard {
+  overflow-y: scroll;
+  scroll-behavior: smooth;
+  max-height: 90vh;
+  width: 50vw;
+  border: 1px solid red;
+
 }

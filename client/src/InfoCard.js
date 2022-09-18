@@ -12,7 +12,7 @@ const InfoCard = (props) => {
 if(props.parcel != null) {
 	
 	for (const [group, entries] of Object.entries(props.parcel)) {
-		if (group != 'location'){
+		if (group != 'location' || group != 'Location'){
     		//console.log(`${key}: ${value}`);
    			//parcel.push(<p>{key} : {value} </p>)
    			parcel.push(<h3>{group}</h3>);
@@ -24,7 +24,7 @@ if(props.parcel != null) {
 }
 	
 	return (
-		<div>
+		<div className='InfoCard'>
 		<h3 style={headerStyle}> Selected Property </h3>
 		{parcel}
 		</div>
