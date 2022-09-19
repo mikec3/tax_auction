@@ -52,3 +52,12 @@
   border: 1px solid red;
 
 }
+
+.InfoShow {
+  display: flex;
+}
+
+.InfoHide {
+  background-color: red;
+  display: none;
+}
