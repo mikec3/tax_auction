@@ -49,7 +49,7 @@ const InfoBar = (props) => {
 		style={{order:flexOrder}}
 		onMouseEnter = {handleMouseEnter}
 		onMouseLeave = {handleMouseLeave}>
-			<div className='InfoBarHeader'><h3> {props.header} </h3></div>
+			<h3> {props.header} </h3>
 			<ul className={mouseIn ? "InfoShow" : "InfoHide"}>
 				{entries}
 			</ul>

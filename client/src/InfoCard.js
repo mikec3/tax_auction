@@ -5,6 +5,7 @@ const InfoCard = (props) => {
 
 	let parcel = [];
 
+	let infoLink;
 // // loop through the parcel object
 // if(props.parcel != null) {
 	
@@ -28,12 +29,25 @@ if(props.parcel != null) {
 			parcel.push(<InfoBar header={header} entries={entries} />)
 		}
 	}
+
+	infoLink = <a href={props.parcel.Basic.PROPERTY_INFO_LINK} target='_blank'> Link to Details </a>
 }
+
+console.log(props.parcel);
+
 	
 	return (
 		<div className='InfoCard'>
 		<h2> Selected Property </h2>
+		{infoLink}
 		{parcel}
+		<p> TODO: change map markers </p>
+		<p> add links </p>
+		<p> Add pictures?? </p>
+		<p> marker info window doesnt work after first x close </p>
+		<p> Make markers responsive to the selected parcel </p>
+		<p> Filter parcels </p>
+		<p> add details (auction date, etc...)</p>
 		</div>
 		)
 	

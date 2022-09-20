@@ -60,9 +60,6 @@
   border: 2px dashed green;
 }
 
-.InfoBarHeader {
-  background-color: grey;
-}
 
 .InfoShow {
   display: flex;
@@ -72,5 +69,9 @@
 .InfoHide {
   background-color: red;
   display: none;
+}
+
+.InfoBar li {
+  text-align: left;
 }
 
