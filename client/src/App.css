@@ -50,14 +50,27 @@
   max-height: 90vh;
   width: 50vw;
   border: 1px solid red;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
 
+.InfoCard h2 {
+  max-height: 10vh;
+  border: 2px dashed green;
+}
+
+.InfoBarHeader {
+  background-color: grey;
 }
 
 .InfoShow {
   display: flex;
+  flex-direction: column;
 }
 
 .InfoHide {
   background-color: red;
   display: none;
 }
+

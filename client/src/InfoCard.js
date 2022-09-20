@@ -5,10 +5,6 @@ const InfoCard = (props) => {
 
 	let parcel = [];
 
-	const headerStyle = {
-		margin: 'auto'
-	}
-
 // // loop through the parcel object
 // if(props.parcel != null) {
 	
@@ -28,7 +24,7 @@ const InfoCard = (props) => {
 if(props.parcel != null) {
 	for (const [header, entries] of Object.entries(props.parcel)) {
 		// ignore location headers
-		if(header != 'location' || header != 'Location') {
+		if(header != 'location' && header != 'Location') {
 			parcel.push(<InfoBar header={header} entries={entries} />)
 		}
 	}
@@ -36,7 +32,7 @@ if(props.parcel != null) {
 	
 	return (
 		<div className='InfoCard'>
-		<h3 style={headerStyle}> Selected Property </h3>
+		<h2> Selected Property </h2>
 		{parcel}
 		</div>
 		)
