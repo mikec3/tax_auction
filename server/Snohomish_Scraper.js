@@ -1,15 +1,32 @@
-// const express = require("express");
-// const path = require('path');
-// const bodyParser = require("body-parser")
-// require('dotenv').config();
-// const http = require('http');
-// const {Server} = require('socket.io');
-// const axios = require('axios');
+// This file will scrape the snohomish county list
+// list needs to be supplied
 
-// const PORT = process.env.PORT || 3001;
+//URL of 2022 list: https://www.snohomishcountywa.gov/DocumentCenter/View/100055/2022-Certificate-of-Delinquency-w-Exh-A?bidId=
+//Manually scrape that pdf for parcel numbers
 
-// const app = express();
+const webdriver = require('selenium-webdriver');
+const chrome = require('selenium-webdriver/chrome');
 
-const selenium = require('selenium-webdriver');
+// TODO fix this so that it reads from an external file
+const parcelNums = ['00373301100301', '00373301100305']
 
-console.log('test branch');
+// Parcel Data URL
+const parcelDataURL = 'https://www.google.com';
+
+
+// async function
+
+(async function scrape() {
+// Open chrome driver
+let driver = new webdriver.Builder()
+    .forBrowser(webdriver.Browser.CHROME)
+    .build();
+
+// navigate to URL
+await driver.get(parcelDataURL);
+
+
+
+// Quit the driver
+driver.quit()
+})();
