@@ -65,6 +65,23 @@ git push heroku master
 git remote add <custom_name_for_this_remote> <github-url>
 git push <custom_name_for_this_remote> master 
 ```
+
+## Git Branching
+```
+git checkout new_feature
+
+...do stuff...
+
+git add .
+git commit -m 'added features'
+git push github new_feature
+
+git checkout master
+git merge new_feature
+...commit master...
+
+git push github --delete new_feature
+```
 ## Hide API Keys
 1. Create a .env file and populate with API keys like so:
 ```
