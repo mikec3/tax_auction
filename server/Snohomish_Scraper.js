@@ -11,6 +11,10 @@ const chrome = require('selenium-webdriver/chrome');
 // TODO fix this so that it reads from an external file
 const parcelNums = ['00373301100301', '00373301100305']
 
+// TODO write tests
+// TODO write coordinator file?
+// TODO add auction meta info
+
 // Parcel Data URL
 const parcelDataURL = 'https://snohomishcountywa.gov/5167/Assessor';
 
@@ -187,7 +191,7 @@ const getParcelInfo = async function (url, parcelNum) {
  	let parcelSearchButton = await driver.findElement(By.css('.toolbar-group')).findElement(By.tagName('button'));
 
  	// press the parcel search button
- 	await actions.move({origin:parcelSearchButton}).click().pause(1000).perform();
+ 	await actions.move({origin:parcelSearchButton}).click().pause(500).perform();
 
  	await actions.clear();
 
@@ -199,7 +203,7 @@ const getParcelInfo = async function (url, parcelNum) {
  					.click()
  					.sendKeys(parcelNum)
  					.sendKeys(Key.RETURN)
- 					.pause(4000)
+ 					.pause(3000)
  					.perform();
 
  	await actions.clear();
@@ -211,8 +215,11 @@ const getParcelInfo = async function (url, parcelNum) {
  	// click the map element to activate the lat/lon box
  	await actions.move({origin:mapElement})
  					.contextClick()
- 					.pause(2000)
+ 					.pause(3000)
  					.perform();
+
+ 		// wait 5 seconds for full parcelViewerURL to load
+ 	await new Promise(resolve => setTimeout(resolve, 1000));
 
  	await actions.clear();
 
@@ -221,9 +228,20 @@ const getParcelInfo = async function (url, parcelNum) {
 								 	.findElement(By.css('.map-menu-coordinates'))
 								 	.findElements(By.tagName('span'));
 
- 	console.log(await latLonElement[0].getAttribute('innerText'));
- 
+	// get the lat lon strings and strip all non numeric characters
+	let latRaw = await latLonElement[0].getAttribute('innerText');
+	let lonRaw = await latLonElement[1].getAttribute('innerText');
 
+	latRaw = latRaw.replace(/\D/g,'');
+	lonRaw = lonRaw.replace(/\D/g,'');
+
+	// add decimal places and negative sign to the LON
+	let LAT = latRaw.slice(0,2) + "." + latRaw.slice(2,latRaw.length)
+	let LON = "-"+lonRaw.slice(0,3) + "." + lonRaw.slice(3,lonRaw.length)
+
+	// add lat lon to parcel
+	currentParcel['Location']['LAT'] = LAT;
+	currentParcel['Location']['LON'] = LON;
 
  	console.log(currentParcel);
 
