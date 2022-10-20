@@ -168,7 +168,7 @@ const getParcelInfo = async function (url, parcelNum) {
  	await driver.get(parcelViewerURL);
 
  	// wait 5 seconds for full parcelViewerURL to load
- 	await new Promise(resolve => setTimeout(resolve, 5000));
+ 	await new Promise(resolve => setTimeout(resolve, 4000));
 
  	// grab button on popup modal - 'I agree'
  	let modalButton = await driver.findElement(By.css('.ModalViewContainerView'))
@@ -179,6 +179,49 @@ const getParcelInfo = async function (url, parcelNum) {
  	// click the 'I agree' modal button
  	const actions = driver.actions({async: true});
  	await actions.move({origin:modalButton}).click().perform();
+
+ 	// clear actions
+ 	await actions.clear();
+
+ 	// get parcel search button
+ 	let parcelSearchButton = await driver.findElement(By.css('.toolbar-group')).findElement(By.tagName('button'));
+
+ 	// press the parcel search button
+ 	await actions.move({origin:parcelSearchButton}).click().pause(1000).perform();
+
+ 	await actions.clear();
+
+ 	// get parcel search input
+ 	let parcelSearchInput = await driver.findElement(By.css('.workflow-container-region-holder')).findElement(By.tagName('input'));
+ 	
+ 	// enter parcel number into search box and hit enter
+ 	await actions.move({origin:parcelSearchInput})
+ 					.click()
+ 					.sendKeys(parcelNum)
+ 					.sendKeys(Key.RETURN)
+ 					.pause(4000)
+ 					.perform();
+
+ 	await actions.clear();
+
+ 	// get lat long now that parcel has been searched
+ 	// get the active map element
+ 	let mapElement = await driver.findElement(By.css('#map-container'));
+
+ 	// click the map element to activate the lat/lon box
+ 	await actions.move({origin:mapElement})
+ 					.contextClick()
+ 					.pause(2000)
+ 					.perform();
+
+ 	await actions.clear();
+
+ 	// get lat long element
+ 	let latLonElement = await driver.findElement(By.css('.region-active'))
+								 	.findElement(By.css('.map-menu-coordinates'))
+								 	.findElements(By.tagName('span'));
+
+ 	console.log(await latLonElement[0].getAttribute('innerText'));
  
 
 
