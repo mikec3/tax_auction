@@ -24,14 +24,14 @@ const parcelViewerURL = 'https://scopi.snoco.org/Html5Viewer/Index.html?configBa
 
 const testURL = parcelDataBaseURL.concat(parcelNums[0]);
 
-	// instantiate the driver
- 	let driver = new webdriver.Builder()
- 	    .forBrowser(webdriver.Browser.CHROME)
- 	    .build();
-
 
 // get info
 const getParcelInfo = async function (url, parcelNum) {
+
+		// instantiate the driver
+ 	let driver = new webdriver.Builder()
+ 	    .forBrowser(webdriver.Browser.CHROME)
+ 	    .build();
 
 	// instantiate empty object to hold this current parcel
 	let currentParcel = {
@@ -174,18 +174,26 @@ const getParcelInfo = async function (url, parcelNum) {
  	// wait 5 seconds for full parcelViewerURL to load
  	await new Promise(resolve => setTimeout(resolve, 4000));
 
- 	// grab button on popup modal - 'I agree'
- 	let modalButton = await driver.findElement(By.css('.ModalViewContainerView'))
- 								.findElement(By.tagName('form'))
- 								.findElement(By.css('.form-btns'))
- 								.findElement(By.tagName('button'))
-
- 	// click the 'I agree' modal button
+ 	// instantiate actions
  	const actions = driver.actions({async: true});
- 	await actions.move({origin:modalButton}).click().perform();
 
- 	// clear actions
- 	await actions.clear();
+ 	//TODO add a try to the modalButton, sometimes the modal popup doesn't appear
+ 	try {
+	 	// grab button on popup modal - 'I agree'
+	 	let modalButton = await driver.findElement(By.css('.ModalViewContainerView'))
+	 								.findElement(By.tagName('form'))
+	 								.findElement(By.css('.form-btns'))
+	 								.findElement(By.tagName('button'))
+
+	 	// click the 'I agree' modal button
+	 	await actions.move({origin:modalButton}).click().perform();
+
+	 	 	// clear actions
+ 		await actions.clear();
+
+ 	} catch (e) {
+ 		console.log(e)
+ 	}
 
  	// get parcel search button
  	let parcelSearchButton = await driver.findElement(By.css('.toolbar-group')).findElement(By.tagName('button'));
@@ -243,18 +251,24 @@ const getParcelInfo = async function (url, parcelNum) {
 	currentParcel['Location']['LAT'] = LAT;
 	currentParcel['Location']['LON'] = LON;
 
- 	console.log(currentParcel);
 
 	}
 	finally {
 		driver.quit();
 	}
 
+	return currentParcel;
+
 }
 
-getParcelInfo(testURL, parcelNums[0]);
+//getParcelInfo(testURL, parcelNums[0]);
 
 
 
+const testFunc = function () {
+	//console.log(parcelDataURL);
+	return parcelDataURL;
+}
 
+module.exports = {testFunc, getParcelInfo};
 
