@@ -4,8 +4,10 @@ const Firebase = require('./UploadToFirebase.js');
 
 // call Read_Auction_Notes to get snohomish meta data and parcel list
 // pass parcel list through snomohish_scraper and attach meta data to each parcel
-// TODO cont... Upload snohomish parcel info to firebase
+// Upload snohomish parcel info to firebase
 // get the auction meta data and snohomish parcel info
+
+let database = 'parcels_v2';
 
 const getSnohomish = async function () {
 	// Get Snohomish Parcel List
@@ -49,9 +51,9 @@ const getSnohomish = async function () {
 }
 
 getSnohomish().then(result=> {
-	console.log(result)
+
 	result.forEach(parcel => {
-		Firebase.upload(parcel);
+		Firebase.upload(database,parcel);
 	});
 });
 
