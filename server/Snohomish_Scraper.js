@@ -8,25 +8,11 @@ const webdriver = require('selenium-webdriver');
 const {By, until, Key} = require('selenium-webdriver');
 const chrome = require('selenium-webdriver/chrome');
 
-// TODO fix this so that it reads from an external file
-const parcelNums = ['00373301100301', '00373301100305']
-
-// TODO write tests
-// TODO write coordinator file?
-// TODO add auction meta info
-
-// Parcel Data URL
-const parcelDataURL = 'https://snohomishcountywa.gov/5167/Assessor';
-
-const parcelDataBaseURL = 'https://www.snoco.org/proptax/search.aspx?parcel_number='
-
-const parcelViewerURL = 'https://scopi.snoco.org/Html5Viewer/Index.html?configBase=https://scopi.snoco.org/Geocortex/Essentials/REST/sites/SCOPI/viewers/SCOPI/virtualdirectory/Resources/Config/Default'
-
-const testURL = parcelDataBaseURL.concat(parcelNums[0]);
-
-
 // get info
-const getParcelInfo = async function (url, parcelNum) {
+const getParcelInfo = async function (baseUrl, parcelViewerURL, parcelNum) {
+
+	// create parcel url
+	let parcelURL = baseUrl.concat(parcelNum);
 
 		// instantiate the driver
  	let driver = new webdriver.Builder()
@@ -44,11 +30,11 @@ const getParcelInfo = async function (url, parcelNum) {
 	};
 
 	try {
-		await driver.get(url);
+		await driver.get(parcelURL);
 
 		// Add the Parcel number and property info link
 		currentParcel['Basic']['PARCEL_NUM'] = parcelNum;
-		currentParcel['Basic']['PROPERTY_INFO_LINK'] = url;
+		currentParcel['Basic']['PROPERTY_INFO_LINK'] = parcelURL;
 
 		// start with general information section
 		let generalInformationRows = await driver.findElement(By.css('#mGeneralInformation'))
@@ -203,18 +189,38 @@ const getParcelInfo = async function (url, parcelNum) {
 
  	await actions.clear();
 
- 	// get parcel search input
- 	let parcelSearchInput = await driver.findElement(By.css('.workflow-container-region-holder')).findElement(By.tagName('input'));
- 	
- 	// enter parcel number into search box and hit enter
- 	await actions.move({origin:parcelSearchInput})
- 					.click()
- 					.sendKeys(parcelNum)
- 					.sendKeys(Key.RETURN)
- 					.pause(3000)
- 					.perform();
+ 	try {
+	 	// get parcel search input
+	 	let parcelSearchInput = await driver.findElement(By.css('.workflow-container-region-holder')).findElement(By.tagName('input'));
+	 	
+	 	// enter parcel number into search box and hit enter
+	 	await actions.move({origin:parcelSearchInput})
+	 					.click()
+	 					.sendKeys(parcelNum)
+	 					.sendKeys(Key.RETURN)
+	 					.pause(3000)
+	 					.perform();
 
- 	await actions.clear();
+	 	await actions.clear();
+
+ 	} catch (e) {
+ 		console.log(e);
+
+ 		 		// wait since it errored.
+ 		await new Promise(resolve => setTimeout(resolve, 1000));	
+ 			 	// get parcel search input
+	 	let parcelSearchInput = await driver.findElement(By.css('.workflow-container-region-holder')).findElement(By.tagName('input'));
+	 	
+	 	// enter parcel number into search box and hit enter
+	 	await actions.move({origin:parcelSearchInput})
+	 					.click()
+	 					.sendKeys(parcelNum)
+	 					.sendKeys(Key.RETURN)
+	 					.pause(3000)
+	 					.perform();
+
+	 	await actions.clear();
+ 	}
 
  	// get lat long now that parcel has been searched
  	// get the active map element
@@ -261,14 +267,5 @@ const getParcelInfo = async function (url, parcelNum) {
 
 }
 
-//getParcelInfo(testURL, parcelNums[0]);
-
-
-
-const testFunc = function () {
-	//console.log(parcelDataURL);
-	return parcelDataURL;
-}
-
-module.exports = {testFunc, getParcelInfo};
+module.exports = {getParcelInfo};
 

@@ -5,7 +5,9 @@ jest.setTimeout(30000);
 
 test('Snohomish Scraper', async () => {
 
-	let result = await snohomish.getParcelInfo('https://www.snoco.org/proptax/search.aspx?parcel_number=00373301100301', '00373301100301');
+	let result = await snohomish.getParcelInfo('https://www.snoco.org/proptax/search.aspx?parcel_number=',
+		'https://scopi.snoco.org/Html5Viewer/Index.html?configBase=https://scopi.snoco.org/Geocortex/Essentials/REST/sites/SCOPI/viewers/SCOPI/virtualdirectory/Resources/Config/Default' ,
+		'00373301100301');
 
 	// Parse the result to get the specific values I want to test for.
 	let fetchedParcelNum = result['Basic']['PARCEL_NUM'];
