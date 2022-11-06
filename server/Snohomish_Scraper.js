@@ -31,6 +31,7 @@ const getParcelInfo = async function (baseUrl, parcelViewerURL, parcelNum) {
 
 	try {
 		await driver.get(parcelURL);
+		console.log(parcelURL);
 
 		// Add the Parcel number and property info link
 		currentParcel['Basic']['PARCEL_NUM'] = parcelNum;

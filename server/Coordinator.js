@@ -1,5 +1,6 @@
 const Snohomish = require('./Snohomish_Scraper');
 const Read_Auction_Notes = require('./Read_Auction_Notes');
+const Firebase = require('./UploadToFirebase.js');
 
 // call Read_Auction_Notes to get snohomish meta data and parcel list
 // pass parcel list through snomohish_scraper and attach meta data to each parcel
@@ -17,7 +18,7 @@ const getSnohomish = async function () {
 
 	// loop through snohomish parcel list
 	for await (const parcel of snohomishParcelList) {
-		//console.log(parcelObj.PARCEL_NUM)
+		console.log(parcel);
 
 		// add meta data to parcelObj
 		parcel['AUCTION_DATE'] = snohomishMetaData['AUCTION_DATE'];
@@ -47,5 +48,10 @@ const getSnohomish = async function () {
 	return parcelOutput;
 }
 
-getSnohomish().then(result=> {console.log(result)});
+getSnohomish().then(result=> {
+	console.log(result)
+	result.forEach(parcel => {
+		Firebase.upload(parcel);
+	});
+});
 
