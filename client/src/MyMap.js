@@ -24,6 +24,8 @@ useEffect(()=>{
 	// filter out properties that don't have a valid latitude.
 	let filteredList = props.data.filter(item => item.location.lat != null);
 
+	//filteredList = props.data.filter(item => item.Basic.PARCEL_NUM == '00373301100301')
+
 	const markers = filteredList.map(item=> {
 
   	return(

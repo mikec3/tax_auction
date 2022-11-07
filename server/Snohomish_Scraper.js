@@ -247,12 +247,17 @@ const getParcelInfo = async function (baseUrl, parcelViewerURL, parcelNum) {
 	let latRaw = await latLonElement[0].getAttribute('innerText');
 	let lonRaw = await latLonElement[1].getAttribute('innerText');
 
+	// strip all the special characters
 	latRaw = latRaw.replace(/\D/g,'');
 	lonRaw = lonRaw.replace(/\D/g,'');
 
+	//  convert lat/lon minutes to decimal
+	latRaw = ConvertToDecimal(latRaw.slice(0,2), latRaw.slice(2,4), latRaw.slice(4,6));
+	lonRaw = ConvertToDecimal(lonRaw.slice(0,3), lonRaw.slice(3,5), lonRaw.slice(5,7));
+
 	// add decimal places and negative sign to the LON
-	let LAT = latRaw.slice(0,2) + "." + latRaw.slice(2,latRaw.length)
-	let LON = "-"+lonRaw.slice(0,3) + "." + lonRaw.slice(3,lonRaw.length)
+	let LAT = latRaw
+	let LON = "-"+lonRaw
 
 	// add lat lon to parcel
 	currentParcel['Location']['LAT'] = LAT;
@@ -268,5 +273,16 @@ const getParcelInfo = async function (baseUrl, parcelViewerURL, parcelNum) {
 
 }
 
-module.exports = {getParcelInfo};
+// converts lat/lon minutes/seconds to decimal
+// Decimal degrees = Degrees + (Minutes/60) + (Seconds/3600)
+const ConvertToDecimal = function (degrees, minutes, seconds) {
+
+	degrees = parseInt(degrees);
+	minutes = parseInt(minutes);
+	seconds = parseInt(seconds);
+
+	return String(degrees + (minutes/60) + (seconds/3600)).slice(0,7);
+}
+
+module.exports = {getParcelInfo, ConvertToDecimal};
 

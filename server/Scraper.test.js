@@ -16,5 +16,10 @@ test('Snohomish Scraper', async () => {
 
 	expect(fetchedParcelNum).toMatch('00373301100301');
 	expect(fetchedYear).toMatch('1969');
-	expect(fetchedLat).toMatch('47.522037057');
+	expect(fetchedLat).toMatch('47.8722');
 });
+
+// test the lat/long degree to decimal converter
+test('Decimal Converter', () => {
+	expect(snohomish.ConvertToDecimal(39, 25, 30)).toMatch('39.425');
+})
