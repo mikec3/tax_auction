@@ -109,50 +109,56 @@ const getParcelInfo = async function (baseUrl, parcelViewerURL, parcelNum) {
  	// grab just the first row for now, may expand to grab secondary structures
  	let propCells = await buildingInfoRows[1].findElements(By.tagName('td'));
 
- 	// get structure info link
- 	let structureInfoLink = await propCells[propCells.length-1].findElement(By.tagName('a')).getAttribute('href');
+ 	console.log('Get Structure Info');
 
- 	// Navigate to the structure info page
- 	await driver.get(structureInfoLink);
+ 	try {
+	 	// get structure info link
+	 	let structureInfoLink = await propCells[propCells.length-1].findElement(By.tagName('a')).getAttribute('href');
 
- 	// Grab the second table on the page and get the rows
- 	let structureInfoTables = await driver.findElements(By.tagName('table'))
- 									
- 	let structureInfoRows = await structureInfoTables[1].findElements(By.tagName('tr'));
+	 	// Navigate to the structure info page
+	 	await driver.get(structureInfoLink);
 
- 	//loop through the property structure info table rows
- 	for (row in structureInfoRows) {
- 		// skip the first row and the rest after 5, until row 10 below for the Floor Area info.
- 		if(row >= 1 && row<=5) {
- 			let cells = await structureInfoRows[row].findElements(By.tagName('td'));
+	 	// Grab the second table on the page and get the rows
+	 	let structureInfoTables = await driver.findElements(By.tagName('table'))
+	 									
+	 	let structureInfoRows = await structureInfoTables[1].findElements(By.tagName('tr'));
 
- 			let key = await cells[1].getAttribute('innerText');
- 			let value = await cells[2].getAttribute('innerText');
+	 	//loop through the property structure info table rows
+	 	for (row in structureInfoRows) {
+	 		// skip the first row and the rest after 5, until row 10 below for the Floor Area info.
+	 		if(row >= 1 && row<=5) {
+	 			let cells = await structureInfoRows[row].findElements(By.tagName('td'));
 
- 			currentParcel['Building'][key] = value;
+	 			let key = await cells[1].getAttribute('innerText');
+	 			let value = await cells[2].getAttribute('innerText');
 
- 		} else if (row ==10) {
- 			// process the floor area row
- 			let cells = await structureInfoRows[row].findElements(By.tagName('td'));
+	 			currentParcel['Building'][key] = value;
 
- 			// manually adding the floor area cells by index
- 			currentParcel['Building'][await cells[1].getAttribute('innerText')] = await cells[2].getAttribute('innerText');
- 			currentParcel['Building'][await cells[3].getAttribute('innerText')] = await cells[4].getAttribute('innerText');
- 			currentParcel['Building'][await cells[5].getAttribute('innerText')] = await cells[6].getAttribute('innerText');
- 			currentParcel['Building'][await cells[7].getAttribute('innerText')] = await cells[8].getAttribute('innerText');
- 			currentParcel['Building'][await cells[9].getAttribute('innerText')] = await cells[10].getAttribute('innerText');
+	 		} else if (row ==10) {
+	 			// process the floor area row
+	 			let cells = await structureInfoRows[row].findElements(By.tagName('td'));
 
- 		}
+	 			// manually adding the floor area cells by index
+	 			currentParcel['Building'][await cells[1].getAttribute('innerText')] = await cells[2].getAttribute('innerText');
+	 			currentParcel['Building'][await cells[3].getAttribute('innerText')] = await cells[4].getAttribute('innerText');
+	 			currentParcel['Building'][await cells[5].getAttribute('innerText')] = await cells[6].getAttribute('innerText');
+	 			currentParcel['Building'][await cells[7].getAttribute('innerText')] = await cells[8].getAttribute('innerText');
+	 			currentParcel['Building'][await cells[9].getAttribute('innerText')] = await cells[10].getAttribute('innerText');
+
+	 		}
+	 	}
+
+	 	// Get picture!!!
+	 	let pictureTable = await driver.findElement(By.css('.attention')).findElement(By.tagName('img'));
+
+	 	// picture address
+	 	let pictureURL = await pictureTable.getAttribute('src');
+
+	 	// add picture url to current parcel
+	 	currentParcel['Building']['PROPERTY_PICTURE'] = pictureURL;
+ 	} catch (error) {
+ 		console.log('No structure info link');
  	}
-
- 	// Get picture!!!
- 	let pictureTable = await driver.findElement(By.css('.attention')).findElement(By.tagName('img'));
-
- 	// picture address
- 	let pictureURL = await pictureTable.getAttribute('src');
-
- 	// add picture url to current parcel
- 	currentParcel['Building']['PROPERTY_PICTURE'] = pictureURL;
 
  	// GET LOCATION!!
  	// get pacel view map
@@ -179,7 +185,7 @@ const getParcelInfo = async function (baseUrl, parcelViewerURL, parcelNum) {
  		await actions.clear();
 
  	} catch (e) {
- 		console.log(e)
+ 		console.log('Parcel viewer modal didnt show up');
  	}
 
  	// get parcel search button
@@ -205,64 +211,54 @@ const getParcelInfo = async function (baseUrl, parcelViewerURL, parcelNum) {
 	 	await actions.clear();
 
  	} catch (e) {
- 		console.log(e);
+ 		console.log('Probably couldnt find the parcel search input.');
+ 	} 
 
- 		 		// wait since it errored.
- 		await new Promise(resolve => setTimeout(resolve, 1000));	
- 			 	// get parcel search input
-	 	let parcelSearchInput = await driver.findElement(By.css('.workflow-container-region-holder')).findElement(By.tagName('input'));
-	 	
-	 	// enter parcel number into search box and hit enter
-	 	await actions.move({origin:parcelSearchInput})
-	 					.click()
-	 					.sendKeys(parcelNum)
-	 					.sendKeys(Key.RETURN)
+ 	//try catch in case the parcel isn't found
+ 	try {
+	 	// get lat long now that parcel has been searched
+	 	// get the active map element
+	 	let mapElement = await driver.findElement(By.css('#map-container'));
+
+	 	// click the map element to activate the lat/lon box
+	 	await actions.move({origin:mapElement})
+	 					.contextClick()
 	 					.pause(3000)
 	 					.perform();
 
+	 		// wait 5 seconds for full parcelViewerURL to load
+	 	await new Promise(resolve => setTimeout(resolve, 1000));
+
 	 	await actions.clear();
- 	}
 
- 	// get lat long now that parcel has been searched
- 	// get the active map element
- 	let mapElement = await driver.findElement(By.css('#map-container'));
+	 	// get lat long element
+	 	let latLonElement = await driver.findElement(By.css('.region-active'))
+									 	.findElement(By.css('.map-menu-coordinates'))
+									 	.findElements(By.tagName('span'));
 
- 	// click the map element to activate the lat/lon box
- 	await actions.move({origin:mapElement})
- 					.contextClick()
- 					.pause(3000)
- 					.perform();
+		// get the lat lon strings and strip all non numeric characters
+		let latRaw = await latLonElement[0].getAttribute('innerText');
+		let lonRaw = await latLonElement[1].getAttribute('innerText');
 
- 		// wait 5 seconds for full parcelViewerURL to load
- 	await new Promise(resolve => setTimeout(resolve, 1000));
+		// strip all the special characters
+		// TODO need to fix this, some lat/lon have decimals in the seconds that need to be retained...
+		// latRaw = latRaw.replace(/\D/g,'');
+		// lonRaw = lonRaw.replace(/\D/g,'');
 
- 	await actions.clear();
+		// //  convert lat/lon minutes to decimal
+		// latRaw = ConvertToDecimal(latRaw.slice(0,2), latRaw.slice(2,4), latRaw.slice(4,6));
+		// lonRaw = ConvertToDecimal(lonRaw.slice(0,3), lonRaw.slice(3,5), lonRaw.slice(5,7));
 
- 	// get lat long element
- 	let latLonElement = await driver.findElement(By.css('.region-active'))
-								 	.findElement(By.css('.map-menu-coordinates'))
-								 	.findElements(By.tagName('span'));
+		// Convert the lat/lon strings with special characters from degrees to decimal coordinates
+		let LAT = CleanLatLon(latRaw, lonRaw)[0];
+		let LON = CleanLatLon(latRaw, lonRaw)[1];
 
-	// get the lat lon strings and strip all non numeric characters
-	let latRaw = await latLonElement[0].getAttribute('innerText');
-	let lonRaw = await latLonElement[1].getAttribute('innerText');
-
-	// strip all the special characters
-	latRaw = latRaw.replace(/\D/g,'');
-	lonRaw = lonRaw.replace(/\D/g,'');
-
-	//  convert lat/lon minutes to decimal
-	latRaw = ConvertToDecimal(latRaw.slice(0,2), latRaw.slice(2,4), latRaw.slice(4,6));
-	lonRaw = ConvertToDecimal(lonRaw.slice(0,3), lonRaw.slice(3,5), lonRaw.slice(5,7));
-
-	// add decimal places and negative sign to the LON
-	let LAT = latRaw
-	let LON = "-"+lonRaw
-
-	// add lat lon to parcel
-	currentParcel['Location']['LAT'] = LAT;
-	currentParcel['Location']['LON'] = LON;
-
+		// add lat lon to parcel
+		currentParcel['Location']['LAT'] = LAT;
+		currentParcel['Location']['LON'] = LON;
+	} catch (error) {
+		console.log('parcel probably wasnt found on viewer');
+	}
 
 	}
 	finally {
@@ -273,16 +269,47 @@ const getParcelInfo = async function (baseUrl, parcelViewerURL, parcelNum) {
 
 }
 
+// Cleans the raw lat/lon from the website into database values
+const CleanLatLon = function (latRaw, lonRaw) {
+
+	// split lat into chunks of degrees, minutes, seconds, then remove special characters
+	let latSplit = latRaw.split(/ /);
+	let lonSplit = lonRaw.split(/ /);
+
+	// loop through each element of the latSplit and remove special characters
+	let latNum = latSplit.map((e) => {
+		return e.replace(/[°'"]/,'');
+	})
+
+	// loop through each element of the lonSplit and remove special characters
+	let lonNum = lonSplit.map((e) => {
+		return e.replace(/[°'"]/,'');
+	})
+
+	// convert the degrees, minutes, seconds of lat/lon into decimals
+	let lat = ConvertToDecimal(latNum[0], latNum[1], latNum[2]);
+	let lon = ConvertToDecimal(lonNum[0], lonNum[1], lonNum[2]);
+
+	// add negative sign to the lon
+	lon = "-" + lon;
+
+	// return results as an array of [latitude, longitude]
+	return [lat,lon];
+}
+
 // converts lat/lon minutes/seconds to decimal
 // Decimal degrees = Degrees + (Minutes/60) + (Seconds/3600)
 const ConvertToDecimal = function (degrees, minutes, seconds) {
 
 	degrees = parseInt(degrees);
 	minutes = parseInt(minutes);
-	seconds = parseInt(seconds);
+	seconds = parseFloat(seconds);
 
-	return String(degrees + (minutes/60) + (seconds/3600)).slice(0,7);
+	// round the result
+	let decimals = (degrees + (minutes/60) + (seconds/3600)).toFixed(5);
+
+	return String(decimals);
 }
 
-module.exports = {getParcelInfo, ConvertToDecimal};
+module.exports = {getParcelInfo, CleanLatLon, ConvertToDecimal};
 

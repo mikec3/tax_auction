@@ -41,19 +41,18 @@ const getSnohomish = async function () {
 		// push the full parcel info onto the outputArray
 		parcelOutput.push(parcelInfo);
 
-		// TODO exit after the first loop TODO remove this
-		break;
-
 	};
 
 	// return the output Array
 	return parcelOutput;
 }
 
-getSnohomish().then(result=> {
 
-	result.forEach(parcel => {
-		Firebase.upload(database,parcel);
-	});
-});
+// UNDO Comments to re-upload snohomish. Last upload was 10/10/22
+// getSnohomish().then(result=> {
+
+// 	result.forEach(parcel => {
+// 		Firebase.upload(database,parcel);
+// 	});
+// });
 
