@@ -48,10 +48,12 @@ const getSnohomish = async function () {
 }
 
 const Scrape = async function () {
-	let snohomish = await getSnohomish();
-	snohomish.forEach(parcel => {
-		Firebase.upload(database, parcel);
-	});
+
+	// Uncomment out to re-scrape snohomish. last scrape was 10/12/22.
+	// let snohomish = await getSnohomish();
+	// snohomish.forEach(parcel => {
+	// 	Firebase.upload(database, parcel);
+	// });
 }
 
 Scrape();
