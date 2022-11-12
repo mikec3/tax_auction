@@ -47,12 +47,12 @@ const getSnohomish = async function () {
 	return parcelOutput;
 }
 
+const Scrape = async function () {
+	let snohomish = await getSnohomish();
+	snohomish.forEach(parcel => {
+		Firebase.upload(database, parcel);
+	});
+}
 
-// UNDO Comments to re-upload snohomish. Last upload was 10/10/22
-// getSnohomish().then(result=> {
-
-// 	result.forEach(parcel => {
-// 		Firebase.upload(database,parcel);
-// 	});
-// });
+Scrape();
 
