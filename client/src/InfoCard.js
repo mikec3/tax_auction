@@ -33,7 +33,7 @@ if(props.parcel != null) {
 	infoLink = <a href={props.parcel.Basic.PROPERTY_INFO_LINK} target='_blank'> Link to Details </a>
 }
 
-console.log(props.parcel);
+//console.log(props.parcel);
 
 	
 	return (

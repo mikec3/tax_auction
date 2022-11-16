@@ -1,25 +1,27 @@
 import React, {useState, useEffect} from 'react'
 import {GoogleMap, useJsApiLoader, Marker, InfoWindow, LoadScript} from '@react-google-maps/api';
 
+// TODO center map on selected parcel is selected parcel is not null
+// TODO stop map from re-rendering after info box has been closed
 const MyMap = props => {
 
+	console.log('MyMap rendered');
+
 const [selected, setSelected] = useState({});
-const [googleMapsAPIKey, setGoogleMapsAPIKey] = useState();
 const [mapRender, setMapRender] = useState();
+const [markers, setMarkers] = useState();
 
 const onSelect = item => {
 	setSelected(item);
 	props.floatSelectedParcelUp(item);
 }
 
+
+
 // set the google maps api key if we haven't done it yet
 useEffect(()=>{
-
-	if (!googleMapsAPIKey) {
-		setGoogleMapsAPIKey(props.googleMapsAPIKey);
-	}
-
-	if (googleMapsAPIKey && props.data) {
+console.log('MyMap useEffect called');
+	if (props.data) {
 
 	// filter out properties that don't have a valid latitude.
 	let filteredList = props.data.filter(item => item.location.lat != null);
@@ -36,34 +38,9 @@ useEffect(()=>{
   		/>)
   })
 
-	setMapRender(
-		<LoadScript googleMapsApiKey = {googleMapsAPIKey}>
-			<GoogleMap
-				mapContainerStyle={containerStyle}
-				center={center}
-				zoom={10}
-				onLoad={onLoad}
-				onUnmount={onUnmount}
-				>
-				{markers}
-				{selected.location && (
-					<InfoWindow
-					position={selected.location}
-					clickable={true}
-					onCloseClick={() => setSelected({})}
-					>
-					<div>
-						<p>{selected.Basic.PARCEL_NUM}</p>
-						<p>{selected.Tax.TAXABLE_TOTAL}</p>
-					</div>
-					</InfoWindow>
-					)
-				}
-			</GoogleMap>
-		</LoadScript>
-		)
+	setMarkers(markers);
 }
-},[props, googleMapsAPIKey])
+},[props.data])
 
 // went with the LoadScript wrapper becase this was giving a typeError...
 // const {isLoaded} = useJsApiLoader({
@@ -88,15 +65,50 @@ const containerStyle = {
   height: '90vh'
 };
 
-const center = {
-  lat: 47.608,
-  lng: -122.087
-};
+// center the map over the selected parcel if present, otherwise center over King County
+let center = {};
+if (selected.location) {
+	center = selected.location;
+} else {
+  center = {
+	  lat: 47.608,
+	  lng: -122.087
+	};
+}
+
+
+// const center = {
+//   lat: 47.608,
+//   lng: -122.087
+// };
 
 
 return (
 	<div>
-	{mapRender && mapRender}
+		<LoadScript googleMapsApiKey = {props.googleMapsAPIKey}>
+			<GoogleMap
+				mapContainerStyle={containerStyle}
+				center={center}
+				zoom={7}
+				onLoad={onLoad}
+				onUnmount={onUnmount}
+				>
+				{markers}
+				{selected.location && (
+					<InfoWindow
+					position={selected.location}
+					clickable={true}
+					onCloseClick={() => setSelected({})}
+					>
+					<div>
+						<p>{selected.Basic.PARCEL_NUM}</p>
+						<p>{selected.Tax.TAXABLE_TOTAL}</p>
+					</div>
+					</InfoWindow>
+					)
+				}
+			</GoogleMap>
+		</LoadScript>
 	</div>
 )
 }

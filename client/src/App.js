@@ -48,12 +48,14 @@ useEffect(()=> {
 	const handleSocketMessage = (res) => {
 		if(res.googleMapsAPIKey) {
 			setGoogleMapsAPIKey(res.googleMapsAPIKey);
+			console.log('setting google maps api key');
 		}
 	}
 
 	// recieve the parce list from getData, this will be passed into the map component
 	const floatParcelListUp = (passedUpList) => {
 		setParcelList(passedUpList);
+		console.log('setting parcel list');
 		
 	}
 
@@ -69,7 +71,7 @@ useEffect(()=> {
 	    <HeaderBar/>
 	    <GetData floatParcelListUp={floatParcelListUp}/>
 	    <MapCard>
-	    	<MyMap googleMapsAPIKey={googleMapsAPIKey} data={parcelList} floatSelectedParcelUp={floatSelectedParcelUp}/>
+	    	{googleMapsAPIKey && <MyMap googleMapsAPIKey={googleMapsAPIKey} data={parcelList} floatSelectedParcelUp={floatSelectedParcelUp}/>}
 	    	<InfoCard parcel={selectedParcel}/>
 	    </MapCard>
     </div>
