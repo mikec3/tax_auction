@@ -33,9 +33,17 @@ console.log('MyMap useEffect called');
   	return(
   		<Marker
   		key={item.Basic.PARCEL_NUM}
+  		label={{
+  			text: item.Tax.TAXABLE_TOTAL,
+  			color: 'white'
+  		}}
+  		icon = {{url: '/test_marker.png',
+                 scale: 500
+  	    }}
   		position={item.location}
   		onMouseOver={() => onSelect(item)}
   		/>)
+  		
   })
 
 	setMarkers(markers);
