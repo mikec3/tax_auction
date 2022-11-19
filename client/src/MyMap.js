@@ -1,8 +1,9 @@
 import React, {useState, useEffect} from 'react'
 import {GoogleMap, useJsApiLoader, Marker, InfoWindow, LoadScript} from '@react-google-maps/api';
 
-// TODO center map on selected parcel is selected parcel is not null
+
 // TODO stop map from re-rendering after info box has been closed
+// The component is re-rendering when we call props.floatSelectedParcelUp(item);
 const MyMap = props => {
 
 	console.log('MyMap rendered');
@@ -41,7 +42,7 @@ console.log('MyMap useEffect called');
                  scale: 500
   	    }}
   		position={item.location}
-  		onMouseOver={() => onSelect(item)}
+  		onClick={() => onSelect(item)}
   		/>)
   		
   })
@@ -50,23 +51,6 @@ console.log('MyMap useEffect called');
 }
 },[props.data])
 
-// went with the LoadScript wrapper becase this was giving a typeError...
-// const {isLoaded} = useJsApiLoader({
-// 	id: 'google-map-script',
-// 	//googleMapsApiKey: apikeyyyyy
-// })
-
-const [map, setMap] = useState(null);
-
-const onLoad = React.useCallback(function callback(map) {
-	//const bounds = new window.google.maps.LatLngBounds(center);
-	//map.fitBounds(bounds);
-	setMap(map)
-}, [])
-
-const onUnmount = React.useCallback(function callback(map){
-	setMap(null)
-}, [])
 	
 const containerStyle = {
   width: '50vw',
@@ -85,10 +69,6 @@ if (selected.location) {
 }
 
 
-// const center = {
-//   lat: 47.608,
-//   lng: -122.087
-// };
 
 
 return (
@@ -98,23 +78,8 @@ return (
 				mapContainerStyle={containerStyle}
 				center={center}
 				zoom={7}
-				onLoad={onLoad}
-				onUnmount={onUnmount}
 				>
 				{markers}
-				{selected.location && (
-					<InfoWindow
-					position={selected.location}
-					clickable={true}
-					onCloseClick={() => setSelected({})}
-					>
-					<div>
-						<p>{selected.Basic.PARCEL_NUM}</p>
-						<p>{selected.Tax.TAXABLE_TOTAL}</p>
-					</div>
-					</InfoWindow>
-					)
-				}
 			</GoogleMap>
 		</LoadScript>
 	</div>
@@ -122,3 +87,17 @@ return (
 }
 
 export default MyMap;
+
+				// {selected.location && (
+				// 	<InfoWindow
+				// 	position={selected.location}
+				// 	clickable={true}
+				// 	onCloseClick={() => setSelected({})}
+				// 	>
+				// 	<div>
+				// 		<p>{selected.Basic.PARCEL_NUM}</p>
+				// 		<p>{selected.Tax.TAXABLE_TOTAL}</p>
+				// 	</div>
+				// 	</InfoWindow>
+					// )
+				// }

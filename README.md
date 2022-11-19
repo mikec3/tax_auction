@@ -115,3 +115,16 @@ npm install selenium-webdriver
 2. Download chromedriver from chrome
 3. Navigate (using Finder->Go->Go To Folder...) to /usr/local/bin and place chromdriver in folder
 4. Test that chromedriver is setup by calling 'chromedriver' from CLI.
+
+## Testing
+1. Install jest
+```
+npm install jest
+```
+2. Update package.json scripts section with test: 'jest'
+```
+"scripts":{
+  "test": "jest"
+}
+```
+
