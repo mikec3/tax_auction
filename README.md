@@ -1,5 +1,7 @@
 # Tax Auctions
 
+https://tax-auction.herokuapp.com/
+
 This app is the only source of multiple county tax foreclosure auction parcel information for Washington State counties. Web scraping is done to obtain parcel information for all parcels subject to auction, react-app front end displays parcel info. Currenty backend is a mix of python and node, with firebase as the database.
 
 
