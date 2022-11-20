@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react'
-import {GoogleMap, useJsApiLoader, Marker, InfoWindow, LoadScript} from '@react-google-maps/api';
+import {GoogleMap, useJsApiLoader, Marker, InfoWindow, LoadScript, MarkerClusterer} from '@react-google-maps/api';
 
 
 // TODO stop map from re-rendering after info box has been closed
@@ -39,7 +39,7 @@ console.log('MyMap useEffect called');
   			color: 'white'
   		}}
   		icon = {{url: '/test_marker.png',
-                 scale: 500
+                 scale: 0.5
   	    }}
   		position={item.location}
   		onClick={() => onSelect(item)}
@@ -79,7 +79,9 @@ return (
 				center={center}
 				zoom={7}
 				>
+				
 				{markers}
+				
 			</GoogleMap>
 		</LoadScript>
 	</div>
