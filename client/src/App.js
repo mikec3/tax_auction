@@ -71,7 +71,7 @@ useEffect(()=> {
 	    <HeaderBar/>
 	    <GetData floatParcelListUp={floatParcelListUp}/>
 	    <MapCard>
-	    	{googleMapsAPIKey && <MyMap googleMapsAPIKey={googleMapsAPIKey} data={parcelList} floatSelectedParcelUp={floatSelectedParcelUp}/>}
+	    	{parcelList && <MyMap googleMapsAPIKey={googleMapsAPIKey} data={parcelList} floatSelectedParcelUp={floatSelectedParcelUp}/>}
 	    	<InfoCard parcel={selectedParcel}/>
 	    </MapCard>
     </div>

@@ -41,10 +41,9 @@ if(props.parcel != null) {
 		<h2> Selected Property </h2>
 		{infoLink}
 		{parcel}
-		<p> TODO: change map markers </p>
+		<p> TODO: </p>
 		<p> add links </p>
 		<p> Add pictures?? </p>
-		<p> marker info window doesnt work after first x close </p>
 		<p> Make markers responsive to the selected parcel </p>
 		<p> Filter parcels </p>
 		<p> add details (auction date, etc...)</p>
