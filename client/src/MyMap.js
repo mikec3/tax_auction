@@ -45,6 +45,30 @@ const options = {
 // filter out parcels that don't have a lat/long
 let filteredList = props.data.filter(item => item.location.lat != null);
 
+//format TAXABLE_TOTAL values (for instance 100,00 -> 100K)
+const formatNumber = function (dollarFigure) {
+
+	// convert from input dollarFigure to an integer
+	let numType = parseInt(dollarFigure.replace(/[^0-9]/g, ""));
+
+	console.log(dollarFigure);
+	console.log(numType);
+
+	// if number is over 1M
+	if (numType >= 1000000) {
+
+		// rounding to 1 decimal for millions
+		let mill = numType/1000000
+		mill = +mill.toFixed(1);
+		return String(mill)+"M"
+
+	// if number is less than 1M
+	} else {
+		// rounding to nearest integer for thousands
+		return String(parseInt(numType/1000))+"K"
+	}
+}
+
 // display map with Markers and MarkerClusterer
 return (
 	<div>
@@ -60,7 +84,7 @@ return (
 	 				<Marker key={parcel.Basic.PARCEL_NUM}
 		 				position={parcel.location}
 		 				label={{
-		 					text: parcel.Tax.TAXABLE_TOTAL,
+		 					text: formatNumber(parcel.Tax.TAXABLE_TOTAL),
 		 					color: 'white'
 		 				}}
 		 				icon={{
