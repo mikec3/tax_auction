@@ -85,7 +85,10 @@ return (
 		 				position={parcel.location}
 		 				label={{
 		 					text: formatNumber(parcel.Tax.TAXABLE_TOTAL),
-		 					color: 'white'
+		 					color: 'white',
+		 					fontWeight: 'bold',
+		 					fontSize: '12px',
+		 					className: 'markerLabels'		// CSS properties are set in App.css (margin so that label lines up with icon image)
 		 				}}
 		 				icon={{
 		 					url: '/test_marker.png'
