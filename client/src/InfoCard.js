@@ -1,7 +1,8 @@
 import React, {useState, useEffect} from 'react'
 import InfoBar from './InfoBar'
 
-// TODO add pictures
+// TODO not all pictures are getting scraped.
+// TODO display picture - on disply, refine layout
 // TODO add links
 // TODO show details
 // TODO show auction details
@@ -12,6 +13,7 @@ const InfoCard = (props) => {
 	let parcel = [];
 
 	let infoLink;
+	let picture;
 // // loop through the parcel object
 // if(props.parcel != null) {
 	
@@ -37,15 +39,19 @@ if(props.parcel != null) {
 	}
 
 	infoLink = <a href={props.parcel.Basic.PROPERTY_INFO_LINK} target='_blank'> Link to Details </a>
+	console.log(props.parcel.Building.PROPERTY_PICTURE);
+	picture = <img src={props.parcel.Building.PROPERTY_PICTURE} />;
 }
 
 //console.log(props.parcel);
+console.log(picture);
 
 	
 	return (
 		<div className='InfoCard'>
 		<h2> Selected Property </h2>
 		{infoLink}
+		{picture}
 		{parcel}
 		</div>
 		)

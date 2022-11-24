@@ -51,9 +51,6 @@ const formatNumber = function (dollarFigure) {
 	// convert from input dollarFigure to an integer
 	let numType = parseInt(dollarFigure.replace(/[^0-9]/g, ""));
 
-	console.log(dollarFigure);
-	console.log(numType);
-
 	// if number is over 1M
 	if (numType >= 1000000) {
 
