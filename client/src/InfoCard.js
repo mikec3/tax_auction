@@ -1,6 +1,12 @@
 import React, {useState, useEffect} from 'react'
 import InfoBar from './InfoBar'
 
+// TODO add pictures
+// TODO add links
+// TODO show details
+// TODO show auction details
+// TODO filter parcels
+
 const InfoCard = (props) => {
 
 	let parcel = [];
@@ -41,12 +47,6 @@ if(props.parcel != null) {
 		<h2> Selected Property </h2>
 		{infoLink}
 		{parcel}
-		<p> TODO: </p>
-		<p> add links </p>
-		<p> Add pictures?? </p>
-		<p> Make markers responsive to the selected parcel </p>
-		<p> Filter parcels </p>
-		<p> add details (auction date, etc...)</p>
 		</div>
 		)
 	
