@@ -111,6 +111,9 @@ const getParcelInfo = async function (baseUrl, parcelViewerURL, parcelNum) {
 
  	console.log('Get Structure Info');
 
+ 	// TODO this is erroring out and not getting the image URL.
+ 	// for structure info data, use class names 'noteblue' and 'emphless' for key:values
+
  	try {
 	 	// get structure info link
 	 	let structureInfoLink = await propCells[propCells.length-1].findElement(By.tagName('a')).getAttribute('href');
@@ -119,32 +122,28 @@ const getParcelInfo = async function (baseUrl, parcelViewerURL, parcelNum) {
 	 	await driver.get(structureInfoLink);
 
 	 	// Grab the second table on the page and get the rows
-	 	let structureInfoTables = await driver.findElements(By.tagName('table'))
-	 									
-	 	let structureInfoRows = await structureInfoTables[1].findElements(By.tagName('tr'));
+	 	let pageTables = await driver.findElements(By.tagName('table'))
+	 	// Second table is the one with all the goodies (key value pairs of information 'noteblue':'emphless')							
+	 	let structureInfoTable = await pageTables[1]
 
-	 	//loop through the property structure info table rows
-	 	for (row in structureInfoRows) {
-	 		// skip the first row and the rest after 5, until row 10 below for the Floor Area info.
-	 		if(row >= 1 && row<=5) {
-	 			let cells = await structureInfoRows[row].findElements(By.tagName('td'));
+	 	// get all keys 'noteblue' class
+	 	let keys = await structureInfoTable.findElements(By.css('.noteblue'));
+	 	let values = await structureInfoTable.findElements(By.css('.emphless'));
+	 	values.unshift(await structureInfoTable.findElement(By.css('.emphtext')));
 
-	 			let key = await cells[1].getAttribute('innerText');
-	 			let value = await cells[2].getAttribute('innerText');
+	 	// loop through key value arrays and assign to currentParcel
+	 	// TODO key value pairs are mismatched by 1 index, first row has parcel number value as 'emphtext'
+	 	for (let x = 0; x<= keys.length; x++) {
 
-	 			currentParcel['Building'][key] = value;
+	 		try{
+		 		let key = await keys[x].getAttribute('innerText');
+		 		let value = await values[x].getAttribute('innerText');
 
-	 		} else if (row ==10) {
-	 			// process the floor area row
-	 			let cells = await structureInfoRows[row].findElements(By.tagName('td'));
+		 		currentParcel['Building'][key] = value;
 
-	 			// manually adding the floor area cells by index
-	 			currentParcel['Building'][await cells[1].getAttribute('innerText')] = await cells[2].getAttribute('innerText');
-	 			currentParcel['Building'][await cells[3].getAttribute('innerText')] = await cells[4].getAttribute('innerText');
-	 			currentParcel['Building'][await cells[5].getAttribute('innerText')] = await cells[6].getAttribute('innerText');
-	 			currentParcel['Building'][await cells[7].getAttribute('innerText')] = await cells[8].getAttribute('innerText');
-	 			currentParcel['Building'][await cells[9].getAttribute('innerText')] = await cells[10].getAttribute('innerText');
-
+		 		//console.log(key + " : " + value);
+	 		} catch {
+	 			console.log('missing key or value pair');
 	 		}
 	 	}
 
@@ -157,6 +156,7 @@ const getParcelInfo = async function (baseUrl, parcelViewerURL, parcelNum) {
 	 	// add picture url to current parcel
 	 	currentParcel['Building']['PROPERTY_PICTURE'] = pictureURL;
  	} catch (error) {
+ 		console.log(error);
  		console.log('No structure info link');
  	}
 
