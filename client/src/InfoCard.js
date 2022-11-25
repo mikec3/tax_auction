@@ -40,7 +40,7 @@ if(props.parcel != null) {
 
 	infoLink = <a href={props.parcel.Basic.PROPERTY_INFO_LINK} target='_blank'> Link to Details </a>
 	console.log(props.parcel.Building.PROPERTY_PICTURE);
-	picture = <img src={props.parcel.Building.PROPERTY_PICTURE} />;
+	picture = <img className={'parcelImage'} src={props.parcel.Building.PROPERTY_PICTURE} />;
 }
 
 //console.log(props.parcel);
