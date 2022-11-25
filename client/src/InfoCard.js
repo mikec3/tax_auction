@@ -14,6 +14,8 @@ const InfoCard = (props) => {
 
 	let infoLink;
 	let picture;
+
+	let title = <h2> Select a Marker </h2>;
 // // loop through the parcel object
 // if(props.parcel != null) {
 	
@@ -38,9 +40,11 @@ if(props.parcel != null) {
 		}
 	}
 
-	infoLink = <a href={props.parcel.Basic.PROPERTY_INFO_LINK} target='_blank'> Link to Details </a>
+	//infoLink = <a href={props.parcel.Basic.PROPERTY_INFO_LINK} target='_blank'> Link to Details </a>
 	console.log(props.parcel.Building.PROPERTY_PICTURE);
 	picture = <img className={'parcelImage'} src={props.parcel.Building.PROPERTY_PICTURE} />;
+
+	title = <h2> Selected Property </h2>;
 }
 
 //console.log(props.parcel);
@@ -49,8 +53,7 @@ console.log(picture);
 	
 	return (
 		<div className='InfoCard'>
-		<h2> Selected Property </h2>
-		{infoLink}
+		{title}
 		{picture}
 		{parcel}
 		</div>
