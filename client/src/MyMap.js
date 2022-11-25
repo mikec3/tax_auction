@@ -1,14 +1,16 @@
 import React, {useState, useEffect} from 'react'
 import {GoogleMap, useJsApiLoader, Marker, InfoWindow, LoadScript, MarkerClusterer, ScriptLoaded} from '@react-google-maps/api';
+// TODO need to configure webpack file loader to import images in this way. Currently importing directly in script via relative path.
+//import markerImage from './test_marker.png';
+//import selectedMarkerImage from './selected_marker.png'
 
-//TODO fix MarkerClusterer Icon Image
-//TODO format Marker Icon Text to be rounded TAXABLE_TOTAL to the $M or $K
+
 // The component is re-rendering when we call props.floatSelectedParcelUp(item);
 const MyMap = props => {
 
 	console.log('MyMap rendered');
 
-const [selected, setSelected] = useState({});
+const [selected, setSelected] = useState();
 const [mapRender, setMapRender] = useState();
 const [markers, setMarkers] = useState();
 
@@ -26,7 +28,7 @@ const containerStyle = {
 
 // center the map over the selected parcel if present, otherwise center over King County
 let center = {};
-if (selected.location) {
+if (selected) {
 	center = selected.location;
 } else {
   center = {
@@ -77,7 +79,17 @@ return (
 				>
 				 		<MarkerClusterer options={options}>
 	 		{(clusterer) =>
-	 			filteredList.map((parcel) => (
+	 			filteredList.map((parcel) => {
+	 				let iconURL = './test_marker.png';
+	 				// check to see if this parcel is the active selected parcel,
+	 				// change marker image if it's the active selected parcel
+	 				if (selected) {
+		 				if (parcel.Basic.PARCEL_NUM == selected.Basic.PARCEL_NUM) {
+		 					iconURL = '/selected_marker.png';
+		 				}
+	 				}
+	 				// build marker object
+	 				return (
 	 				<Marker key={parcel.Basic.PARCEL_NUM}
 		 				position={parcel.location}
 		 				label={{
@@ -88,12 +100,12 @@ return (
 		 					className: 'markerLabels'		// CSS properties are set in App.css (margin so that label lines up with icon image)
 		 				}}
 		 				icon={{
-		 					url: '/test_marker.png'
+		 					url: iconURL
 		 				}}
 		 				onClick={()=> onSelect(parcel)}
 		 				clusterer={clusterer}
 	 				/>
-	 				))
+	 				)})
 	 		}
  		</MarkerClusterer>
 			</GoogleMap>
