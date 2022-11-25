@@ -111,7 +111,6 @@ const getParcelInfo = async function (baseUrl, parcelViewerURL, parcelNum) {
 
  	console.log('Get Structure Info');
 
- 	// TODO this is erroring out and not getting the image URL.
  	// for structure info data, use class names 'noteblue' and 'emphless' for key:values
 
  	try {
@@ -126,13 +125,14 @@ const getParcelInfo = async function (baseUrl, parcelViewerURL, parcelNum) {
 	 	// Second table is the one with all the goodies (key value pairs of information 'noteblue':'emphless')							
 	 	let structureInfoTable = await pageTables[1]
 
-	 	// get all keys 'noteblue' class
+	 	// get all keys 'noteblue' class (These are the keys on the page).
 	 	let keys = await structureInfoTable.findElements(By.css('.noteblue'));
+	 	// values on the page : 'emphtext' is the parcel number (first row), rest are 'emphless'. So I get all the emphless,
+	 	// then add (unshift) the emphtext to the first position of the array
 	 	let values = await structureInfoTable.findElements(By.css('.emphless'));
 	 	values.unshift(await structureInfoTable.findElement(By.css('.emphtext')));
 
 	 	// loop through key value arrays and assign to currentParcel
-	 	// TODO key value pairs are mismatched by 1 index, first row has parcel number value as 'emphtext'
 	 	for (let x = 0; x<= keys.length; x++) {
 
 	 		try{
@@ -170,7 +170,7 @@ const getParcelInfo = async function (baseUrl, parcelViewerURL, parcelNum) {
  	// instantiate actions
  	const actions = driver.actions({async: true});
 
- 	//TODO add a try to the modalButton, sometimes the modal popup doesn't appear
+ 	// Added a try to the modalButton, sometimes the modal popup doesn't appear
  	try {
 	 	// grab button on popup modal - 'I agree'
 	 	let modalButton = await driver.findElement(By.css('.ModalViewContainerView'))
@@ -241,7 +241,7 @@ const getParcelInfo = async function (baseUrl, parcelViewerURL, parcelNum) {
 		let lonRaw = await latLonElement[1].getAttribute('innerText');
 
 		// strip all the special characters
-		// TODO need to fix this, some lat/lon have decimals in the seconds that need to be retained...
+		// some lat/lon have decimals in the seconds that need to be retained...
 		// latRaw = latRaw.replace(/\D/g,'');
 		// lonRaw = lonRaw.replace(/\D/g,'');
 
