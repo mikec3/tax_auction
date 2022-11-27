@@ -28,7 +28,7 @@ let containerStyle = {};
 if (window.innerWidth <= 500) {
 	containerStyle = {
 	  width: '100vw',
-	  height: '60vh'
+	  height: '50vh'
 	};
 } else {
 	containerStyle = {
