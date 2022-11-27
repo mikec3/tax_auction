@@ -40,10 +40,14 @@ if(props.parcel != null) {
 		}
 	}
 
-	//infoLink = <a href={props.parcel.Basic.PROPERTY_INFO_LINK} target='_blank'> Link to Details </a>
-	console.log(props.parcel.Building.PROPERTY_PICTURE);
-	picture = <img className={'parcelImage'} src={props.parcel.Building.PROPERTY_PICTURE} />;
-
+	// TODO change missing property picture
+	// if there is a property picture, show it, otherwise show missing picture icon
+	if (props.parcel.Building.PROPERTY_PICTURE){
+		picture = <img className={'parcelImage'} src={props.parcel.Building.PROPERTY_PICTURE} />;
+	} else {
+		picture = <img className={'parcelImage'} src={'./missing_icon.png'} />;
+	}
+	// change title to show that a property has been selected
 	title = <h2> Selected Property </h2>;
 }
 
