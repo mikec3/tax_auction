@@ -90,3 +90,28 @@
   max-height: 50%;
 }
 
+.mapCard {
+  display: flex;
+}
+
+@media (max-width: 500px) {
+
+  .mapCard {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .InfoCard {
+    height: 50vh;
+    width: 100vw;
+  }
+
+
+}
+
+/*.mapWrapper {
+  border: 2px solid black;
+  width: 50vw;
+  height: 90vh;
+}*/
+

@@ -70,10 +70,10 @@ useEffect(()=> {
     <div className="App">
 	    <HeaderBar/>
 	    <GetData floatParcelListUp={floatParcelListUp}/>
-	    <MapCard>
-	    	{parcelList && <MyMap googleMapsAPIKey={googleMapsAPIKey} data={parcelList} floatSelectedParcelUp={floatSelectedParcelUp}/>}
+	    <div className="mapCard">
+	    		{parcelList && <MyMap googleMapsAPIKey={googleMapsAPIKey} data={parcelList} floatSelectedParcelUp={floatSelectedParcelUp}/>}
 	    	<InfoCard parcel={selectedParcel}/>
-	    </MapCard>
+	    </div>
     </div>
   )
     }

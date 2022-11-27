@@ -20,11 +20,22 @@ const onSelect = item => {
 	props.floatSelectedParcelUp(item);
 }
 
-// map styling
-const containerStyle = {
-  width: '50vw',
-  height: '90vh'
-};
+console.log(window.innerWidth);
+
+// map styling - make responsive according to window, width-height need to be set in absolute terms (can't take %).
+let containerStyle = {};
+
+if (window.innerWidth <= 500) {
+	containerStyle = {
+	  width: '100vw',
+	  height: '60vh'
+	};
+} else {
+	containerStyle = {
+		width: '50vw',
+		height: '90vh'
+	}
+}
 
 // center the map over the selected parcel if present, otherwise center over King County
 let center = {};
