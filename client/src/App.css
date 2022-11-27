@@ -1,7 +1,7 @@
 .App {
   text-align: center;
   max-height: 100vh;
-  border: 2px dashed green;
+
 }
 
 .App-logo {
@@ -40,7 +40,6 @@
 }
 
 .HeaderBar {
-  border: 2px dashed blue;
   max-height: 10vh;
 }
 
@@ -49,7 +48,6 @@
   scroll-behavior: smooth;
   max-height: 90vh;
   width: 50vw;
-  border: 1px solid red;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -57,7 +55,6 @@
 
 .InfoCard h2 {
   max-height: 10vh;
-  border: 2px dashed green;
 }
 
 
