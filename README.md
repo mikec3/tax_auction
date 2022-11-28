@@ -10,6 +10,17 @@ This app is the only source of multiple county tax foreclosure auction parcel in
 
 # Dev
 
+## Roadmap
+* parcel filtering
+* format info card
+* analytics on info card before selecting a parcel
+* scrape King County
+* scrape other counties
+* subscription login
+* marketing!!!!!
+
+
+
 ## Keeps API keys secret
 
 #### Combines these tutorials:

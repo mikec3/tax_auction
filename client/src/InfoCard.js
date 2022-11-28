@@ -1,13 +1,6 @@
 import React, {useState, useEffect} from 'react'
 import InfoBar from './InfoBar'
-
-// TODO not all pictures are getting scraped.
-// TODO display picture - on disply, refine layout
-// TODO add links
-// TODO show details
-// TODO show auction details
-// TODO filter parcels
-
+// TODO add a price filter drop down
 const InfoCard = (props) => {
 
 	let parcel = [];
@@ -40,7 +33,6 @@ if(props.parcel != null) {
 		}
 	}
 
-	// TODO change missing property picture
 	// if there is a property picture, show it, otherwise show missing picture icon
 	if (props.parcel.Building.PROPERTY_PICTURE){
 		picture = <img className={'parcelImage'} src={props.parcel.Building.PROPERTY_PICTURE} />;
