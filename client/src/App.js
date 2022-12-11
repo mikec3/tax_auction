@@ -10,9 +10,13 @@ import MyMap from './MyMap.js'
 import GetData from './GetData.js'
 import HeaderBar from './HeaderBar.js'
 import InfoCard from './InfoCard.js'
+import Filters from './Filters.js'
 import io from 'socket.io-client';
 
 function App() {
+
+const [showFilters, setShowFilters] = useState(false);
+const [filtersClass, setFilterClass] = useState('FiltersHide');
 
 const [newUserRegistered, setNewUserRegistered] = useState(false);
 const [socket, setSocket] = useState();
@@ -65,17 +69,38 @@ useEffect(()=> {
 		setSelectedParcel(passedUpParcelItem);
 	}
 
+	// either the filter button was pressed, or the 'X' close filters button was pressed, toggle the state.
+	const filterButtonPressed = () => {
+		console.log(showFilters);
+		console.log(filtersClass);
+
+		if (showFilters) {
+			setShowFilters(false);
+			setFilterClass('FiltersHide');
+		} else {
+			setShowFilters(true);
+			setFilterClass('FiltersShow');
+		}
+	}
+
 
   return (
     <div className="App">
 	    <HeaderBar/>
 	    <GetData floatParcelListUp={floatParcelListUp}/>
-	    <div className="mapCard">
-	    		{parcelList && <MyMap googleMapsAPIKey={googleMapsAPIKey} data={parcelList} floatSelectedParcelUp={floatSelectedParcelUp}/>}
-	    	<InfoCard parcel={selectedParcel}/>
-	    </div>
+	   
+	    	{parcelList && 
+	    		<div className="mapCard">
+		    		<MyMap googleMapsAPIKey={googleMapsAPIKey} data={parcelList} floatSelectedParcelUp={floatSelectedParcelUp}/>
+				    	<InfoCard filterButtonPressed={filterButtonPressed} parcel={selectedParcel}/>
+				    	<Filters className={filtersClass} filterButtonPressed={filterButtonPressed} parcelList={parcelList}/>
+		    	</div>
+	    	}
+	   
     </div>
   )
     }
 
 export default App;
+
+

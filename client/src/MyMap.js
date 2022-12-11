@@ -20,8 +20,6 @@ const onSelect = item => {
 	props.floatSelectedParcelUp(item);
 }
 
-console.log(window.innerWidth);
-
 // map styling - make responsive according to window, width-height need to be set in absolute terms (can't take %).
 let containerStyle = {};
 
@@ -87,6 +85,7 @@ return (
 				mapContainerStyle={containerStyle}
 				center={center}
 				zoom={7}
+				options={{ gestureHandling: 'greedy' }}
 				>
 				 		<MarkerClusterer options={options}>
 	 		{(clusterer) =>

@@ -1,6 +1,7 @@
 .App {
   text-align: center;
-  max-height: 100vh;
+  max-height: 100%;
+  overflow-x: hidden;
 
 }
 
@@ -15,6 +16,7 @@
   }
 }
 
+/*
 .App-header {
   background-color: #282c34;
   min-height: 100vh;
@@ -25,6 +27,7 @@
   font-size: calc(10px + 2vmin);
   color: white;
 }
+*/
 
 .App-link {
   color: #61dafb;
@@ -41,20 +44,18 @@
 
 .HeaderBar {
   max-height: 10vh;
-}
-
-.InfoCard {
-  overflow-y: scroll;
-  scroll-behavior: smooth;
-  max-height: 90vh;
-  width: 50vw;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
+  border-bottom: 0.2px solid grey;
 }
 
 .InfoCard h2 {
-  max-height: 10vh;
+  max-height: 4em;
+}
+
+.InfoCard {
+  max-height: 90vh;
+  min-width: 50%;
+  overflow-y: scroll;
+  scroll-behavior: smooth;
 }
 
 
@@ -89,6 +90,71 @@
 
 .mapCard {
   display: flex;
+  flex-direction: row;
+}
+
+.FiltersHide {
+  display: none;
+}
+
+.FiltersShow{
+  z-index: 10;
+  min-height: 2.5em;
+  min-width: 55.5vw;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  transform: translateX(-56vw);
+  background-color: white;
+}
+
+.InfoCardHeader {
+  min-width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  column-gap: 4em;
+}
+
+.FilterButtonWrapper {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.filterMenuButton {
+    z-index: 5;
+    background-image: url( 'https://cdn-icons-png.flaticon.com/512/6488/6488674.png');
+    background-size: 1.75em;
+    background-repeat: no-repeat;
+    background-position-x: 3.75em;
+    height: 2em;  
+    width: 6em;
+    text-align: left;
+    border-radius: 0.3em;
+    border: 0.2px solid grey;
+    font-weight: bold;
+    margin-top: 1em;
+    margin-right: 1em;
+    background-color: transparent;
+}
+
+.FilterCloseButton {
+  height: 3em;
+  width: 3em;
+  background-color: transparent;
+  border: none;
+}
+
+.FilterItem {
+  text-align: left;
+  border-top: 0.2px solid grey;
+  border-bottom: 0.2px solid grey;
+}
+
+.FilterItem h2 {
+  margin-left: 0.5em;
+  margin-bottom: 1.5em;
 }
 
 @media (max-width: 500px) {
@@ -98,10 +164,15 @@
     flex-direction: column;
   }
 
-  .InfoCard {
-    height: 50vh;
-    width: 100vw;
-  }
+.FiltersShow{
+  min-height: 2.5em;
+  min-width: 100vw;
+  flex-direction: column;
+  transform: translateX(0);
+  position: absolute;
+  top: 20vh;
+  background-color: white;
+}
 
 
 }

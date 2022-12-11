@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react'
 import InfoBar from './InfoBar'
-// TODO add a price filter drop down
+
 const InfoCard = (props) => {
 
 	let parcel = [];
@@ -9,20 +9,12 @@ const InfoCard = (props) => {
 	let picture;
 
 	let title = <h2> Select a Marker </h2>;
-// // loop through the parcel object
-// if(props.parcel != null) {
-	
-// 	for (const [group, entries] of Object.entries(props.parcel)) {
-// 		if (group != 'location' || group != 'Location'){
-//     		//console.log(`${key}: ${value}`);
-//    			//parcel.push(<p>{key} : {value} </p>)
-//    			parcel.push(<h3>{group}</h3>);
-//    			for (const [key, value] of Object.entries(entries)) {
-//    				parcel.push(<p>{key}: {value}</p>);
-//    			}
-//    		}
-// 	}
-// }
+
+	// filter button was pressed, pass up the trigger to show the filter modal
+	const filterButtonPressed = () => {
+		props.filterButtonPressed();
+	}
+
 
 // loop through parcel object, create an InfoBar with each header:values from the parcel object
 if(props.parcel != null) {
@@ -43,15 +35,19 @@ if(props.parcel != null) {
 	title = <h2> Selected Property </h2>;
 }
 
-//console.log(props.parcel);
-console.log(picture);
-
 	
 	return (
 		<div className='InfoCard'>
-		{title}
-		{picture}
-		{parcel}
+				<div className='InfoCardHeader'>
+					{title}
+						<button className='filterMenuButton'
+							onClick={props.filterButtonPressed}
+							> 
+							Filters 
+						</button>
+				</div>
+			{picture}
+			{parcel}
 		</div>
 		)
 	
