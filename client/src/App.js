@@ -12,6 +12,7 @@ import HeaderBar from './HeaderBar.js'
 import InfoCard from './InfoCard.js'
 import Filters from './Filters.js'
 import io from 'socket.io-client';
+import useGetData from './useGetData'
 
 function App() {
 
@@ -27,8 +28,15 @@ const [selectedParcel, setSelectedParcel] = useState();
 
 const [mapRender, setMapRender] = useState();
 
+const hookResponse = useGetData();
+
 // establish socket port if we haven't done it already
-useEffect(()=> {
+useEffect(() =>  {
+
+	// set the parcel list in useEffect to avoid infinite loops.......
+	hookResponse.then(result => {
+		setParcelList(result);
+	});
 
 	// only establish socket port if we haven't done it already
 	if (!newUserRegistered){
@@ -47,7 +55,7 @@ useEffect(()=> {
 		})
 	}
 
-}, [socket])
+}, [socket, hookResponse])
 
 	const handleSocketMessage = (res) => {
 		if(res.googleMapsAPIKey) {
@@ -87,7 +95,6 @@ useEffect(()=> {
   return (
     <div className="App">
 	    <HeaderBar/>
-	    <GetData floatParcelListUp={floatParcelListUp}/>
 	   
 	    	{parcelList && 
 	    		<div className="mapCard">
@@ -96,11 +103,12 @@ useEffect(()=> {
 				    	<Filters className={filtersClass} filterButtonPressed={filterButtonPressed} parcelList={parcelList}/>
 		    	</div>
 	    	}
-	   
     </div>
   )
     }
 
 export default App;
+
+//<GetData floatParcelListUp={floatParcelListUp}/>
 
 

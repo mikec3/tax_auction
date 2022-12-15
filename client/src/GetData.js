@@ -5,7 +5,9 @@ import React, {useEffect, useState} from 'react'
 import axios from 'axios'
 
 
-function GetData(props) {
+function useGetData(props) {
+
+	let results;
 
 // GET THE DATA!!!!!
 const getData = async () => {
@@ -26,7 +28,8 @@ console.log('Retrieving FireBase Data...')
 			//console.log(response.data)
 			if (response.data != 'error') {
 				// float parcel list up to parent component
-				props.floatParcelListUp(response.data);
+				//props.floatParcelListUp(response.data);
+				results = response.data
 			}
 		})
 		.catch((error) => {
@@ -38,8 +41,8 @@ useEffect(()=> {
 getData()
 }, [])
 
-return <></>;
+return results;
 }
 
-export default GetData;
+export default useGetData;
 

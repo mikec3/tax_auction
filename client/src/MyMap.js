@@ -54,6 +54,7 @@ const options = {
 }
 
 // filter out parcels that don't have a lat/long
+console.log(props.data[0]);
 let filteredList = props.data.filter(item => item.location.lat != null);
 
 //format TAXABLE_TOTAL values (for instance 100,00 -> 100K)
