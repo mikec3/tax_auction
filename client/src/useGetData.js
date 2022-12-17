@@ -40,7 +40,6 @@ console.log('Retrieving FireBase Data...')
 		// });
 
 		let apiCall = await axios(config);
-		let response = await JSON.stringify(apiCall.data);
 		setResponseData(apiCall.data);
 }
 

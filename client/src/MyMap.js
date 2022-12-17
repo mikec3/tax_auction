@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react'
 import {GoogleMap, useJsApiLoader, Marker, InfoWindow, LoadScript, MarkerClusterer, ScriptLoaded} from '@react-google-maps/api';
+import {useList} from './ParcelListContext';
 // TODO need to configure webpack file loader to import images in this way. Currently importing directly in script via relative path.
 //import markerImage from './test_marker.png';
 //import selectedMarkerImage from './selected_marker.png'
@@ -13,6 +14,11 @@ const MyMap = props => {
 const [selected, setSelected] = useState();
 const [mapRender, setMapRender] = useState();
 const [markers, setMarkers] = useState();
+
+// get parcel list from useList() context hook.
+// TODO get this to be the actual parcel list from firebase
+const parcelList = useList();
+console.log(parcelList);
 
 // when parcel Marker is selected, send the parcel up to app.js, so that app.js can send the selected parcel down to the info window
 const onSelect = item => {

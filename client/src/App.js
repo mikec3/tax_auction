@@ -7,12 +7,12 @@ import {GoogleMap, LoadScript, Marker, InfoWindow} from '@react-google-maps/api'
 import React, {useState, useEffect} from 'react'
 import MapCard from './MapCard.js'
 import MyMap from './MyMap.js'
-import GetData from './GetData.js'
 import HeaderBar from './HeaderBar.js'
 import InfoCard from './InfoCard.js'
 import Filters from './Filters.js'
 import io from 'socket.io-client';
 import useGetData from './useGetData'
+import {ParcelListProvider} from './ParcelListContext';
 
 function App() {
 
@@ -28,12 +28,13 @@ const [selectedParcel, setSelectedParcel] = useState();
 
 const [mapRender, setMapRender] = useState();
 
+// calls the useGetData custom hook to got parcel information from firebase
 const hookResponse = useGetData();
 
 // establish socket port if we haven't done it already
 useEffect(() =>  {
 
-	// set the parcel list in useEffect to avoid infinite loops.......
+	// set the parcel list in useEffect to avoid infinite loops when a parcel has been selected in the map......
 	hookResponse.then(result => {
 		setParcelList(result);
 	});
@@ -94,15 +95,17 @@ useEffect(() =>  {
 
   return (
     <div className="App">
-	    <HeaderBar/>
-	   
-	    	{parcelList && 
-	    		<div className="mapCard">
-		    		<MyMap googleMapsAPIKey={googleMapsAPIKey} data={parcelList} floatSelectedParcelUp={floatSelectedParcelUp}/>
-				    	<InfoCard filterButtonPressed={filterButtonPressed} parcel={selectedParcel}/>
-				    	<Filters className={filtersClass} filterButtonPressed={filterButtonPressed} parcelList={parcelList}/>
-		    	</div>
-	    	}
+    	<ParcelListProvider>
+		    <HeaderBar/>
+		   
+		    	{parcelList && 
+		    		<div className="mapCard">
+			    		<MyMap googleMapsAPIKey={googleMapsAPIKey} data={parcelList} floatSelectedParcelUp={floatSelectedParcelUp}/>
+					    	<InfoCard filterButtonPressed={filterButtonPressed} parcel={selectedParcel}/>
+					    	<Filters className={filtersClass} filterButtonPressed={filterButtonPressed} parcelList={parcelList}/>
+			    	</div>
+		    	}
+	    </ParcelListProvider>
     </div>
   )
     }
