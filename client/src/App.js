@@ -3,15 +3,12 @@
 
 import logo from './logo.svg';
 import './App.css';
-import {GoogleMap, LoadScript, Marker, InfoWindow} from '@react-google-maps/api'
 import React, {useState, useEffect} from 'react'
-import MapCard from './MapCard.js'
 import MyMap from './MyMap.js'
 import HeaderBar from './HeaderBar.js'
 import InfoCard from './InfoCard.js'
 import Filters from './Filters.js'
 import io from 'socket.io-client';
-import useGetData from './useGetData'
 import {ParcelListProvider} from './ParcelListContext';
 
 function App() {
@@ -23,21 +20,8 @@ const [newUserRegistered, setNewUserRegistered] = useState(false);
 const [socket, setSocket] = useState();
 const [googleMapsAPIKey, setGoogleMapsAPIKey] = useState();
 
-const [parcelList, setParcelList] = useState();
-const [selectedParcel, setSelectedParcel] = useState();
-
-const [mapRender, setMapRender] = useState();
-
-// calls the useGetData custom hook to got parcel information from firebase
-const hookResponse = useGetData();
-
 // establish socket port if we haven't done it already
 useEffect(() =>  {
-
-	// set the parcel list in useEffect to avoid infinite loops when a parcel has been selected in the map......
-	hookResponse.then(result => {
-		setParcelList(result);
-	});
 
 	// only establish socket port if we haven't done it already
 	if (!newUserRegistered){
@@ -56,26 +40,13 @@ useEffect(() =>  {
 		})
 	}
 
-}, [socket, hookResponse])
+}, [socket])
 
 	const handleSocketMessage = (res) => {
 		if(res.googleMapsAPIKey) {
 			setGoogleMapsAPIKey(res.googleMapsAPIKey);
 			console.log('setting google maps api key');
 		}
-	}
-
-	// recieve the parce list from getData, this will be passed into the map component
-	const floatParcelListUp = (passedUpList) => {
-		setParcelList(passedUpList);
-		console.log('setting parcel list');
-		
-	}
-
-	// receive the selected parcel from the map and set it to selectedParcel
-	// this will be passed down into the info card
-	const floatSelectedParcelUp = (passedUpParcelItem) => {
-		setSelectedParcel(passedUpParcelItem);
 	}
 
 	// either the filter button was pressed, or the 'X' close filters button was pressed, toggle the state.
@@ -97,21 +68,19 @@ useEffect(() =>  {
     <div className="App">
     	<ParcelListProvider>
 		    <HeaderBar/>
-		   
-		    	{parcelList && 
+		    {googleMapsAPIKey && (
 		    		<div className="mapCard">
-			    		<MyMap googleMapsAPIKey={googleMapsAPIKey} data={parcelList} floatSelectedParcelUp={floatSelectedParcelUp}/>
-					    	<InfoCard filterButtonPressed={filterButtonPressed} parcel={selectedParcel}/>
-					    	<Filters className={filtersClass} filterButtonPressed={filterButtonPressed} parcelList={parcelList}/>
+			    		<MyMap googleMapsAPIKey={googleMapsAPIKey}/>
+					    	<InfoCard filterButtonPressed={filterButtonPressed}/>
+					    	<Filters className={filtersClass} filterButtonPressed={filterButtonPressed}/>
 			    	</div>
-		    	}
+			    	)}
 	    </ParcelListProvider>
     </div>
   )
-    }
+}
 
 export default App;
 
-//<GetData floatParcelListUp={floatParcelListUp}/>
 
 

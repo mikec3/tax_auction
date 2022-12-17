@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react'
 import {GoogleMap, useJsApiLoader, Marker, InfoWindow, LoadScript, MarkerClusterer, ScriptLoaded} from '@react-google-maps/api';
-import {useList} from './ParcelListContext';
+import {useList, useListDispatch} from './ParcelListContext';
+import useGetData from './useGetData'
 // TODO need to configure webpack file loader to import images in this way. Currently importing directly in script via relative path.
 //import markerImage from './test_marker.png';
 //import selectedMarkerImage from './selected_marker.png'
@@ -9,7 +10,11 @@ import {useList} from './ParcelListContext';
 // The component is re-rendering when we call props.floatSelectedParcelUp(item);
 const MyMap = props => {
 
-	console.log('MyMap rendered');
+// calls the useGetData custom hook to got parcel information from firebase
+const hookResponse = useGetData();
+
+// initialize the dispatcher for parcelList
+const listDispatch = useListDispatch();
 
 const [selected, setSelected] = useState();
 const [mapRender, setMapRender] = useState();
@@ -21,9 +26,10 @@ const parcelList = useList();
 console.log(parcelList);
 
 // when parcel Marker is selected, send the parcel up to app.js, so that app.js can send the selected parcel down to the info window
-const onSelect = item => {
+const onParcelSelected = item => {
 	setSelected(item);
-	props.floatSelectedParcelUp(item);
+	
+	//add selected parcel to context
 }
 
 // map styling - make responsive according to window, width-height need to be set in absolute terms (can't take %).
@@ -60,8 +66,8 @@ const options = {
 }
 
 // filter out parcels that don't have a lat/long
-console.log(props.data[0]);
-let filteredList = props.data.filter(item => item.location.lat != null);
+//console.log(props.data[0]);
+//let filteredList = props.data.filter(item => item.location.lat != null);
 
 //format TAXABLE_TOTAL values (for instance 100,00 -> 100K)
 const formatNumber = function (dollarFigure) {
@@ -84,54 +90,120 @@ const formatNumber = function (dollarFigure) {
 	}
 }
 
+useEffect(()=> {
+	// initial load into context and reducer on component mount
+	hookResponse.then(result => {
+		console.log(result);
+		// dispatch the results to context
+		listDispatch({
+			type: 'initialize',
+			payload: result
+		});
+	});
+}, [hookResponse]);
+
 // display map with Markers and MarkerClusterer
-return (
-	<div>
-		<LoadScript googleMapsApiKey = {props.googleMapsAPIKey}>
-			<GoogleMap
-				mapContainerStyle={containerStyle}
-				center={center}
-				zoom={7}
-				options={{ gestureHandling: 'greedy' }}
-				>
+// conditionally render map if parcels have been loaded and parcelList is no longer undefined or in loading state.
+if (parcelList != 'Loading...' && typeof parcelList != 'undefined') {
+	return (
+		<div>
+			<LoadScript googleMapsApiKey = {props.googleMapsAPIKey}>
+				<GoogleMap
+					mapContainerStyle={containerStyle}
+					center={center}
+					zoom={7}
+					options={{ gestureHandling: 'greedy' }}
+					>
 				 		<MarkerClusterer options={options}>
-	 		{(clusterer) =>
-	 			filteredList.map((parcel) => {
-	 				let iconURL = './test_marker.png';
-	 				// check to see if this parcel is the active selected parcel,
-	 				// change marker image if it's the active selected parcel
-	 				if (selected) {
-		 				if (parcel.Basic.PARCEL_NUM == selected.Basic.PARCEL_NUM) {
-		 					iconURL = '/selected_marker.png';
-		 				}
-	 				}
-	 				// build marker object
-	 				return (
-	 				<Marker key={parcel.Basic.PARCEL_NUM}
-		 				position={parcel.location}
-		 				label={{
-		 					text: formatNumber(parcel.Tax.TAXABLE_TOTAL),
-		 					color: 'white',
-		 					fontWeight: 'bold',
-		 					fontSize: '12px',
-		 					className: 'markerLabels'		// CSS properties are set in App.css (margin so that label lines up with icon image)
-		 				}}
-		 				icon={{
-		 					url: iconURL
-		 				}}
-		 				onClick={()=> onSelect(parcel)}
-		 				clusterer={clusterer}
-	 				/>
-	 				)})
-	 		}
- 		</MarkerClusterer>
-			</GoogleMap>
-		</LoadScript>
-	</div>
-)
+				 		{(clusterer) =>
+				 			parcelList.filter(item => item.location.lat != null)
+				 			.map((parcel) => {
+				 				let iconURL = './test_marker.png';
+				 				// check to see if this parcel is the active selected parcel,
+				 				// change marker image if it's the active selected parcel
+				 				if (selected) {
+					 				if (parcel.Basic.PARCEL_NUM == selected.Basic.PARCEL_NUM) {
+					 					iconURL = '/selected_marker.png';
+					 				}
+				 				}
+				 				// build marker object
+				 				return (
+				 				<Marker key={parcel.Basic.PARCEL_NUM}
+					 				position={parcel.location}
+					 				label={{
+					 					text: formatNumber(parcel.Tax.TAXABLE_TOTAL),
+					 					color: 'white',
+					 					fontWeight: 'bold',
+					 					fontSize: '12px',
+					 					className: 'markerLabels'		// CSS properties are set in App.css (margin so that label lines up with icon image)
+					 				}}
+					 				icon={{
+					 					url: iconURL
+					 				}}
+					 				onClick={()=> onParcelSelected(parcel)}
+					 				clusterer={clusterer}
+				 				/>
+				 				)})
+				 		}
+ 					</MarkerClusterer>
+				</GoogleMap>
+			</LoadScript>
+		</div>
+		)
+} else {
+	return (
+			<div>
+				<p> Loading Parcels... </p>
+			</div>
+		)
+	}
 }
 
 export default MyMap;
+
+		// <LoadScript googleMapsApiKey = {props.googleMapsAPIKey}>
+		// 	<GoogleMap
+		// 		mapContainerStyle={containerStyle}
+		// 		center={center}
+		// 		zoom={7}
+		// 		options={{ gestureHandling: 'greedy' }}
+		// 		>
+		// 		 		<MarkerClusterer options={options}>
+	 // 		{(clusterer) =>
+	 // 			filteredList.map((parcel) => {
+	 // 				let iconURL = './test_marker.png';
+	 // 				// check to see if this parcel is the active selected parcel,
+	 // 				// change marker image if it's the active selected parcel
+	 // 				if (selected) {
+		//  				if (parcel.Basic.PARCEL_NUM == selected.Basic.PARCEL_NUM) {
+		//  					iconURL = '/selected_marker.png';
+		//  				}
+	 // 				}
+	 // 				// build marker object
+	 // 				return (
+	 // 				<Marker key={parcel.Basic.PARCEL_NUM}
+		//  				position={parcel.location}
+		//  				label={{
+		//  					text: formatNumber(parcel.Tax.TAXABLE_TOTAL),
+		//  					color: 'white',
+		//  					fontWeight: 'bold',
+		//  					fontSize: '12px',
+		//  					className: 'markerLabels'		// CSS properties are set in App.css (margin so that label lines up with icon image)
+		//  				}}
+		//  				icon={{
+		//  					url: iconURL
+		//  				}}
+		//  				onClick={()=> onSelect(parcel)}
+		//  				clusterer={clusterer}
+	 // 				/>
+	 // 				)})
+	 // 		}
+ 	// 	</MarkerClusterer>
+		// 	</GoogleMap>
+		// </LoadScript>
+
+
+
 
 				// {selected.location && (
 				// 	<InfoWindow

@@ -29,6 +29,7 @@ function listReducer(list, action) {
       	}];
   		}
     case 'initialize': {
+      console.log(action.payload);
       return action.payload
     }
   	case 'filter': {
