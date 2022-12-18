@@ -3,9 +3,13 @@ import React, {useEffect, useState} from 'react'
 // import { getFirestore, collection, getDocs } from "firebase/firestore";
 // import MyMap from './MyMap.js'
 import axios from 'axios'
+import {useListDispatch} from './ParcelListContext';
 
 
-function useGetData(props) {
+function GetData(props) {
+
+	// give access to the list dispatcher
+	const listDispatch = useListDispatch();
 
 	let results;
 
@@ -18,7 +22,7 @@ console.log('Retrieving FireBase Data...')
 			url: '/api/parcelData',
 			headers: {
 				    'Content-Type': 'application/json', 
-    				'Accept': 'application/json'
+    				'Accept': 'application/json' 
 			}
 		};
 
@@ -30,6 +34,11 @@ console.log('Retrieving FireBase Data...')
 				// float parcel list up to parent component
 				//props.floatParcelListUp(response.data);
 				results = response.data
+				// send results to context
+				listDispatch({
+					type: 'initialize',
+					payload: results
+				})
 			}
 		})
 		.catch((error) => {
@@ -39,10 +48,10 @@ console.log('Retrieving FireBase Data...')
 
 useEffect(()=> {
 getData()
-}, [])
+}, []);
 
-return results;
+return (<></>);
 }
 
-export default useGetData;
+export default GetData;
 

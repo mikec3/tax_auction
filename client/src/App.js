@@ -10,6 +10,7 @@ import InfoCard from './InfoCard.js'
 import Filters from './Filters.js'
 import io from 'socket.io-client';
 import {ParcelListProvider} from './ParcelListContext';
+import GetData from './GetData'
 
 function App() {
 
@@ -67,6 +68,7 @@ useEffect(() =>  {
   return (
     <div className="App">
     	<ParcelListProvider>
+    	<GetData/>
 		    <HeaderBar/>
 		    {googleMapsAPIKey && (
 		    		<div className="mapCard">

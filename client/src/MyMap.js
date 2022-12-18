@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react'
 import {GoogleMap, useJsApiLoader, Marker, InfoWindow, LoadScript, MarkerClusterer, ScriptLoaded} from '@react-google-maps/api';
 import {useList, useListDispatch} from './ParcelListContext';
-import useGetData from './useGetData'
+
 // TODO need to configure webpack file loader to import images in this way. Currently importing directly in script via relative path.
 //import markerImage from './test_marker.png';
 //import selectedMarkerImage from './selected_marker.png'
@@ -10,17 +10,12 @@ import useGetData from './useGetData'
 // The component is re-rendering when we call props.floatSelectedParcelUp(item);
 const MyMap = props => {
 
-// calls the useGetData custom hook to got parcel information from firebase
-const hookResponse = useGetData();
-
 // initialize the dispatcher for parcelList
 const listDispatch = useListDispatch();
 
 const [selected, setSelected] = useState();
 const [mapRender, setMapRender] = useState();
 const [markers, setMarkers] = useState();
-
-const [loop, setLoop] = useState(true);
 
 // get parcel list from useList() context hook.
 const parcelList = useList();
@@ -69,10 +64,6 @@ const options = {
   //  '/clusterer/m' // so you must have m1.png, m2.png, m3.png, m4.png, m5.png and m6.png in that folder
 }
 
-// filter out parcels that don't have a lat/long
-//console.log(props.data[0]);
-//let filteredList = props.data.filter(item => item.location.lat != null);
-
 //format TAXABLE_TOTAL values (for instance 100,00 -> 100K)
 const formatNumber = function (dollarFigure) {
 
@@ -94,25 +85,9 @@ const formatNumber = function (dollarFigure) {
 	}
 }
 
-useEffect(()=> {
-	// initial load into context and reducer on component mount
-	hookResponse.then(result => {
-		console.log(result);
-		// dispatch the results to context only if it's not undefined
-		// loop variable is to prevent infinite loops from dispatching and reading parcelList
-		if (typeof result != 'undefined' && loop) {
-			setLoop(false);
-			listDispatch({
-				type: 'initialize',
-				payload: result
-			});
-		}
-	});
-}, [hookResponse]);
-
 // display map with Markers and MarkerClusterer
 // conditionally render map if parcels have been loaded and parcelList is no longer undefined or in loading state.
-if (parcelList != 'Loading...' && typeof parcelList != 'undefined') {
+if (typeof parcelList != 'undefined') {
 	return (
 		<div>
 			<LoadScript googleMapsApiKey = {props.googleMapsAPIKey}>
@@ -124,6 +99,7 @@ if (parcelList != 'Loading...' && typeof parcelList != 'undefined') {
 					>
 				 		<MarkerClusterer options={options}>
 				 		{(clusterer) =>
+				 			// filter out parcels without a latitude
 				 			parcelList.filter(item => item.location.lat != null)
 				 			.map((parcel) => {
 				 				let iconURL = './test_marker.png';

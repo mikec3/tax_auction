@@ -3,16 +3,17 @@ import Box from '@mui/material/Box';
 import Slider from '@mui/material/Slider';
 
 const PriceFilter = (props) => {
+	console.log('price filter rendered');
 // get max tax values from parcelList
 let max = 0;
-// props.parcelList.forEach((parcel)=> {
-// 	let val = parseInt(parcel.Tax.TAXABLE_TOTAL.replace(/[^0-9]/g, ""));
-// 	if (val> max) {
-// 		max = val;
-// 	}
-// })
+props.parcelList.forEach((parcel)=> {
+	let val = parseInt(parcel.Tax.TAXABLE_TOTAL.replace(/[^0-9]/g, ""));
+	if (val> max) {
+		max = val;
+	}
+})
 
-// const [value, setValue] = React.useState([0, max]);
+const [value, setValue] = React.useState([0, max]);
 
 // change formatting of slider labels
 function valuetext(sliderValue) {
@@ -33,29 +34,28 @@ function valuetext(sliderValue) {
 }
 
 const handleChange = (event, newValue) => {
-    //setValue(newValue);
+    setValue(newValue);
     console.log(newValue);
 }
 
 return (
 	<div className='FilterItem'>
-
+		<h2> Taxable Total </h2>
+			<Box sx={{ width: 250, margin: 'auto'}}>
+		      <Slider
+		        getAriaLabel={() => 'Temperature range'}
+		        value={value}
+		        onChange={handleChange}
+		        valueLabelDisplay="on"
+		        valueLabelFormat={valuetext}
+		        getAriaValueText={valuetext}
+		        min={0}
+		        max={max}
+		      />
+		    </Box>
 	</div>
 )
 }
 
 export default PriceFilter;
 
-		// <h2> Taxable Total </h2>
-		// 	<Box sx={{ width: 250, margin: 'auto'}}>
-		//       <Slider
-		//         getAriaLabel={() => 'Temperature range'}
-		//         value={value}
-		//         onChange={handleChange}
-		//         valueLabelDisplay="on"
-		//         valueLabelFormat={valuetext}
-		//         getAriaValueText={valuetext}
-		//         min={0}
-		//         max={max}
-		//       />
-		//     </Box>

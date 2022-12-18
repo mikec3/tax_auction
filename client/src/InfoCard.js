@@ -10,7 +10,7 @@ const InfoCard = (props) => {
 	let selectedParcel;
 
 	// if parcelList is done loading grab parcel that has isSelectedParcel set to true. Should only be 1 in the array, so return first position element.
-	if (parcelList != 'Loading...' && typeof parcelList != 'undefined') {
+	if (typeof parcelList != 'undefined') {
 		selectedParcel = parcelList.filter((item) => item.Client.isSelectedParcel)[0];
 	}
 
@@ -28,6 +28,7 @@ const InfoCard = (props) => {
 
 
 // loop through parcel object, create an InfoBar with each header:values from the parcel object
+// only loop through the selected parcel if it exists
 if(selectedParcel != [] && selectedParcel != null && typeof selectedParcel != 'undefined') {
 	for (const [header, entries] of Object.entries(selectedParcel)) {
 		// ignore location headers

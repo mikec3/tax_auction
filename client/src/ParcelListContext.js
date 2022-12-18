@@ -6,8 +6,7 @@ const ListDispatchContext = createContext(null);
 
 export function ParcelListProvider({ children }) {
   const [list, dispatch] = useReducer(
-    listReducer,
-    initialList
+    listReducer
   );
 
   return (
@@ -21,13 +20,6 @@ export function ParcelListProvider({ children }) {
 
 function listReducer(list, action) {
   switch (action.type) {
-    case 'added': {
-      return [...list, {
-	        county: action.county,
-	        price: action.price,
-	        parcel_number: action.parcel_number
-      	}];
-  		}
     case 'initialize': {
       // add the list to context, and add Client information
       // by default, all parcels are NOT the selected parcel (isSelectedParcel=false)
@@ -73,5 +65,3 @@ export function useList() {
 export function useListDispatch() {
   return useContext(ListDispatchContext);
 };
-
-const initialList = 'Loading...'
