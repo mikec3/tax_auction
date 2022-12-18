@@ -20,16 +20,20 @@ const [selected, setSelected] = useState();
 const [mapRender, setMapRender] = useState();
 const [markers, setMarkers] = useState();
 
+const [loop, setLoop] = useState(true);
+
 // get parcel list from useList() context hook.
-// TODO get this to be the actual parcel list from firebase
 const parcelList = useList();
 console.log(parcelList);
 
 // when parcel Marker is selected, send the parcel up to app.js, so that app.js can send the selected parcel down to the info window
 const onParcelSelected = item => {
 	setSelected(item);
-	
 	//add selected parcel to context
+	listDispatch({
+		type: 'setSelected',
+		parcelNum: item.Basic.PARCEL_NUM
+	})
 }
 
 // map styling - make responsive according to window, width-height need to be set in absolute terms (can't take %).
@@ -94,11 +98,15 @@ useEffect(()=> {
 	// initial load into context and reducer on component mount
 	hookResponse.then(result => {
 		console.log(result);
-		// dispatch the results to context
-		listDispatch({
-			type: 'initialize',
-			payload: result
-		});
+		// dispatch the results to context only if it's not undefined
+		// loop variable is to prevent infinite loops from dispatching and reading parcelList
+		if (typeof result != 'undefined' && loop) {
+			setLoop(false);
+			listDispatch({
+				type: 'initialize',
+				payload: result
+			});
+		}
 	});
 }, [hookResponse]);
 

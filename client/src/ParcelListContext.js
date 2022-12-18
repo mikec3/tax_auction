@@ -29,8 +29,33 @@ function listReducer(list, action) {
       	}];
   		}
     case 'initialize': {
-      console.log(action.payload);
-      return action.payload
+      // add the list to context, and add Client information
+      // by default, all parcels are NOT the selected parcel (isSelectedParcel=false)
+      // parcel markers will call a dispatch action to modify the isSelectedParcel to true, when selected
+      let modifiedList = action.payload.map((item) => {
+        return {
+          ...item,
+          Client: {
+            isSelectedParcel: false
+          }
+        }
+      });
+      return modifiedList
+    }
+    case 'setSelected': {
+      // wipe all isSelectedParcel back to false before selecting single parcel
+      list.map((item)=> {
+        item.Client.isSelectedParcel = false;
+        return item;
+      })
+      // modify the list so that the selected parcel's Client.isSelectedParcel = true.
+      let listWithSelected = list.map((item) => {
+        if (item.Basic.PARCEL_NUM == action.parcelNum) {
+          item.Client.isSelectedParcel = true;
+        }
+        return item;
+      });
+      return listWithSelected;
     }
   	case 'filter': {
   		return list.filter(t => t.county !== action.criteria);
@@ -49,4 +74,4 @@ export function useListDispatch() {
   return useContext(ListDispatchContext);
 };
 
-  const initialList = 'Loading...'
+const initialList = 'Loading...'
