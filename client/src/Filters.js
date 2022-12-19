@@ -13,6 +13,7 @@ return (
 	{parcelList && 
 		<React.Fragment>
 		<div className='FilterButtonWrapper'>
+			<h2> Filters </h2>
 			<button className='FilterCloseButton'
 				onClick={props.filterButtonPressed}>
 					X 

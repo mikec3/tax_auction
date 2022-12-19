@@ -11,6 +11,7 @@ This app is the only source of multiple county tax foreclosure auction parcel in
 # Dev
 
 ## Roadmap
+* Re-scrape so that tax values are integers
 * parcel filtering
 * format info card
 * analytics on info card before selecting a parcel

@@ -1,19 +1,30 @@
-import * as React from 'react'
+import React, {useEffect, useState} from 'react'
 import Box from '@mui/material/Box';
 import Slider from '@mui/material/Slider';
+import {useListDispatch} from '../ParcelListContext';
 
 const PriceFilter = (props) => {
 	console.log('price filter rendered');
 // get max tax values from parcelList
 let max = 0;
 props.parcelList.forEach((parcel)=> {
-	let val = parseInt(parcel.Tax.TAXABLE_TOTAL.replace(/[^0-9]/g, ""));
+	//let val = parseInt(parcel.Tax.TAXABLE_TOTAL.replace(/[^0-9]/g, ""));
+	let val = parcel.Tax.TAXABLE_TOTAL;
 	if (val> max) {
 		max = val;
 	}
 })
 
-const [value, setValue] = React.useState([0, max]);
+const [value, setValue] = useState([0, max]);
+const [priceMax, setPriceMax] = useState();
+
+useEffect(()=> {
+	// only set price max on first time, so that it's always the max of the unfiltered set.
+	setPriceMax(max);
+}, [])
+
+// get access to the parcel list dispatch
+const listDispatch = useListDispatch();
 
 // change formatting of slider labels
 function valuetext(sliderValue) {
@@ -36,6 +47,13 @@ function valuetext(sliderValue) {
 const handleChange = (event, newValue) => {
     setValue(newValue);
     console.log(newValue);
+
+    // dispatch the new filter values 
+    listDispatch({
+    	type: 'filter_price',
+    	min: newValue[0],
+    	max: newValue[1]
+    })
 }
 
 return (
@@ -50,7 +68,7 @@ return (
 		        valueLabelFormat={valuetext}
 		        getAriaValueText={valuetext}
 		        min={0}
-		        max={max}
+		        max={priceMax}
 		      />
 		    </Box>
 	</div>
