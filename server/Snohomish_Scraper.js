@@ -58,6 +58,9 @@ const getParcelInfo = async function (baseUrl, parcelViewerURL, parcelNum) {
  		let propertyCharRows = await driver.findElement(By.css('#mPropertyCharacteristics'))
  									.findElements(By.tagName('tr'));
 
+ 		// property rows have 'Size (gross)': "0.2" & 'Unit of Measure': "Acre(s)"
+ 		// store only 'Acres': floatNumber - other scrapers will match this formatting for easy ingestion by client.
+ 		//
  		// loop through property char rows
  		for (row in propertyCharRows) {
  			let cells = await propertyCharRows[row].findElements(By.tagName('td'));
@@ -66,14 +69,20 @@ const getParcelInfo = async function (baseUrl, parcelViewerURL, parcelNum) {
  			let key = String(await cells[0].getAttribute('innerText'));
  			let value = String(await cells[1].getAttribute('innerText'));
 
- 			// add property key value pairs
- 			currentParcel['Land'][key] = value;
+ 			// if we're on the size row, save the value as a decimal number and call it 'Acres'.
+ 			if (key == 'Size (gross)') {
+ 				currentParcel['Land']['Acres'] = parseFloat(value);
+ 			} else {
+ 				// add property key value pairs
+ 				currentParcel['Land'][key] = value;
+ 			}
  		}
 
  		// Next get Tax info
  		let taxInfoRows = await driver.findElement(By.css('#mPropertyValues'))
  									.findElements(By.tagName('tr'));
 
+ 		// Store values as numbers - scraped values are "$100,000".
  		// loop through tax rows
  		for (row in taxInfoRows) {
  				// skip the first row
@@ -84,6 +93,9 @@ const getParcelInfo = async function (baseUrl, parcelViewerURL, parcelNum) {
 		 			// key value pairs
 		 			let key = String(await cells[0].getAttribute('innerText'));
 		 			let value = String(await cells[1].getAttribute('innerText'));
+
+		 			// store tax values as integers (strips the $ and commas from string)
+		 			value = parseInt(value.replace(/[^0-9]/g, ""));
 
 		 			// only add certain tax rows and cells
 		 			switch(key) {
