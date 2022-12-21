@@ -62,7 +62,16 @@ function listReducer(list, action) {
   	case 'filter_price': {
       // filtering on initialList so that filter settings don't drop all parcels after subsequent filtering
       // TODO make sure other filters don't get dropped, maybe need to set all filters at the same time.
-      return initialList.filter(t => t.Tax.TAXABLE_TOTAL <= action.max && t.Tax.TAXABLE_TOTAL >= action.min)
+      return initialList.filter(t => t.Tax.TAXABLE_TOTAL <= action.max && t.Tax.TAXABLE_TOTAL >= action.min);
+    }
+    case 'filter_acres': {
+      return initialList.filter(t=> t.Land.Acres <= action.max && t.Land.Acres >= action.min);
+    }
+    case 'filter_apply_all': {
+      // chain the filters together off the initial list. Starting with initialList so that filters are applied to full set.
+      let priceFiltered = initialList.filter(t => t.Tax.TAXABLE_TOTAL <= action.price.max && t.Tax.TAXABLE_TOTAL >= action.price.min);
+      let acreFiltered = priceFiltered.filter(t=> t.Land.Acres <= action.acre.max && t.Land.Acres >= action.acre.min);
+      return acreFiltered;
     }
     default: {
       throw Error('Unknown action: ' + action.type);
