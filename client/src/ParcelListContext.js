@@ -29,8 +29,6 @@ function listReducer(list, action) {
       let modifiedList = action.payload.map((item) => {
         // parse integer from taxable total and put back into item.
         // can delete tax integer parsing line once scraped values are only integers.
-        console.log(typeof item.Tax.TAXABLE_TOTAL);
-        console.log(item.Tax.TAXABLE_TOTAL);
         if (typeof item.Tax.TAXABLE_TOTAL == 'string') {
           item.Tax.TAXABLE_TOTAL = parseInt(item.Tax.TAXABLE_TOTAL.replace(/[^0-9]/g, ""));
         }

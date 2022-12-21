@@ -1,14 +1,14 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import PriceFilter from './Filters/PriceFilter';
 import AcreFilter from './Filters/AcreFilter'
 import {useList, useListDispatch} from './ParcelListContext';
 
 const Filters = (props) => {
 
-	// TODO filters need to be applied at every value change
-	// TODO reset filters
 	// TODO filters need to recieve the updated list and re-calculate min-max in real-time
 	// TODO show total filter results while filtering
+	// TODO filters need to be applied at every value change
+	// TODO reset filters
 
 const [priceFilterSettings, setPriceFilterSettings] = useState();
 const [acreFilterSettings, setAcreFilterSettings] = useState();
@@ -19,10 +19,17 @@ const listDispatch = useListDispatch();
 // get parcelList
 const parcelList = useList();
 
+// apply filters anytime pricefiltersettings or acrefilter settings change
+useEffect(()=> {
+	// apply filters only after each has been set
+	if (priceFilterSettings && acreFilterSettings) {
+		applyFilters();
+	}
+}, [priceFilterSettings, acreFilterSettings]);
+
+
 const handleFilterSettings = (settings) => {
 	// save the filter settings according to which filter sent them
-	console.log(settings.filter);
-	console.log(typeof settings.filter);
 	switch(settings.filter){
 		case 'price': {
 			setPriceFilterSettings(settings.value);
@@ -40,6 +47,7 @@ const handleFilterSettings = (settings) => {
 
 // apply filters when apply button is pressed
 const applyFilters = () => {
+	console.log('applying filters');
 	//send all filters to parcel list dispatch
 	listDispatch({
 		type: 'filter_apply_all'
@@ -54,7 +62,7 @@ const applyFilters = () => {
 	});
 
 	// close the filter box after filters have been applied
-	props.filterButtonPressed();
+	//props.filterButtonPressed();
 }
 
 // props.className will either be FiltersHide or FiltersShow
