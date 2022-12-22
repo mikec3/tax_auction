@@ -5,11 +5,11 @@ import {useList, useListDispatch} from './ParcelListContext';
 
 const Filters = (props) => {
 
-	// TODO filters need to recieve the updated list and re-calculate min-max in real-time
 	// TODO show total filter results while filtering
 	// TODO filters need to be applied at every value change
 	// TODO reset filters
 
+// collect all filter settings in this parent component so that all filters get applied to dispatch at the same time.
 const [priceFilterSettings, setPriceFilterSettings] = useState();
 const [acreFilterSettings, setAcreFilterSettings] = useState();
 
@@ -65,25 +65,35 @@ const applyFilters = () => {
 	//props.filterButtonPressed();
 }
 
+let filterResultsCount;
+
+// only attempt to filter if parcelList is a thing
+if (parcelList) {
+	// get the count of properties to display as filter results. Filter out items without a location
+	filterResultsCount = parcelList.filter(item => item.location.lat != null).length;
+}
+
 // props.className will either be FiltersHide or FiltersShow
 return (
 	<div className={props.className}>
 		{parcelList && 
 			<React.Fragment>
-			<div className='FilterButtonWrapper'>
-				<button className='FilterCloseButton'
-					onClick={props.filterButtonPressed}>
-						X 
-				</button>
-				<h2> Filters </h2>
-				<button className='FilterCloseButton'
-					onClick={applyFilters}>
-						Apply
-				</button>
+				<div className='FilterButtonWrapper'>
+					<div className='FilterResultsCount'>
+						<div className='FilterResultsCountBox'>
+							<p> {filterResultsCount} </p>
+						</div>
+						<p> Results </p>
+					</div>
 
-			</div>
-			<PriceFilter parcelList={parcelList} passUpFilterSettings={handleFilterSettings}/>
-			<AcreFilter parcelList={parcelList} passUpFilterSettings={handleFilterSettings}/>
+					<h3> Filters </h3>
+					<button className='FilterCloseButton'
+						onClick={props.filterButtonPressed}>
+							X 
+					</button>
+				</div>
+				<PriceFilter parcelList={parcelList} passUpFilterSettings={handleFilterSettings}/>
+				<AcreFilter parcelList={parcelList} passUpFilterSettings={handleFilterSettings}/>
 			</React.Fragment>
 		}
 	</div>

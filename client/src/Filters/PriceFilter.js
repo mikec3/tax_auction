@@ -61,6 +61,7 @@ const handleChange = (event, newValue) => {
 	});
 }
 
+
 return (
 	<div className='FilterItem'>
 		<h2> Taxable Total </h2>

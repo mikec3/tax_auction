@@ -46,7 +46,6 @@ const handleChange = (event, newValue) => {
 	});
 }
 
-
 return (
 	<div className='FilterItem'>
 		<h2> Lot Size (Acres) </h2>

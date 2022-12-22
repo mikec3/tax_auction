@@ -120,6 +120,12 @@
 .FilterButtonWrapper {
   display: flex;
   justify-content: space-between;
+  align-items: center;
+  max-height: 5em;
+}
+
+.FilterButtonWrapper h3 {
+  margin-left: -2em;
 }
 
 .filterMenuButton {
@@ -144,6 +150,21 @@
   width: 3em;
   background-color: transparent;
   border: none;
+}
+
+.FilterResultsCount {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  column-gap: 0.5em;
+  margin-left: 0.5em;
+}
+
+.FilterResultsCountBox {
+  border: 0.5px solid grey;
+  border-radius: 0.3em;
+  height: 3em;
+  text-align: center;
 }
 
 .FilterItem {
