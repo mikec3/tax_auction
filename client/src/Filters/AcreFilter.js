@@ -21,12 +21,15 @@ useEffect(()=> {
 	// only set price max on first time, so that it's always the max of the unfiltered set.
 	setLotSizeMax(max);
 
+		// when props.triggerReset is changed (toggles between true/false at parent during filter trigger events), reset values to inital positions.
+	setValue([0,max]);
+
 	// pass up filter settings on initial load
 	props.passUpFilterSettings({
 		filter: 'acre',
 		value: value
 	});
-}, [])
+}, [props.triggerReset])
 
 // get access to the parcel list dispatch
 const listDispatch = useListDispatch();

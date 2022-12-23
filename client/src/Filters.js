@@ -13,6 +13,8 @@ const Filters = (props) => {
 const [priceFilterSettings, setPriceFilterSettings] = useState();
 const [acreFilterSettings, setAcreFilterSettings] = useState();
 
+const [triggerFilterReset, setTriggerFilterReset] = useState(false);
+
 // get access to parcel list dispatch
 const listDispatch = useListDispatch();
 
@@ -65,6 +67,20 @@ const applyFilters = () => {
 	//props.filterButtonPressed();
 }
 
+const resetFilters = () => {
+	// send filter_reset dispatch. Returns initial Parcel List, effectively resetting all filters.
+	listDispatch({
+		type: 'filter_reset'
+	});
+
+	// toggle trigger filter reset so that child componenets (filters) will reset in their useEffect that listens for triggerFilterReset.
+	if(triggerFilterReset){
+		setTriggerFilterReset(false);
+	} else {
+		setTriggerFilterReset(true);
+	}
+}
+
 let filterResultsCount;
 
 // only attempt to filter if parcelList is a thing
@@ -80,20 +96,18 @@ return (
 			<React.Fragment>
 				<div className='FilterButtonWrapper'>
 					<div className='FilterResultsCount'>
-						<div className='FilterResultsCountBox'>
-							<p> {filterResultsCount} </p>
-						</div>
+						<p> {filterResultsCount} </p>
 						<p> Results </p>
 					</div>
-
 					<h3> Filters </h3>
 					<button className='FilterCloseButton'
 						onClick={props.filterButtonPressed}>
 							X 
 					</button>
 				</div>
-				<PriceFilter parcelList={parcelList} passUpFilterSettings={handleFilterSettings}/>
-				<AcreFilter parcelList={parcelList} passUpFilterSettings={handleFilterSettings}/>
+				<PriceFilter parcelList={parcelList} passUpFilterSettings={handleFilterSettings} triggerReset={triggerFilterReset}/>
+				<AcreFilter parcelList={parcelList} passUpFilterSettings={handleFilterSettings} triggerReset={triggerFilterReset}/>
+				<button onClick={resetFilters}> Reset </button>
 			</React.Fragment>
 		}
 	</div>

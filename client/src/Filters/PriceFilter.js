@@ -21,13 +21,16 @@ const [priceMax, setPriceMax] = useState();
 useEffect(()=> {
 	// only set price max on first time, so that it's always the max of the unfiltered set.
 	setPriceMax(max);
+
+	// when props.triggerReset is changed (toggles between true/false at parent during filter trigger events), reset values to inital positions.
+	setValue([0,max]);
 	
 	// pass up filter settings on initial load so that filter component has them
 	props.passUpFilterSettings({
 		filter: 'price',
 		value: value
 	});
-}, [])
+}, [props.triggerReset])
 
 // get access to the parcel list dispatch
 const listDispatch = useListDispatch();
