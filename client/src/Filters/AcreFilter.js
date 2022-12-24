@@ -16,6 +16,7 @@ props.parcelList.forEach((parcel)=> {
 
 const [value, setValue] = useState([0, max]);
 const [lotSizeMax, setLotSizeMax] = useState();
+const [initialLoad, setInitialLoad] = useState(true);
 
 useEffect(()=> {
 	// only set price max on first time, so that it's always the max of the unfiltered set.
@@ -24,11 +25,14 @@ useEffect(()=> {
 		// when props.triggerReset is changed (toggles between true/false at parent during filter trigger events), reset values to inital positions.
 	setValue([0,max]);
 
-	// pass up filter settings on initial load
-	props.passUpFilterSettings({
-		filter: 'acre',
-		value: value
-	});
+	if (initialLoad) {
+		// pass up filter settings on initial load
+		props.passUpFilterSettings({
+			filter: 'acre',
+			value: value
+		});
+		setInitialLoad(false);
+	}
 }, [props.triggerReset])
 
 // get access to the parcel list dispatch
@@ -51,7 +55,7 @@ const handleChange = (event, newValue) => {
 
 return (
 	<div className='FilterItem'>
-		<h2> Lot Size (Acres) </h2>
+		<h3> Lot Size (Acres) </h3>
 			<Box sx={{ width: 250, margin: 'auto'}}>
 		      <Slider
 		        getAriaLabel={() => 'Temperature range'}

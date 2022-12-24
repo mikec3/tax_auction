@@ -5,10 +5,6 @@ import {useList, useListDispatch} from './ParcelListContext';
 
 const Filters = (props) => {
 
-	// TODO show total filter results while filtering
-	// TODO filters need to be applied at every value change
-	// TODO reset filters
-
 // collect all filter settings in this parent component so that all filters get applied to dispatch at the same time.
 const [priceFilterSettings, setPriceFilterSettings] = useState();
 const [acreFilterSettings, setAcreFilterSettings] = useState();
@@ -94,20 +90,22 @@ return (
 	<div className={props.className}>
 		{parcelList && 
 			<React.Fragment>
-				<div className='FilterButtonWrapper'>
+				<div className='FilterHeader'>
 					<div className='FilterResultsCount'>
 						<p> {filterResultsCount} </p>
 						<p> Results </p>
 					</div>
 					<h3> Filters </h3>
-					<button className='FilterCloseButton'
+					<button className='button-17'
 						onClick={props.filterButtonPressed}>
-							X 
+							Close
 					</button>
 				</div>
 				<PriceFilter parcelList={parcelList} passUpFilterSettings={handleFilterSettings} triggerReset={triggerFilterReset}/>
 				<AcreFilter parcelList={parcelList} passUpFilterSettings={handleFilterSettings} triggerReset={triggerFilterReset}/>
-				<button onClick={resetFilters}> Reset </button>
+				<div className='FilterFooter'>
+					<button className='button-17' onClick={resetFilters}> Reset </button>
+				</div>
 			</React.Fragment>
 		}
 	</div>

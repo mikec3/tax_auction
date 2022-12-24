@@ -17,6 +17,7 @@ props.parcelList.forEach((parcel)=> {
 
 const [value, setValue] = useState([0, max]);
 const [priceMax, setPriceMax] = useState();
+const [intialLoad, setInitialLoad] = useState(true);
 
 useEffect(()=> {
 	// only set price max on first time, so that it's always the max of the unfiltered set.
@@ -25,11 +26,14 @@ useEffect(()=> {
 	// when props.triggerReset is changed (toggles between true/false at parent during filter trigger events), reset values to inital positions.
 	setValue([0,max]);
 	
-	// pass up filter settings on initial load so that filter component has them
-	props.passUpFilterSettings({
-		filter: 'price',
-		value: value
-	});
+	if(intialLoad) {
+		// pass up filter settings on initial load so that filter component has them
+		props.passUpFilterSettings({
+			filter: 'price',
+			value: value
+		});
+		setInitialLoad(false);
+	}
 }, [props.triggerReset])
 
 // get access to the parcel list dispatch
@@ -67,7 +71,7 @@ const handleChange = (event, newValue) => {
 
 return (
 	<div className='FilterItem'>
-		<h2> Taxable Total </h2>
+		<h3> Taxable Total </h3>
 			<Box sx={{ width: 250, margin: 'auto'}}>
 		      <Slider
 		        getAriaLabel={() => 'Temperature range'}

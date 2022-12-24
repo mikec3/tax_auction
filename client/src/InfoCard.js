@@ -19,7 +19,7 @@ const InfoCard = (props) => {
 	let infoLink;
 	let picture;
 
-	let title = <h2> Select a Marker </h2>;
+	let title = <h3> Select a Marker </h3>;
 
 	// filter button was pressed, pass up the trigger to show the filter modal
 	const filterButtonPressed = () => {
@@ -52,7 +52,7 @@ if(selectedParcel != [] && selectedParcel != null && typeof selectedParcel != 'u
 		<div className='InfoCard'>
 				<div className='InfoCardHeader'>
 					{title}
-						<button className='filterMenuButton'
+						<button className='button-17'
 							onClick={props.filterButtonPressed}
 							> 
 							Filters 
