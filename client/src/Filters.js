@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import PriceFilter from './Filters/PriceFilter';
 import AcreFilter from './Filters/AcreFilter'
+import AuctionFilters from './Filters/AuctionFilters'
 import {useList, useListDispatch} from './ParcelListContext';
 
 const Filters = (props) => {
@@ -103,6 +104,7 @@ return (
 				</div>
 				<PriceFilter parcelList={parcelList} passUpFilterSettings={handleFilterSettings} triggerReset={triggerFilterReset}/>
 				<AcreFilter parcelList={parcelList} passUpFilterSettings={handleFilterSettings} triggerReset={triggerFilterReset}/>
+				<AuctionFilters passUpFilterSettings={handleFilterSettings} triggerReset={triggerFilterReset}/>
 				<div className='FilterFooter'>
 					<button className='button-17' onClick={resetFilters}> Reset </button>
 				</div>
