@@ -6,9 +6,13 @@ import {useList, useListDispatch} from './ParcelListContext';
 
 const Filters = (props) => {
 
+	// TODO avail filter needs to reset
+	// TODO avail filter needs to be applied in parcellist context
+
 // collect all filter settings in this parent component so that all filters get applied to dispatch at the same time.
 const [priceFilterSettings, setPriceFilterSettings] = useState();
 const [acreFilterSettings, setAcreFilterSettings] = useState();
+const [availFilterSettings, setAvailFilterSettings] = useState();
 
 const [triggerFilterReset, setTriggerFilterReset] = useState(false);
 
@@ -21,10 +25,10 @@ const parcelList = useList();
 // apply filters anytime pricefiltersettings or acrefilter settings change
 useEffect(()=> {
 	// apply filters only after each has been set
-	if (priceFilterSettings && acreFilterSettings) {
+	if (priceFilterSettings && acreFilterSettings && availFilterSettings) {
 		applyFilters();
 	}
-}, [priceFilterSettings, acreFilterSettings]);
+}, [priceFilterSettings, acreFilterSettings, availFilterSettings]);
 
 
 const handleFilterSettings = (settings) => {
@@ -36,6 +40,10 @@ const handleFilterSettings = (settings) => {
 		}
 		case 'acre': {
 			setAcreFilterSettings(settings.value);
+			break;
+		}
+		case 'avail': {
+			setAvailFilterSettings(settings.value);
 			break;
 		}
 		default: {
@@ -57,6 +65,9 @@ const applyFilters = () => {
 		, acre: {
 			min: acreFilterSettings[0]
 			, max: acreFilterSettings[1]
+		}
+		, avail: {
+			value: availFilterSettings
 		}
 	});
 

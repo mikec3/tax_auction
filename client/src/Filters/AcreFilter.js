@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from 'react'
 import Box from '@mui/material/Box';
 import Slider from '@mui/material/Slider';
-import {useListDispatch} from '../ParcelListContext';
 
 const AcreFilter = (props) => {
 // get max tax values from parcelList
@@ -35,8 +34,6 @@ useEffect(()=> {
 	}
 }, [props.triggerReset])
 
-// get access to the parcel list dispatch
-const listDispatch = useListDispatch();
 
 function valuetext(sliderValue) {
 	return sliderValue;

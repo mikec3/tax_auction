@@ -58,9 +58,11 @@ function listReducer(list, action) {
       return listWithSelected;
     }
     case 'filter_apply_all': {
+      console.log('applying all filters');
       // chain the filters together off the initial list. Starting with initialList so that filters are applied to full set.
       let priceFiltered = initialList.filter(t => t.Tax.TAXABLE_TOTAL <= action.price.max && t.Tax.TAXABLE_TOTAL >= action.price.min);
       let acreFiltered = priceFiltered.filter(t=> t.Land.Acres <= action.acre.max && t.Land.Acres >= action.acre.min);
+      //let availFiltered = acreFiltered.filter(t=> t.Meta.AUCTION_DATE >= new Date());
       return acreFiltered;
     }
     case 'filter_reset': {

@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from 'react'
 import Box from '@mui/material/Box';
 import Slider from '@mui/material/Slider';
-import {useListDispatch} from '../ParcelListContext';
 
 const PriceFilter = (props) => {
 	console.log('price filter rendered');
@@ -35,9 +34,6 @@ useEffect(()=> {
 		setInitialLoad(false);
 	}
 }, [props.triggerReset])
-
-// get access to the parcel list dispatch
-const listDispatch = useListDispatch();
 
 // change formatting of slider labels
 function valuetext(sliderValue) {
