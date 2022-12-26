@@ -74,6 +74,11 @@ function listReducer(list, action) {
       if (action.avail.value) {
         filtersApplied = filtersApplied.filter(t=> new Date(t.Meta.AUCTION_DATE) >= new Date());
         }
+
+      // filter for only online auctions IF online.value is true
+      if (action.online.value) {
+        filtersApplied = filtersApplied.filter(t=> t.Meta.AUCTION_SITE_FLAG == 'Online');
+      }
       return filtersApplied;
     }
     case 'filter_reset': {

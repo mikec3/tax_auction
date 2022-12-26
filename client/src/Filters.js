@@ -12,6 +12,7 @@ const Filters = (props) => {
 const [priceFilterSettings, setPriceFilterSettings] = useState();
 const [acreFilterSettings, setAcreFilterSettings] = useState();
 const [availFilterSettings, setAvailFilterSettings] = useState();
+const [onlineFilterSettings, setOnlineFilterSettings] = useState();
 
 const [triggerFilterReset, setTriggerFilterReset] = useState(false);
 
@@ -27,7 +28,7 @@ useEffect(()=> {
 	if (priceFilterSettings && acreFilterSettings) {
 		applyFilters();
 	}
-}, [priceFilterSettings, acreFilterSettings, availFilterSettings]);
+}, [priceFilterSettings, acreFilterSettings, availFilterSettings, onlineFilterSettings]);
 
 
 const handleFilterSettings = (settings) => {
@@ -43,6 +44,10 @@ const handleFilterSettings = (settings) => {
 		}
 		case 'avail': {
 			setAvailFilterSettings(settings.value);
+			break;
+		}
+		case 'online': {
+			setOnlineFilterSettings(settings.value);
 			break;
 		}
 		default: {
@@ -67,6 +72,9 @@ const applyFilters = () => {
 		}
 		, avail: {
 			value: availFilterSettings
+		}
+		, online: {
+			value: onlineFilterSettings
 		}
 	});
 

@@ -152,6 +152,12 @@
   margin-bottom: 1.75em;
 }
 
+.FormGroup {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
 .FilterFooter {
   display: flex;
   justify-content: flex-end;
