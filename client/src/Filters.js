@@ -6,7 +6,6 @@ import {useList, useListDispatch} from './ParcelListContext';
 
 const Filters = (props) => {
 
-	// TODO avail filter needs to reset
 	// TODO avail filter needs to be applied in parcellist context
 
 // collect all filter settings in this parent component so that all filters get applied to dispatch at the same time.
@@ -22,10 +21,10 @@ const listDispatch = useListDispatch();
 // get parcelList
 const parcelList = useList();
 
-// apply filters anytime pricefiltersettings or acrefilter settings change
+// apply filters anytime filter settings change
 useEffect(()=> {
 	// apply filters only after each has been set
-	if (priceFilterSettings && acreFilterSettings && availFilterSettings) {
+	if (priceFilterSettings && acreFilterSettings) {
 		applyFilters();
 	}
 }, [priceFilterSettings, acreFilterSettings, availFilterSettings]);
