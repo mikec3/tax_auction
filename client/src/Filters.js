@@ -13,6 +13,7 @@ const [priceFilterSettings, setPriceFilterSettings] = useState();
 const [acreFilterSettings, setAcreFilterSettings] = useState();
 const [availFilterSettings, setAvailFilterSettings] = useState();
 const [onlineFilterSettings, setOnlineFilterSettings] = useState();
+const [pictureFilterSettings, setPictureFilterSettings] = useState();
 
 const [triggerFilterReset, setTriggerFilterReset] = useState(false);
 
@@ -28,7 +29,7 @@ useEffect(()=> {
 	if (priceFilterSettings && acreFilterSettings) {
 		applyFilters();
 	}
-}, [priceFilterSettings, acreFilterSettings, availFilterSettings, onlineFilterSettings]);
+}, [priceFilterSettings, acreFilterSettings, availFilterSettings, onlineFilterSettings, pictureFilterSettings]);
 
 
 const handleFilterSettings = (settings) => {
@@ -48,6 +49,10 @@ const handleFilterSettings = (settings) => {
 		}
 		case 'online': {
 			setOnlineFilterSettings(settings.value);
+			break;
+		}
+		case 'picture': {
+			setPictureFilterSettings(settings.value);
 			break;
 		}
 		default: {
@@ -75,6 +80,9 @@ const applyFilters = () => {
 		}
 		, online: {
 			value: onlineFilterSettings
+		}
+		, picture: {
+			value: pictureFilterSettings
 		}
 	});
 

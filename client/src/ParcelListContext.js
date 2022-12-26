@@ -79,6 +79,11 @@ function listReducer(list, action) {
       if (action.online.value) {
         filtersApplied = filtersApplied.filter(t=> t.Meta.AUCTION_SITE_FLAG == 'Online');
       }
+
+      // filter for parcels that have a picture URL IF picture.value is true
+      if (action.picture.value) {
+        filtersApplied = filtersApplied.filter(t=> t.Building.PROPERTY_PICTURE);
+      }
       return filtersApplied;
     }
     case 'filter_reset': {

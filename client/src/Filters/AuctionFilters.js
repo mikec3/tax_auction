@@ -8,12 +8,14 @@ const AuctionFilters = (props) => {
 	// configure default availability checkbox value here
 	const defaultAvailCheckBoxValue = false;
 	const defaultOnlineCheckBoxValue = false;
+	const defaultPictureCheckBoxValue = false;
 
 
 const [initialLoad, setInitialLoad] = useState(true);
 
 const [availValue, setAvailValue] = useState(defaultAvailCheckBoxValue);
 const [onlineValue, setOnlineValue] = useState(defaultOnlineCheckBoxValue);
+const [pictureValue, setPictureValue] = useState(defaultPictureCheckBoxValue);
 
 const handleAvailChange = (event) => {
 
@@ -50,11 +52,29 @@ const handleOnlineChange = (event) => {
 	}
 }
 
+const handlePictureChange = (event) => {
+		// toggle availValue
+	if (pictureValue) {
+		setPictureValue(false);
+		props.passUpFilterSettings({
+			filter: 'picture',
+			value: false
+		})
+	} else {
+		setPictureValue(true);
+		props.passUpFilterSettings({
+			filter: 'picture',
+			value: true
+		})
+	}
+}
+
 useEffect(()=> {
 
 		// when props.triggerReset is changed (toggles between true/false at parent during filter trigger events), reset values to inital positions.
 	setAvailValue(defaultAvailCheckBoxValue);
 	setOnlineValue(defaultOnlineCheckBoxValue);
+	setPictureValue(defaultPictureCheckBoxValue);
 
 	if (initialLoad) {
 		// pass up filter settings on initial load
@@ -65,6 +85,10 @@ useEffect(()=> {
 		props.passUpFilterSettings({
 			filter: 'online',
 			value: onlineValue
+		});
+		props.passUpFilterSettings({
+			filter: 'picture',
+			value: pictureValue
 		})
 		setInitialLoad(false);
 	}
@@ -77,6 +101,7 @@ return (
     	<div className='FormGroup'>
       		<FormControlLabel control={<Checkbox checked={availValue} onChange={handleAvailChange} />} label="Still Available" />
       		<FormControlLabel control={<Checkbox checked={onlineValue} onChange={handleOnlineChange} />} label="Online Auction Only" />
+      		<FormControlLabel control={<Checkbox checked={pictureValue} onChange={handlePictureChange} />} label="Has Picture Only" />
       	</div>
 	</div>
 )
