@@ -5,6 +5,7 @@ const webdriver = require('selenium-webdriver');
 const {By, until, Key} = require('selenium-webdriver');
 const chrome = require('selenium-webdriver/chrome');
 
+const kingCountyParcelImagesURLBase = 'https://blue.kingcounty.com/Assessor/eRealProperty/pictures.aspx?ParcelNbr=';
 
 // get info
 const getParcelInfo = async function (baseUrl, parcelViewerURL, parcelNum) {
@@ -37,7 +38,6 @@ const getParcelInfo = async function (baseUrl, parcelViewerURL, parcelNum) {
 
 	try {
 			await driver.get(parcelURL);
-			console.log(parcelURL);
 
 			// Add the Parcel number and property info link
 			currentParcel['Basic']['PARCEL_NUM'] = parcelNum;
@@ -68,7 +68,7 @@ const getParcelInfo = async function (baseUrl, parcelViewerURL, parcelNum) {
 	        // GET BUILDING INFORMATION
 	        // loop through buildingTableIDs list until building table is found
 	        for (const buildingTableID of buildingTableIDs) {
-	        	console.log(buildingTableID);
+	        	//console.log(buildingTableID);
 		    	try {
 		    		let buildingTableRows = await driver.findElement(By.css('#container'))
 		    										.findElement(By.css('#maincol'))
@@ -172,10 +172,124 @@ const getParcelInfo = async function (baseUrl, parcelViewerURL, parcelNum) {
 	 		console.log(error);
 	 	}
 
+		// Try to get pictures
+		try {
+			let picturesPageURL = kingCountyParcelImagesURLBase+parcelNum;
+
+			// navigate to pictures page
+			await driver.get(picturesPageURL);
+
+		 	// try to scrape pictures
+		 	try{
+			 	// get the table of pictures and each picture is a row
+			 	let pictureRows = await driver.findElement(By.css('#cphContent_GridViewLandCurr'))
+			 									.findElement(By.tagName('tbody'))
+			 									.findElements(By.tagName('tr'));
+
+			 	// initiate array to hold pictureURLs
+			 	let pictureURLs = [];
+
+			 	// skip the first row, extract the image URL from each pictureRow (.slice(1) takes everything after first row)
+			 	for (const pictureRow of pictureRows.slice(1)) {
+			 			// looping past the first row (headers)
+			 			let pictureURL = await pictureRow.findElement(By.tagName('img')).getAttribute('src');
+			 			pictureURLs.push(pictureURL);
+			 	}
+
+			 	// add pictures URL array to currentParcel
+			 	currentParcel['Pictures'] = pictureURLs;
+		 	} catch(error) {
+		 		//trying again 
+		 		console.log(error.name);
+		 	}
+
+		} catch(error) {
+			console.log(error);
+		}
+
+		// try to get location!
+		try {
+
+			// navigate to parcel viewer above concatenated URL will already have selected URL highlighted
+			await driver.get(parcelViewerURL);
+
+			// build in delay
+			 	// wait 5 seconds for full parcelViewerURL to load
+ 			await new Promise(resolve => setTimeout(resolve, 2000));
+
+			// locate map element
+			let gisMap = await driver.findElement(By.css('#map'));
+
+			await new Promise(resolve => setTimeout(resolve, 2000));
+
+			// locate search input box
+			let searchInputBox = await gisMap.findElement(By.css('.search-node'))
+											.findElement(By.css('.searchGroup'))
+											.findElement(By.css('.searchInput'));
+
+		     	// instantiate actions
+		 	const actions = driver.actions({async: true});
+			// enter parcel number into search input
+			await actions.click(searchInputBox)
+					.sendKeys("0")  // this is really dumb, seems like you have to pad the first sendKeys (doesn't actually send this propertly)
+					.pause(1000)
+					.sendKeys(String(parcelNum))
+					.keyDown(Key.RETURN)
+					.pause(2000)
+					.perform();
+
+			actions.clear();
+
+			// try to click the results (if there are any)
+			try {
+
+				// click the map to get lat/lon
+				let searchResultPoint = await gisMap.findElement(By.css('.esriPopup'))
+													.findElement(By.css('.outerPointer'));
+
+				// if the search was successful there will be a pop up, otherwise we can't find the lat/lon and assign nulls.
+				if (await searchResultPoint.isDisplayed()) {
+
+					// click the map near the results box (parcel that was searched). This activates the lat/lon display at the bottom of the map
+					actions.move({origin:gisMap})
+							.click()
+							.pause(1000)
+							.perform();
+
+					actions.clear();
+
+					// read the lat/lon
+					let latLon = await gisMap.findElements(By.css('.coordinate-info'));
+
+					let latLonText = await latLon[0].getAttribute('innerText');
+
+					// split into lat and lon
+					let latLonSplit = latLonText.split(" ");
+
+					// assign lat/lon to current parcel
+					currentParcel['Location']['LAT'] = latLonSplit[0];
+					currentParcel['Location']['LON'] = latLonSplit[1];
+				} else {
+					// no pop up (parcel search was unsuccessful)
+					currentParcel['Location']['LAT'] = null;
+					currentParcel['Location']['LON'] = null;
+				}
+			} catch(error) {
+				console.log(error);
+				// error with search results on GIS map viewer
+			}
+
+		} catch(error) {
+			// error with trying to get location
+			console.log(error);
+		}
+
 
     } catch(error) {
+    	// error with parcel scrape
     	console.log(error.name);
     } finally {
+    	// done scraping parcel
     	driver.quit();
     }
 

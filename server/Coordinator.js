@@ -21,6 +21,11 @@ const getSnohomish = async function () {
 
 	let parcelOutput = [];
 
+	// loop counter for showing progress
+	let increment = 1;
+
+	let listLength = snohomishParcelList.length;
+
 	// loop through snohomish parcel list
 	for await (const parcel of snohomishParcelList) {
 		console.log(parcel);
@@ -44,6 +49,10 @@ const getSnohomish = async function () {
 		// push the full parcel info onto the outputArray
 		parcelOutput.push(parcelInfo);
 
+		
+		console.log(parcelInfo);
+		console.log('Scraped parcel: ' + increment + ' of ' + listLength);
+		increment++;
 	};
 
 	// return the output Array
@@ -59,9 +68,14 @@ const getKing = async function () {
 
 	let parcelOutput = [];
 
+	// loop counter for showing progress
+	let increment = 1;
+
+	let listLength = KingParcelList.length;
+
 	// loop through snohomish parcel list
 	for await (const parcel of KingParcelList) {
-		console.log(parcel);
+		//console.log(parcel);
 
 		// add meta data to parcelObj
 		parcel['AUCTION_DATE'] = kingMetaData['AUCTION_DATE'];
@@ -69,8 +83,7 @@ const getKing = async function () {
 		parcel['PARCEL_INFO_URL'] = kingMetaData['PARCEL_INFO_URL'];
 		parcel['PARCEL_DATA_BASE_URL'] = kingMetaData['PARCEL_DATA_BASE_URL'];
 
-		//for King County the parcel viewer can actually be constructed as concat(URL, parcel number)
-		parcel['PARCEL_VIEWER_URL'] = kingMetaData['PARCEL_VIEWER_URL']+parcel['PARCEL_NUM'];
+		parcel['PARCEL_VIEWER_URL'] = kingMetaData['PARCEL_VIEWER_URL'];
 		parcel['AUCTION_SITE'] = kingMetaData['AUCTION_SITE'];
 		parcel['AUCTION_SITE_FLAG'] = kingMetaData['AUCTION_SITE_FLAG'];
 
@@ -84,9 +97,9 @@ const getKing = async function () {
 		// push the full parcel info onto the outputArray
 		parcelOutput.push(parcelInfo);
 
-		//TODO get rid of this break - for dev purposes to only go through first parcel in list.
-		break;
-
+		console.log(parcelInfo);
+		console.log('Scraped parcel: ' + increment + ' of ' + listLength);
+		increment++;
 	};
 
 	// return the output Array
@@ -102,8 +115,10 @@ const Scrape = async function () {
 	// });
 
 	// get King County. Uncomment out to rescrape. Developing now.
-	let king = await getKing();
-	console.log(king);
+	// let king = await getKing();
+	// king.forEach(parcel=> {
+	// 	Firebase.upload(database, parcel);
+	// });
 }
 
 Scrape();

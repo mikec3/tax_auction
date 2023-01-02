@@ -159,6 +159,7 @@ const getParcelInfo = async function (baseUrl, parcelViewerURL, parcelNum) {
 	 		}
 	 	}
 
+
 	 	// Get picture!!!
 	 	let pictureTable = await driver.findElement(By.css('.attention')).findElement(By.tagName('img'));
 
@@ -166,7 +167,7 @@ const getParcelInfo = async function (baseUrl, parcelViewerURL, parcelNum) {
 	 	let pictureURL = await pictureTable.getAttribute('src');
 
 	 	// add picture url to current parcel
-	 	currentParcel['Building']['PROPERTY_PICTURE'] = pictureURL;
+	 	currentParcel['Pictures'] = pictureURL;
  	} catch (error) {
  		console.log(error);
  		console.log('No structure info link');
