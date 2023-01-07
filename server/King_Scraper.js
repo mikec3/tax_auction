@@ -215,7 +215,7 @@ const getParcelInfo = async function (baseUrl, parcelViewerURL, parcelNum) {
 
 			// build in delay
 			 	// wait 5 seconds for full parcelViewerURL to load
- 			await new Promise(resolve => setTimeout(resolve, 2000));
+ 			await new Promise(resolve => setTimeout(resolve, 4000));
 
 			// locate map element
 			let gisMap = await driver.findElement(By.css('#map'));

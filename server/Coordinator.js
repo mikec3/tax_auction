@@ -49,7 +49,7 @@ const getSnohomish = async function () {
 		// push the full parcel info onto the outputArray
 		parcelOutput.push(parcelInfo);
 
-		
+
 		console.log(parcelInfo);
 		console.log('Scraped parcel: ' + increment + ' of ' + listLength);
 		increment++;
@@ -99,7 +99,12 @@ const getKing = async function () {
 
 		console.log(parcelInfo);
 		console.log('Scraped parcel: ' + increment + ' of ' + listLength);
+
+		// uncomment the below break if you want to do any testing and have it stop short of the full length
 		increment++;
+		if (increment >=20) {
+			//break;
+		}
 	};
 
 	// return the output Array
@@ -115,10 +120,10 @@ const Scrape = async function () {
 	// });
 
 	// get King County. Uncomment out to rescrape. Developing now.
-	// let king = await getKing();
-	// king.forEach(parcel=> {
-	// 	Firebase.upload(database, parcel);
-	// });
+	let king = await getKing();
+	king.forEach(parcel=> {
+		Firebase.upload(database, parcel);
+	});
 }
 
 Scrape();
