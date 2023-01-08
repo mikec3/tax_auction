@@ -31,6 +31,12 @@ useEffect(()=> {
 			value: value
 		});
 		setInitialLoad(false);
+
+		// pass up initial filter settings so that filter component can reset all values to default
+		props.setInitialFilterSettings({
+			filter: 'acre',
+			value: value
+		})
 	}
 }, [props.triggerReset])
 

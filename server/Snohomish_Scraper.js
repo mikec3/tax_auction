@@ -166,8 +166,8 @@ const getParcelInfo = async function (baseUrl, parcelViewerURL, parcelNum) {
 	 	// picture address
 	 	let pictureURL = await pictureTable.getAttribute('src');
 
-	 	// add picture url to current parcel
-	 	currentParcel['Pictures'] = pictureURL;
+	 	// add picture url to current parcel - add it as an array element because other scrapers sometimes have more than 1 picture in an array
+	 	currentParcel['Pictures'] = [pictureURL];
  	} catch (error) {
  		console.log(error);
  		console.log('No structure info link');

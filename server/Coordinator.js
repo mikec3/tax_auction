@@ -120,10 +120,10 @@ const Scrape = async function () {
 	// });
 
 	// get King County. Uncomment out to rescrape. Developing now.
-	let king = await getKing();
-	king.forEach(parcel=> {
-		Firebase.upload(database, parcel);
-	});
+	// let king = await getKing();
+	// king.forEach(parcel=> {
+	// 	Firebase.upload(database, parcel);
+	// });
 }
 
 Scrape();

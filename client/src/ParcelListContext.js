@@ -63,6 +63,13 @@ function listReducer(list, action) {
     }
     case 'filter_apply_all': {
       console.log('applying all filters');
+      console.log('price max: ' + action.price.max);
+      console.log('price min: ' + action.price.min);
+      console.log('acres max: ' + action.acre.max);
+      console.log('acres min: ' + action.acre.min);
+      console.log('todays date: ' + new Date());
+      console.log('pictures value: ' + action.picture.value);
+      console.log('online value: ' + action.online.value);
       // chain the filters together off the initial list. Starting with initialList so that filters are applied to full set.
       // filter by min-max of price passed in
       let filtersApplied = initialList.filter(t => t.Tax.TAXABLE_TOTAL <= action.price.max && t.Tax.TAXABLE_TOTAL >= action.price.min);
@@ -72,6 +79,7 @@ function listReducer(list, action) {
 
       // filter everything with an auction date in the past IF avail.value is true
       if (action.avail.value) {
+        console.log('applying date filter');
         filtersApplied = filtersApplied.filter(t=> new Date(t.Meta.AUCTION_DATE) >= new Date());
         }
 
@@ -80,9 +88,9 @@ function listReducer(list, action) {
         filtersApplied = filtersApplied.filter(t=> t.Meta.AUCTION_SITE_FLAG == 'Online');
       }
 
-      // filter for parcels that have a picture URL IF picture.value is true
+      // filter for parcels that have a picture URL IF Pictures property is present
       if (action.picture.value) {
-        filtersApplied = filtersApplied.filter(t=> t.Building.PROPERTY_PICTURE);
+        filtersApplied = filtersApplied.filter(t=> t.Pictures);
       }
       return filtersApplied;
     }

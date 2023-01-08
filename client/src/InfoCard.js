@@ -38,8 +38,8 @@ if(selectedParcel != [] && selectedParcel != null && typeof selectedParcel != 'u
 	}
 
 	// if there is a property picture, show it, otherwise show missing picture icon
-	if (selectedParcel.Building.PROPERTY_PICTURE){
-		picture = <img className={'parcelImage'} src={selectedParcel.Building.PROPERTY_PICTURE} />;
+	if (selectedParcel.Pictures){
+		picture = <img className={'parcelImage'} src={selectedParcel.Pictures[0]} />;
 	} else {
 		picture = <img className={'parcelImage'} src={'./missing_icon.png'} />;
 	}

@@ -9,11 +9,17 @@ const Filters = (props) => {
 	// TODO avail filter needs to be applied in parcellist context
 
 // collect all filter settings in this parent component so that all filters get applied to dispatch at the same time.
-const [priceFilterSettings, setPriceFilterSettings] = useState();
-const [acreFilterSettings, setAcreFilterSettings] = useState();
+// collect the initial settings as well for reseting to default
+const [priceFilterSettings, setPriceFilterSettings] = useState(null);
+const [initialPriceFilterSettings, setInitialPriceFilterSettings] = useState();
+const [acreFilterSettings, setAcreFilterSettings] = useState(null);
+const [initialAcreFilterSettings, setInitialAcreFilterSettings] = useState();
 const [availFilterSettings, setAvailFilterSettings] = useState();
+const [initialAvailFilterSettings, setInitialAvailFilterSettings] = useState();
 const [onlineFilterSettings, setOnlineFilterSettings] = useState();
+const [initialOnlineFilterSettings, setInitialOnlineFilterSettings] = useState();
 const [pictureFilterSettings, setPictureFilterSettings] = useState();
+const [initialPictureFilterSettings, setInitialPictureFilterSettings] = useState();
 
 const [triggerFilterReset, setTriggerFilterReset] = useState(false);
 
@@ -26,7 +32,7 @@ const parcelList = useList();
 // apply filters anytime filter settings change
 useEffect(()=> {
 	// apply filters only after each has been set
-	if (priceFilterSettings && acreFilterSettings) {
+	if (priceFilterSettings != null && acreFilterSettings != null) {
 		applyFilters();
 	}
 }, [priceFilterSettings, acreFilterSettings, availFilterSettings, onlineFilterSettings, pictureFilterSettings]);
@@ -61,10 +67,41 @@ const handleFilterSettings = (settings) => {
 	}
 }
 
+// Recieve and save the initial filter settings from each filter component
+const setInitialFilterSettings = (settings) => {
+	switch(settings.filter){
+		case 'price': {
+			setInitialPriceFilterSettings(settings.value);
+			break;
+		}
+		case 'acre': {
+			setInitialAcreFilterSettings(settings.value);
+			break;
+		}
+		case 'avail': {
+			setInitialAvailFilterSettings(settings.value);
+			break;
+		}
+		case 'online': {
+			setInitialOnlineFilterSettings(settings.value);
+			break;
+		}
+		case 'picture': {
+			setInitialPictureFilterSettings(settings.value);
+			break;
+		}
+		default: {
+			throw Error('unknown initial filter setting: ' + settings.filter);
+		}
+	}
+}
+
 // apply filters when apply button is pressed
 const applyFilters = () => {
 	console.log('applying filters');
 	//send all filters to parcel list dispatch
+	console.log('online: ' + onlineFilterSettings);
+	console.log('picture: ' + pictureFilterSettings);
 	listDispatch({
 		type: 'filter_apply_all'
 		, price: {
@@ -95,6 +132,13 @@ const resetFilters = () => {
 	listDispatch({
 		type: 'filter_reset'
 	});
+
+	// reset all the filters
+	setPriceFilterSettings(initialPriceFilterSettings);
+	setAcreFilterSettings(initialAcreFilterSettings);
+	setAvailFilterSettings(initialAvailFilterSettings);
+	setOnlineFilterSettings(initialOnlineFilterSettings);
+	setPictureFilterSettings(initialPictureFilterSettings);
 
 	// toggle trigger filter reset so that child componenets (filters) will reset in their useEffect that listens for triggerFilterReset.
 	if(triggerFilterReset){
@@ -128,9 +172,15 @@ return (
 							Close
 					</button>
 				</div>
-				<PriceFilter parcelList={parcelList} passUpFilterSettings={handleFilterSettings} triggerReset={triggerFilterReset}/>
-				<AcreFilter parcelList={parcelList} passUpFilterSettings={handleFilterSettings} triggerReset={triggerFilterReset}/>
-				<AuctionFilters passUpFilterSettings={handleFilterSettings} triggerReset={triggerFilterReset}/>
+				<PriceFilter parcelList={parcelList} passUpFilterSettings={handleFilterSettings} 
+					setInitialFilterSettings={setInitialFilterSettings} triggerReset={triggerFilterReset}/>
+
+				<AcreFilter parcelList={parcelList} passUpFilterSettings={handleFilterSettings}
+					setInitialFilterSettings={setInitialFilterSettings} triggerReset={triggerFilterReset}/>
+
+				<AuctionFilters passUpFilterSettings={handleFilterSettings}
+					setInitialFilterSettings={setInitialFilterSettings} triggerReset={triggerFilterReset}/>
+					
 				<div className='FilterFooter'>
 					<button className='button-17' onClick={resetFilters}> Reset </button>
 				</div>

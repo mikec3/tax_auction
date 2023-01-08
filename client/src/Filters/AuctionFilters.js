@@ -76,6 +76,8 @@ useEffect(()=> {
 	setOnlineValue(defaultOnlineCheckBoxValue);
 	setPictureValue(defaultPictureCheckBoxValue);
 
+	console.log('auction filters getting reset');
+
 	if (initialLoad) {
 		// pass up filter settings on initial load
 		props.passUpFilterSettings({
@@ -90,6 +92,20 @@ useEffect(()=> {
 			filter: 'picture',
 			value: pictureValue
 		})
+
+		// pass up initial settings so that filter component can reset to these values when needed.
+		props.setInitialFilterSettings({
+			filter: 'avail',
+			value: availValue
+		});
+		props.setInitialFilterSettings({
+			filter: 'online',
+			value: onlineValue
+		});
+		props.setInitialFilterSettings({
+			filter: 'picture',
+			value: pictureValue
+		});
 		setInitialLoad(false);
 	}
 }, [props.triggerReset])

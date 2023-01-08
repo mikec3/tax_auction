@@ -19,21 +19,28 @@ const [priceMax, setPriceMax] = useState();
 const [intialLoad, setInitialLoad] = useState(true);
 
 useEffect(()=> {
-	// only set price max on first time, so that it's always the max of the unfiltered set.
-	setPriceMax(max);
 
 	// when props.triggerReset is changed (toggles between true/false at parent during filter trigger events), reset values to inital positions.
 	setValue([0,max]);
 	
 	if(intialLoad) {
+
+		// only set price max on first time, so that it's always the max of the unfiltered set.
+		setPriceMax(max);
 		// pass up filter settings on initial load so that filter component has them
 		props.passUpFilterSettings({
 			filter: 'price',
 			value: value
 		});
+
+		// pass up filter settings to be saved in filter component as the default (reset) settings
+		props.setInitialFilterSettings({
+			filter: 'price',
+			value: value
+		});
 		setInitialLoad(false);
 	}
-}, [props.triggerReset])
+}, [props.triggerReset]);
 
 // change formatting of slider labels
 function valuetext(sliderValue) {
