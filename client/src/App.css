@@ -90,6 +90,7 @@
 }
 
 .PictureCard {
+  position: relative;
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
@@ -102,6 +103,14 @@
 .PictureCard button {
   background-color: transparent;
   border: none;
+  font-size: 2em;
+}
+
+.PictureIndex {
+  position: absolute;
+  z-index: 2;
+  top: 5%;
+  left: 80%;
 }
 
 .parcelImage {

@@ -57,7 +57,7 @@ const PictureCard = (props) => {
 		<div className={"PictureCard"}>
 			<button onClick={decrementPictureURL} disabled={buttonIsDisabled}> {'<'} </button>
 				<img className={'parcelImage'} src={pictureURL}/>
-				<p> {pictureIndex+1} / {pictureTotal} </p>
+				<p className={'PictureIndex'}> {pictureIndex+1} / {pictureTotal} </p>
 			<button onClick={incrementPictureURL} disabled={buttonIsDisabled}> {'>'} </button>
 		</div>
 		)
