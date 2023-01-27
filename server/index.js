@@ -31,9 +31,6 @@ app.get("/api/parcelData", async function(req, res){
 
 	const serviceAccount = JSON.parse(process.env.fireBaseAdminKey);
 
-	const testing = process.env.fireBaseAdminKey;
-	console.log(testing);
-
 	initializeApp({
 	  credential: cert(serviceAccount)
 	});
