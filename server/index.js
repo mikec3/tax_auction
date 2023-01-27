@@ -24,16 +24,15 @@ app.use(bodyParser.json())
 // Have Node serve the files for our built React app
 app.use(express.static(path.resolve(__dirname, '../client/build')));
 
-// Send up the parcel data
-app.get("/api/parcelData", async function(req, res){
-
-	//const serviceAccount = require('./firebase_service_account.json');
 
 	const serviceAccount = JSON.parse(process.env.fireBaseAdminKey);
 
 	initializeApp({
 	  credential: cert(serviceAccount)
 	});
+
+// Send up the parcel data
+app.get("/api/parcelData", async function(req, res){
 
 	const db = getFirestore();
 
