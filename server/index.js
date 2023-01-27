@@ -27,7 +27,12 @@ app.use(express.static(path.resolve(__dirname, '../client/build')));
 // Send up the parcel data
 app.get("/api/parcelData", async function(req, res){
 
-	const serviceAccount = require('./firebase_service_account.json');
+	//const serviceAccount = require('./firebase_service_account.json');
+
+	const serviceAccount = JSON.parse(process.env.fireBaseAdminKey);
+
+	const testing = process.env.fireBaseAdminKey;
+	console.log(testing);
 
 	initializeApp({
 	  credential: cert(serviceAccount)
