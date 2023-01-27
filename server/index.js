@@ -8,8 +8,8 @@ const http = require('http');
 const {Server} = require('socket.io');
 const axios = require('axios');
 
-const {initializeApp} = require("firebase/app");
-const { getFirestore, collection, getDocs } = require("firebase/firestore");
+const { initializeApp, applicationDefault, cert } = require('firebase-admin/app');
+const { getFirestore, Timestamp, FieldValue } = require('firebase-admin/firestore');
 
 const PORT = process.env.PORT || 3001;
 
@@ -27,21 +27,13 @@ app.use(express.static(path.resolve(__dirname, '../client/build')));
 // Send up the parcel data
 app.get("/api/parcelData", async function(req, res){
 
-// Your web app's Firebase configuration
-const firebaseConfig = {
-  apiKey: String(process.env.fireBaseAPIKey),
-  authDomain: "sixth-well-353401.firebaseapp.com",
-  projectId: "sixth-well-353401",
-  storageBucket: "sixth-well-353401.appspot.com",
-  messagingSenderId: "624670306919",
-  appId: "1:624670306919:web:fb8a61c55c9219ef149ac2"
-};
+	const serviceAccount = require('./firebase_service_account.json');
 
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
+	initializeApp({
+	  credential: cert(serviceAccount)
+	});
 
-// Initialize Cloud Firestore and get a reference to the service
-const db = getFirestore(app);
+	const db = getFirestore();
 
 // return the parcel list to client
 res.json(await getData(db));
@@ -51,7 +43,8 @@ res.json(await getData(db));
 // GET THE DATA!!!!!
 const getData = async (db) => {
 console.log('Retrieving FireBase Data...')
-const snapShot = await getDocs(collection(db, "parcels_v2"));
+const docRef = db.collection("parcels_v2");
+const snapShot = await docRef.get();
 
 //console.log(snapShot);
 
