@@ -92,6 +92,19 @@ const MapHasLoaded = (map) => {
 	setMapRef(map);
 }
 
+// get map bounds.
+const handleMapIdle = () => {
+
+	const N = mapRef.getBounds()['Ya']['hi'];
+	const S = mapRef.getBounds()['Ya']['lo'];
+	const W = mapRef.getBounds()['Ia']['lo'];
+	const E = mapRef.getBounds()['Ia']['hi'];
+
+	console.log([N, S, W, E])
+
+
+}
+
 // display map with Markers and MarkerClusterer
 // conditionally render map if parcels have been loaded and parcelList is no longer undefined or in loading state.
 if (typeof parcelList != 'undefined') {
@@ -104,7 +117,7 @@ if (typeof parcelList != 'undefined') {
 					center={center}
 					zoom={7}
 					options={{ gestureHandling: 'greedy' }}
-					onIdle={()=> console.log(mapRef.getCenter().lat())}
+					onIdle={handleMapIdle}
 					>
 				 		<MarkerClusterer options={options}>
 				 		{(clusterer) =>
