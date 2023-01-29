@@ -1,5 +1,5 @@
-import React, {useState, useEffect} from 'react'
-import {GoogleMap, useJsApiLoader, Marker, InfoWindow, LoadScript, MarkerClusterer, ScriptLoaded} from '@react-google-maps/api';
+import React, {useState, useEffect, useRef} from 'react'
+import {GoogleMap, useGoogleMap, useJsApiLoader, Marker, InfoWindow, LoadScript, MarkerClusterer, ScriptLoaded} from '@react-google-maps/api';
 import {useList, useListDispatch} from './ParcelListContext';
 
 // TODO need to configure webpack file loader to import images in this way. Currently importing directly in script via relative path.
@@ -86,6 +86,12 @@ const formatNumber = function (dollarFigure) {
 	}
 }
 
+const [mapRef, setMapRef] = useState(null);
+
+const MapHasLoaded = (map) => {
+	setMapRef(map);
+}
+
 // display map with Markers and MarkerClusterer
 // conditionally render map if parcels have been loaded and parcelList is no longer undefined or in loading state.
 if (typeof parcelList != 'undefined') {
@@ -93,10 +99,12 @@ if (typeof parcelList != 'undefined') {
 		<div>
 			<LoadScript googleMapsApiKey = {props.googleMapsAPIKey}>
 				<GoogleMap
+					onLoad={MapHasLoaded}
 					mapContainerStyle={containerStyle}
 					center={center}
 					zoom={7}
 					options={{ gestureHandling: 'greedy' }}
+					onIdle={()=> console.log(mapRef.getCenter().lat())}
 					>
 				 		<MarkerClusterer options={options}>
 				 		{(clusterer) =>
