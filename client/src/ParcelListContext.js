@@ -35,7 +35,8 @@ function listReducer(list, action) {
         return {
           ...item,
           Client: {
-            isSelectedParcel: false
+            isSelectedParcel: false,
+            inMapViewBounds: false
           }
         }
       });
@@ -97,6 +98,29 @@ function listReducer(list, action) {
     case 'filter_reset': {
       // return the original list, effectively erasing all previously applied filters
       return initialList;
+    }
+    case 'setParcelsInMapViewBounds' : {
+      console.log('setting which parcels are in view on map idle')
+      console.log(action.N)
+
+      // set Client.inMapViewBounds to T or F based on coordinate values of viewport
+      const alteredList = list.map((t)=> {
+        const parcelLat = parseFloat(t.Location.LAT);
+        const parcelLon = parseFloat(t.Location.LON);
+        let inMapView = false;
+            if (parcelLat >= action.S && parcelLat <= action.N && parcelLon <= action.E && parcelLon >= action.W) {
+              inMapView = true;
+            }
+
+          return {
+            ...t,
+            Client: {
+              inMapViewBounds: inMapView,
+              isSelectedParcel: t.Client.isSelectedParcel
+            }
+          }
+        })
+      return alteredList;
     }
     default: {
       throw Error('Unknown action: ' + action.type);

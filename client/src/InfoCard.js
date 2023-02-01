@@ -13,7 +13,10 @@ const InfoCard = (props) => {
 	// if parcelList is done loading grab parcel that has isSelectedParcel set to true. Should only be 1 in the array, so return first position element.
 	if (typeof parcelList != 'undefined') {
 		selectedParcel = parcelList.filter((item) => item.Client.isSelectedParcel)[0];
+		console.log(parcelList.filter((item) => item.Client.inMapViewBounds));
 	}
+
+
 
 	let parcel = [];
 

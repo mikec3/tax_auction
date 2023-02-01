@@ -73,8 +73,8 @@ useEffect(() =>  {
 		    {googleMapsAPIKey && (
 		    		<div className="mapCard">
 			    		<MyMap googleMapsAPIKey={googleMapsAPIKey}/>
-					    	<InfoCard filterButtonPressed={filterButtonPressed}/>
-					    	<Filters className={filtersClass} filterButtonPressed={filterButtonPressed}/>
+					    <InfoCard filterButtonPressed={filterButtonPressed}/>
+					    <Filters className={filtersClass} filterButtonPressed={filterButtonPressed}/>
 			    	</div>
 			    	)}
 	    </ParcelListProvider>

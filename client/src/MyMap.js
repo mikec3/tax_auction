@@ -17,6 +17,14 @@ const [selected, setSelected] = useState();
 const [mapRender, setMapRender] = useState();
 const [markers, setMarkers] = useState();
 
+const [center, setCenter] = useState({
+	  lat: 47.608,
+	  lng: -122.087
+	});
+
+// save the last map view bounds to cut down on map Idle sends to the parcel list context
+const [mapViewBounds, setMapViewBounds] = useState(0);
+
 // get parcel list from useList() context hook.
 const parcelList = useList();
 console.log(parcelList);
@@ -47,15 +55,11 @@ if (window.innerWidth <= 500) {
 }
 
 // center the map over the selected parcel if present, otherwise center over King County
-let center = {};
-if (selected) {
-	center = selected.location;
-} else {
-  center = {
-	  lat: 47.608,
-	  lng: -122.087
-	};
-}
+// took out because it cause an infinite loop
+// if (selected) {
+// 	setCenter(selected.location);
+// }
+
 
 // MarkerClusterer options
 const options = {
@@ -95,12 +99,32 @@ const MapHasLoaded = (map) => {
 // get map bounds.
 const handleMapIdle = () => {
 
+	// check if map view bounds are different than last time
 	const N = mapRef.getBounds()['Ya']['hi'];
 	const S = mapRef.getBounds()['Ya']['lo'];
 	const W = mapRef.getBounds()['Ia']['lo'];
 	const E = mapRef.getBounds()['Ia']['hi'];
 
+	setCenter(mapRef.getCenter());
+	console.log(center);
+
 	console.log([N, S, W, E])
+	console.log(mapViewBounds);
+
+	if (mapViewBounds != N) {
+		console.log('sending to list dispatch');
+		// send coordinates to context so that parcels in map view bounds can be marked
+		listDispatch({
+			type: 'setParcelsInMapViewBounds',
+			N: N,
+			S: S,
+			W: W,
+			E: E
+		})
+
+		// set the mapViewBounds so we can check again next time idle is called
+		setMapViewBounds(N)
+	}
 
 
 }
