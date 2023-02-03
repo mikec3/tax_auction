@@ -8,6 +8,9 @@ const InfoCard = (props) => {
 	// get parcelList from context
 	let parcelList = useList();
 
+	// initialize the dispatcher for parcelList
+	const listDispatch = useListDispatch();
+
 	//let selectedParcel;
 	let selectedParcel;
 
@@ -46,7 +49,9 @@ if(selectedParcel != [] && selectedParcel != null && typeof selectedParcel != 'u
 
 const closeSelectedParcel = () => {
 	console.log('closing selected parcel');
-	selectedParcel = null;
+	listDispatch({
+		type:'resetSelectedParcel'
+	})
 }
 
 	

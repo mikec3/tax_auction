@@ -122,6 +122,19 @@ function listReducer(list, action) {
         })
       return alteredList;
     }
+    case 'resetSelectedParcel' : {
+      const listSelectedReset = list.map((t)=> {
+        return {
+          ...t,
+          Client: {
+            inMapViewBounds: t.Client.inMapViewBounds,
+            isSelectedParcel: false
+          }
+        }
+      })
+
+      return listSelectedReset;
+    }
     default: {
       throw Error('Unknown action: ' + action.type);
     }
