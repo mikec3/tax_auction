@@ -14,10 +14,16 @@ const InfoCard = (props) => {
 	//let selectedParcel;
 	let selectedParcel;
 
+	let parcelsInView;
+
 	// if parcelList is done loading grab parcel that has isSelectedParcel set to true. Should only be 1 in the array, so return first position element.
 	if (typeof parcelList != 'undefined') {
 		selectedParcel = parcelList.filter((item) => item.Client.isSelectedParcel)[0];
 		console.log(parcelList.filter((item) => item.Client.inMapViewBounds));
+		parcelsInView = parcelList.filter((item) => item.Client.inMapViewBounds);
+		parcelsInView = parcelsInView.map((parcel) => {
+			return <ParcelCard parcel={parcel}/>
+		});
 	}
 
 
@@ -76,9 +82,18 @@ const closeSelectedParcel = () => {
 				</div>
 			{selectedParcel && <PictureCard selectedParcel={selectedParcel}/>}
 			{parcel}
+			{parcelsInView && parcelsInView}
 		</div>
 		)
 	
 }
 
 export default InfoCard;
+
+const ParcelCard = (props) => {
+	return (
+		<div className='parcelCard'>
+		<p> {props.parcel.Basic.PARCEL_NUM} </p>
+		</div>
+	)
+}
