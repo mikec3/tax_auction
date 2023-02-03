@@ -99,11 +99,14 @@ const MapHasLoaded = (map) => {
 // get map bounds.
 const handleMapIdle = () => {
 
+	//console.log(mapRef.getBounds().getNorthEast().lat());
+	//console.log(mapRef.getBounds().getNorthEast().lon());
+
 	// check if map view bounds are different than last time
-	const N = mapRef.getBounds()['Ya']['hi'];
-	const S = mapRef.getBounds()['Ya']['lo'];
-	const W = mapRef.getBounds()['Ia']['lo'];
-	const E = mapRef.getBounds()['Ia']['hi'];
+	const N = mapRef.getBounds().getNorthEast().lat();
+	const S = mapRef.getBounds().getSouthWest().lat();
+	const W = mapRef.getBounds().getSouthWest().lng();
+	const E = mapRef.getBounds().getNorthEast().lng();
 
 	setCenter(mapRef.getCenter());
 	console.log(center);

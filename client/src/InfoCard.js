@@ -8,6 +8,7 @@ const InfoCard = (props) => {
 	// get parcelList from context
 	let parcelList = useList();
 
+	//let selectedParcel;
 	let selectedParcel;
 
 	// if parcelList is done loading grab parcel that has isSelectedParcel set to true. Should only be 1 in the array, so return first position element.
@@ -43,16 +44,30 @@ if(selectedParcel != [] && selectedParcel != null && typeof selectedParcel != 'u
 	title = <h2> Selected Property </h2>;
 }
 
+const closeSelectedParcel = () => {
+	console.log('closing selected parcel');
+	selectedParcel = null;
+}
+
 	
 	return (
 		<div className='InfoCard'>
 				<div className='InfoCardHeader'>
 					{title}
-						<button className='button-17'
-							onClick={props.filterButtonPressed}
-							> 
-							Filters 
-						</button>
+						{!selectedParcel &&
+							<button className='button-17'
+								onClick={props.filterButtonPressed}
+								> 
+								Filters 
+							</button>
+						}
+						{selectedParcel && 
+							<button className='button-17'
+							onClick={closeSelectedParcel}
+							>
+							Close 
+							</button>
+						}
 				</div>
 			{selectedParcel && <PictureCard selectedParcel={selectedParcel}/>}
 			{parcel}
