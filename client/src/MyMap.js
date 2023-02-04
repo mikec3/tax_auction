@@ -154,14 +154,14 @@ if (typeof parcelList != 'undefined') {
 				 				let iconURL = './test_marker.png';
 				 				// check to see if this parcel is the active selected parcel,
 				 				// change marker image if it's the active selected parcel
-				 				if (selected) {
-					 				if (parcel.Basic.PARCEL_NUM == selected.Basic.PARCEL_NUM) {
+					 			if (parcel.Client.isSelectedParcel || parcel.Client.isHighlightedParcel) {
 					 					iconURL = '/selected_marker.png';
-					 				}
-				 				}
+					 			}
+				 				
 				 				// build marker object
 				 				return (
-				 				<Marker key={parcel.Basic.PARCEL_NUM}
+				 				<Marker 
+				 					key={parcel.Basic.PARCEL_NUM}
 					 				position={parcel.location}
 					 				label={{
 					 					text: formatNumber(parcel.Tax.TAXABLE_TOTAL),

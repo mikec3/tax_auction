@@ -19,7 +19,7 @@ const InfoCard = (props) => {
 	// if parcelList is done loading grab parcel that has isSelectedParcel set to true. Should only be 1 in the array, so return first position element.
 	if (typeof parcelList != 'undefined') {
 		selectedParcel = parcelList.filter((item) => item.Client.isSelectedParcel)[0];
-		console.log(parcelList.filter((item) => item.Client.inMapViewBounds));
+		//console.log(parcelList.filter((item) => item.Client.inMapViewBounds));
 		parcelsInView = parcelList.filter((item) => item.Client.inMapViewBounds);
 		parcelsInView = parcelsInView.map((parcel) => {
 			return <ParcelCard parcel={parcel}/>
@@ -143,6 +143,15 @@ const ParcelCard = (props) => {
 		})
 	}
 
+	// set isHighlightedParcel when hovering over parcelCard div, this will show which parcel marker is being highlighted in the map.
+	const handleParcelHover = () => {
+		//console.log('parcelCard being hovered');
+		listDispatch({
+			type: 'setHighlighted',
+			parcelNum: props.parcel.Basic.PARCEL_NUM
+		})
+	}
+
 	// set image url if it's present
 	let imgURL;
 
@@ -153,7 +162,7 @@ const ParcelCard = (props) => {
 	}
 
 	return (
-		<div className='ParcelCard' onClick={handleParcelClick}>
+		<div className='ParcelCard' onClick={handleParcelClick} onMouseEnter={handleParcelHover}>
 			<img src={imgURL}/>
 			<div className='ParcelCardInfo'>
 				<p> Tax Value: ${props.parcel.Tax.TAXABLE_TOTAL} </p>

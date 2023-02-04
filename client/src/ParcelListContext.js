@@ -36,7 +36,8 @@ function listReducer(list, action) {
           ...item,
           Client: {
             isSelectedParcel: false,
-            inMapViewBounds: false
+            inMapViewBounds: false,
+            isHighlightedParcel: false
           }
         }
       });
@@ -47,6 +48,7 @@ function listReducer(list, action) {
       initialList = modifiedList;
       return modifiedList
     }
+
     case 'setSelected': {
       // wipe all isSelectedParcel back to false before selecting single parcel
       list.map((item)=> {
@@ -62,6 +64,25 @@ function listReducer(list, action) {
       });
       return listWithSelected;
     }
+
+    case 'setHighlighted': {
+      //console.log('clearing highlighted parcel');
+      // wipe all isHighlightedParcel before designating newly highlighted marker
+      list.map((item) => {
+        item.Client.isHighlightedParcel = false;
+        return item;
+      })
+      // modify the list so that the highlighed parcel's Client.isHighted is true.
+      let listWithHighlight = list.map((item) => {
+        if (item.Basic.PARCEL_NUM == action.parcelNum) {
+         // console.log('setting newly highlighted parcel marker');
+          item.Client.isHighlightedParcel = true;
+        }
+        return item;
+      })
+      return listWithHighlight;
+    }
+
     case 'filter_apply_all': {
       console.log('applying all filters');
       console.log('price max: ' + action.price.max);
@@ -95,10 +116,12 @@ function listReducer(list, action) {
       }
       return filtersApplied;
     }
+
     case 'filter_reset': {
       // return the original list, effectively erasing all previously applied filters
       return initialList;
     }
+
     case 'setParcelsInMapViewBounds' : {
       console.log('setting which parcels are in view on map idle')
       console.log(action.N)
@@ -116,19 +139,22 @@ function listReducer(list, action) {
             ...t,
             Client: {
               inMapViewBounds: inMapView,
-              isSelectedParcel: t.Client.isSelectedParcel
+              isSelectedParcel: t.Client.isSelectedParcel,
+              isHighlightedParcel: t.Client.isHighlightedParcel
             }
           }
         })
       return alteredList;
     }
+
     case 'resetSelectedParcel' : {
       const listSelectedReset = list.map((t)=> {
         return {
           ...t,
           Client: {
             inMapViewBounds: t.Client.inMapViewBounds,
-            isSelectedParcel: false
+            isSelectedParcel: false,
+            isHighlightedParcel: t.Client.isHighlightedParcel
           }
         }
       })
