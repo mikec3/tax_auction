@@ -1,9 +1,15 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState, useEffec, useRef} from 'react'
 import InfoBar from './InfoBar'
 import {useList, useListDispatch} from './ParcelListContext';
 import PictureCard from './PictureCard';
 
 const InfoCard = (props) => {
+
+	// track changes to the selected parcel
+	const [selectedParcelState, setSelectedParcelState] = useState();
+
+	// get a reference to the infoCard div. This will allow for us to scroll to the top when selected parcel has changed
+	let infoCardRef = useRef();
 
 	// get parcelList from context
 	let parcelList = useList();
@@ -18,8 +24,20 @@ const InfoCard = (props) => {
 
 	// if parcelList is done loading grab parcel that has isSelectedParcel set to true. Should only be 1 in the array, so return first position element.
 	if (typeof parcelList != 'undefined') {
+
+		// set selected parcel
 		selectedParcel = parcelList.filter((item) => item.Client.isSelectedParcel)[0];
-		//console.log(parcelList.filter((item) => item.Client.inMapViewBounds));
+
+		// scroll to the top of the Info Card if infoCard reference has been set, and there is currently a selectedParcel
+		if (selectedParcel && infoCardRef.current) {
+			console.log(selectedParcel);
+			infoCardRef.current.scrollTo({
+				top: 0,
+				behavior: 'instant'
+			});
+		}
+		
+		// set parcels in view
 		parcelsInView = parcelList.filter((item) => item.Client.inMapViewBounds);
 		parcelsInView = parcelsInView.map((parcel) => {
 			return <ParcelCard parcel={parcel}/>
@@ -92,7 +110,7 @@ const closeSelectedParcel = () => {
 
 		if (!selectedParcel) {
 			return (
-				<div className='InfoCard'>
+				<div className='InfoCard' ref={infoCardRef}>
 					<div className='InfoCardHeader'>
 						{title}
 							<button className='button-17'
@@ -110,7 +128,7 @@ const closeSelectedParcel = () => {
 			)
 		} else {
 			return (
-				<div className='InfoCard'>
+				<div className='InfoCard' ref={infoCardRef}>
 					<div className='InfoCardHeader'>
 						{title}
 							<button className='button-17'
