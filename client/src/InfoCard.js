@@ -61,39 +61,105 @@ const closeSelectedParcel = () => {
 }
 
 	
-	return (
-		<div className='InfoCard'>
-				<div className='InfoCardHeader'>
-					{title}
-						{!selectedParcel &&
+	// return (
+	// 	<div className='InfoCard'>
+	// 			<div className='InfoCardHeader'>
+	// 				{title}
+	// 					{!selectedParcel &&
+	// 						<button className='button-17'
+	// 							onClick={props.filterButtonPressed}
+	// 							> 
+	// 							Filters 
+	// 						</button>
+	// 					}
+	// 					{selectedParcel && 
+	// 						<button className='button-17'
+	// 						onClick={closeSelectedParcel}
+	// 						>
+	// 						Close 
+	// 						</button>
+	// 					}
+	// 			</div>
+	// 		{selectedParcel && <PictureCard selectedParcel={selectedParcel}/>}
+	// 		{parcel}
+	// 		{parcelsInView && 
+	// 			<div className='ParcelCardWrapper'>
+	// 				{parcelsInView}
+	// 			</div>
+	// 		}
+	// 	</div>
+	// 	)
+
+		if (!selectedParcel) {
+			return (
+				<div className='InfoCard'>
+					<div className='InfoCardHeader'>
+						{title}
 							<button className='button-17'
 								onClick={props.filterButtonPressed}
 								> 
 								Filters 
 							</button>
-						}
-						{selectedParcel && 
+					</div>
+					{parcelsInView && 
+						<div className='ParcelCardWrapper'>
+							{parcelsInView}
+						</div>
+					}
+				</div>
+			)
+		} else {
+			return (
+				<div className='InfoCard'>
+					<div className='InfoCardHeader'>
+						{title}
 							<button className='button-17'
 							onClick={closeSelectedParcel}
 							>
 							Close 
 							</button>
-						}
-				</div>
-			{selectedParcel && <PictureCard selectedParcel={selectedParcel}/>}
-			{parcel}
-			{parcelsInView && parcelsInView}
-		</div>
-		)
+					</div>
+					<PictureCard selectedParcel={selectedParcel}/>
+					{parcel}
+				</div>				
+				)
+		}
 	
 }
 
 export default InfoCard;
 
 const ParcelCard = (props) => {
+
+	// initialize the dispatcher for parcelList
+	const listDispatch = useListDispatch();
+
+	// when user clicks parcel card, send that parcel to selectedParcel
+	const handleParcelClick = () => {
+		//add selected parcel to context
+		listDispatch({
+			type: 'setSelected',
+			parcelNum: props.parcel.Basic.PARCEL_NUM
+		})
+	}
+
+	// set image url if it's present
+	let imgURL;
+
+	if(props.parcel.Pictures) {
+		imgURL = props.parcel.Pictures[0];
+	} else {
+		imgURL = './missing_icon.png';
+	}
+
 	return (
-		<div className='parcelCard'>
-		<p> {props.parcel.Basic.PARCEL_NUM} </p>
+		<div className='ParcelCard' onClick={handleParcelClick}>
+			<img src={imgURL}/>
+			<div className='ParcelCardInfo'>
+				<p> Tax Value: ${props.parcel.Tax.TAXABLE_TOTAL} </p>
+				<p> Auction Date: {props.parcel.Meta.AUCTION_DATE} </p>
+				<p> Lot Size: {props.parcel.Land.Acres} </p>
+			</div>
 		</div>
 	)
 }

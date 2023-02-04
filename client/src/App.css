@@ -118,6 +118,42 @@
   max-height: 100%;
 }
 
+.ParcelCardWrapper {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 0.65em;
+  justify-content: center;
+}
+
+.ParcelCard {
+  border: 1px solid black;
+  border-radius: 0.2em;
+  width: 15em;
+  height: 15em;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.ParcelCard:hover {
+  box-shadow: rgba(60, 64, 67, .3) 0 1px 3px 0, rgba(60, 64, 67, .15) 0 4px 8px 3px;
+}
+
+.ParcelCard img {
+  max-height: 75%;
+  max-width: 100%;
+}
+
+.ParcelCardInfo {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.ParcelCardInfo p {
+  font-size: 0.75em;
+}
+
 .mapCard {
   display: flex;
   flex-direction: row;
@@ -204,6 +240,11 @@
   .InfoCardHeader {
     padding-left: 0;
     padding-right: 0;
+  }
+
+  .ParcelCard {
+    width: 20em;
+    height: 20em;
   }
 
   .FiltersShow{
