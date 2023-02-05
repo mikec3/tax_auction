@@ -27,7 +27,7 @@ const [mapViewBounds, setMapViewBounds] = useState(0);
 
 // get parcel list from useList() context hook.
 const parcelList = useList();
-console.log(parcelList);
+//console.log(parcelList);
 
 // when parcel Marker is selected, send the parcel up to app.js, so that app.js can send the selected parcel down to the info window
 const onParcelSelected = item => {
@@ -38,6 +38,13 @@ const onParcelSelected = item => {
 		parcelNum: item.Basic.PARCEL_NUM
 	})
 }
+
+useEffect(()=> {
+	//console.log(props.filtersClass);
+	if (props.filtersClass=='FiltersHide' && mapRef) {
+		handleMapIdle();
+	}
+}, [props.filtersClass])
 
 // map styling - make responsive according to window, width-height need to be set in absolute terms (can't take %).
 let containerStyle = {};
@@ -93,6 +100,7 @@ const formatNumber = function (dollarFigure) {
 const [mapRef, setMapRef] = useState(null);
 
 const MapHasLoaded = (map) => {
+	//console.log('map has been loaded');
 	setMapRef(map);
 }
 
@@ -109,10 +117,10 @@ const handleMapIdle = () => {
 	const E = mapRef.getBounds().getNorthEast().lng();
 
 	setCenter(mapRef.getCenter());
-	console.log(center);
+	//console.log(center);
 
-	console.log([N, S, W, E])
-	console.log(mapViewBounds);
+	//console.log([N, S, W, E])
+	//console.log(mapViewBounds);
 
 	if (mapViewBounds != N) {
 		console.log('sending to list dispatch');

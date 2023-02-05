@@ -84,16 +84,26 @@ function listReducer(list, action) {
     }
 
     case 'filter_apply_all': {
-      console.log('applying all filters');
-      console.log('price max: ' + action.price.max);
-      console.log('price min: ' + action.price.min);
-      console.log('acres max: ' + action.acre.max);
-      console.log('acres min: ' + action.acre.min);
-      console.log('todays date: ' + new Date());
-      console.log('pictures value: ' + action.picture.value);
-      console.log('online value: ' + action.online.value);
+      //console.log('applying all filters');
+      //console.log('price max: ' + action.price.max);
+      //console.log('price min: ' + action.price.min);
+      //console.log('acres max: ' + action.acre.max);
+      //console.log('acres min: ' + action.acre.min);
+      //console.log('todays date: ' + new Date());
+      //console.log('pictures value: ' + action.picture.value);
+      //console.log('online value: ' + action.online.value);
       // chain the filters together off the initial list. Starting with initialList so that filters are applied to full set.
       // filter by min-max of price passed in
+
+      // TODO apply Client.inMapViewBounds, it's the one setting we need to retain
+      initialList.map((t) => {
+        let thisParcelInList = list.filter(item=> item.Basic.PARCEL_NUM == t.Basic.PARCEL_NUM)[0];
+        if (thisParcelInList) {
+          t.Client.inMapViewBounds = thisParcelInList.Client.inMapViewBounds;
+        }
+        return t;
+      })
+
       let filtersApplied = initialList.filter(t => t.Tax.TAXABLE_TOTAL <= action.price.max && t.Tax.TAXABLE_TOTAL >= action.price.min);
 
       // filter on min-max acres passed in
@@ -101,7 +111,7 @@ function listReducer(list, action) {
 
       // filter everything with an auction date in the past IF avail.value is true
       if (action.avail.value) {
-        console.log('applying date filter');
+        //console.log('applying date filter');
         filtersApplied = filtersApplied.filter(t=> new Date(t.Meta.AUCTION_DATE) >= new Date());
         }
 

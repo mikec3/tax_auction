@@ -4,9 +4,7 @@ import {useList, useListDispatch} from './ParcelListContext';
 import PictureCard from './PictureCard';
 
 const InfoCard = (props) => {
-
-	// track changes to the selected parcel
-	const [selectedParcelState, setSelectedParcelState] = useState();
+	console.log('info card rendered');
 
 	// get a reference to the infoCard div. This will allow for us to scroll to the top when selected parcel has changed
 	let infoCardRef = useRef();
@@ -37,8 +35,10 @@ const InfoCard = (props) => {
 			});
 		}
 		
+		console.log(parcelList);
 		// set parcels in view
 		parcelsInView = parcelList.filter((item) => item.Client.inMapViewBounds);
+		console.log(parcelsInView);
 		parcelsInView = parcelsInView.map((parcel) => {
 			return <ParcelCard parcel={parcel}/>
 		});
@@ -109,6 +109,8 @@ const closeSelectedParcel = () => {
 	// 	)
 
 		if (!selectedParcel) {
+			console.log('no selected parcel, rendering parcelsInView');
+			console.log(parcelsInView);
 			return (
 				<div className='InfoCard' ref={infoCardRef}>
 					<div className='InfoCardHeader'>

@@ -72,7 +72,7 @@ useEffect(() =>  {
 		    <HeaderBar/>
 		    {googleMapsAPIKey && (
 		    		<div className="mapCard">
-			    		<MyMap googleMapsAPIKey={googleMapsAPIKey}/>
+			    		<MyMap googleMapsAPIKey={googleMapsAPIKey} filtersClass={filtersClass}/>
 					    <InfoCard filterButtonPressed={filterButtonPressed}/>
 					    <Filters className={filtersClass} filterButtonPressed={filterButtonPressed}/>
 			    	</div>

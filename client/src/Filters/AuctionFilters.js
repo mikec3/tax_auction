@@ -6,7 +6,7 @@ import Checkbox from '@mui/material/Checkbox';
 const AuctionFilters = (props) => {
 
 	// configure default availability checkbox value here
-	const defaultAvailCheckBoxValue = false;
+	const defaultAvailCheckBoxValue = true;
 	const defaultOnlineCheckBoxValue = false;
 	const defaultPictureCheckBoxValue = false;
 
@@ -115,7 +115,7 @@ return (
 	<div className='FilterItem'>
 		<h3> Auction Details </h3>
     	<div className='FormGroup'>
-      		<FormControlLabel control={<Checkbox checked={availValue} onChange={handleAvailChange} />} label="Still Available" />
+      		<FormControlLabel control={<Checkbox checked={availValue} onChange={handleAvailChange} />} label="Auction Pending" />
       		<FormControlLabel control={<Checkbox checked={onlineValue} onChange={handleOnlineChange} />} label="Online Auction Only" />
       		<FormControlLabel control={<Checkbox checked={pictureValue} onChange={handlePictureChange} />} label="Has Picture Only" />
       	</div>

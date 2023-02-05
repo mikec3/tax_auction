@@ -3,7 +3,7 @@ import Box from '@mui/material/Box';
 import Slider from '@mui/material/Slider';
 
 const PriceFilter = (props) => {
-	console.log('price filter rendered');
+	//console.log('price filter rendered');
 // get max tax values from parcelList
 let max = 0;
 props.parcelList.forEach((parcel)=> {

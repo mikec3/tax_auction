@@ -6,8 +6,6 @@ import {useList, useListDispatch} from './ParcelListContext';
 
 const Filters = (props) => {
 
-	// TODO avail filter needs to be applied in parcellist context
-
 // collect all filter settings in this parent component so that all filters get applied to dispatch at the same time.
 // collect the initial settings as well for reseting to default
 const [priceFilterSettings, setPriceFilterSettings] = useState(null);
