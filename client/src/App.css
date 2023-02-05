@@ -247,6 +247,11 @@
     padding-right: 0;
   }
 
+/* This allows the user to scroll past the map */
+  .InfoCard {
+  overflow-y: visible;
+  }
+
   .ParcelCard {
     width: 20em;
     height: 20em;
