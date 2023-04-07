@@ -24,7 +24,7 @@ app.use(bodyParser.json())
 // Have Node serve the files for our built React app
 app.use(express.static(path.resolve(__dirname, '../client/build')));
 
-
+	// firebase admin key is saved in .env file all whitespace line breaks was erased so that the .env reads it as one continuous string
 	const serviceAccount = JSON.parse(process.env.fireBaseAdminKey);
 
 	initializeApp({
