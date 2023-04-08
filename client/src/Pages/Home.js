@@ -1,12 +1,10 @@
-import logo from '../logo.svg';
-import '../App.css';
+
 import React, {useState, useEffect} from 'react'
 import MyMap from '../MyMap.js'
 import HeaderBar from '../HeaderBar.js'
 import InfoCard from '../InfoCard.js'
 import Filters from '../Filters.js'
 import io from 'socket.io-client';
-import {ParcelListProvider} from '../ParcelListContext';
 import GetData from '../GetData'
 
 function Home() {
@@ -63,19 +61,17 @@ useEffect(() =>  {
 
 
   return (
-    <div className="App">
-    	<ParcelListProvider>
-    	<GetData/>
-		    <HeaderBar/>
-		    {googleMapsAPIKey && (
-		    		<div className="mapCard">
-			    		<MyMap googleMapsAPIKey={googleMapsAPIKey} filtersClass={filtersClass}/>
-					    <InfoCard filterButtonPressed={filterButtonPressed}/>
-					    <Filters className={filtersClass} filterButtonPressed={filterButtonPressed}/>
-			    	</div>
-			    	)}
-	    </ParcelListProvider>
-    </div>
+    	<React.Fragment>
+	    	<GetData/>
+			    <HeaderBar/>
+			    {googleMapsAPIKey && (
+			    		<div className="mapCard">
+				    		<MyMap googleMapsAPIKey={googleMapsAPIKey} filtersClass={filtersClass}/>
+						    <InfoCard filterButtonPressed={filterButtonPressed}/>
+						    <Filters className={filtersClass} filterButtonPressed={filterButtonPressed}/>
+				    	</div>
+				    	)}
+	    </React.Fragment>
   )
 }
 

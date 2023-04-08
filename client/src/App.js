@@ -6,15 +6,20 @@ import logo from './logo.svg';
 import './App.css';
 import React, {useState, useEffect} from 'react'
 import Home from './Pages/Home'
+import {ParcelListProvider} from './ParcelListContext';
 
 function App() {
 
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route index element={<Home />} />
-      </Routes>
-    </BrowserRouter>
+  	<div className="App">
+  		<ParcelListProvider>
+		    <BrowserRouter>
+		      <Routes>
+		        <Route index element={<Home />} />
+		      </Routes>
+		    </BrowserRouter>
+	    </ParcelListProvider>
+    </div>
   );
 }
 
