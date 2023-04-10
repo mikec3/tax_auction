@@ -6,6 +6,7 @@ import logo from './logo.svg';
 import './App.css';
 import React, {useState, useEffect} from 'react'
 import Home from './Pages/Home'
+import ParcelPage from './Pages/ParcelPage'
 import {ParcelListProvider} from './ParcelListContext';
 
 function App() {
@@ -16,6 +17,7 @@ function App() {
 		    <BrowserRouter>
 		      <Routes>
 		        <Route index element={<Home />} />
+		        <Route path='ParcelPage' element={<ParcelPage/>}/>
 		      </Routes>
 		    </BrowserRouter>
 	    </ParcelListProvider>
