@@ -1,7 +1,9 @@
 import React, {useState, useEffect} from 'react'
 import HeaderBar from '../HeaderBar.js'
 import {useList, useListDispatch} from '../ParcelListContext';
-import GetData from '../GetData' // need to include this to initialize the parcel list context
+import GetData from '../GetData'; // need to include this to initialize the parcel list context
+import PictureCard from '../PictureCard';
+import InfoBarCard from '../InfoBarCard';
 
 
 function ParcelPage() {
@@ -18,8 +20,11 @@ function ParcelPage() {
 	console.log(searchParamParcelNum);
 	//console.log(searchParam.toString());
 
+	let selectedParcel;
+
 	if (typeof parcelList != 'undefined') {
 		console.log(parcelList.filter(item=> item.Basic.PARCEL_NUM == searchParamParcelNum));
+		selectedParcel = parcelList.filter(item=> item.Basic.PARCEL_NUM == searchParamParcelNum)[0];
 	}
 
 
@@ -28,6 +33,12 @@ function ParcelPage() {
     			<GetData/>
 			    <HeaderBar/>
 			    <p> hellooo!! </p>
+			    {parcelList &&
+			    	<React.Fragment>
+			    		<PictureCard selectedParcel={selectedParcel}/>
+			    		<InfoBarCard selectedParcel={selectedParcel}/>
+			    	</React.Fragment>
+				}
 	    </React.Fragment>
   )
 }
