@@ -14,7 +14,6 @@ function InfoBarCard(props) {
 	}
 return (
 		<React.Fragment>
-		<p> helloooooo!!!@##@$#$#$#$# </p>
 		{parcel}
 		</React.Fragment>
 	);

@@ -32,9 +32,9 @@ function ParcelPage() {
     	<React.Fragment>
     			<GetData/>
 			    <HeaderBar/>
-			    <p> hellooo!! </p>
 			    {parcelList &&
 			    	<React.Fragment>
+			    		<p> {selectedParcel.Basic['Site Address']}</p>
 			    		<PictureCard selectedParcel={selectedParcel}/>
 			    		<InfoBarCard selectedParcel={selectedParcel}/>
 			    	</React.Fragment>
