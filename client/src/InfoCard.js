@@ -2,6 +2,7 @@ import React, {useState, useEffec, useRef} from 'react'
 import InfoBar from './InfoBar'
 import {useList, useListDispatch} from './ParcelListContext';
 import PictureCard from './PictureCard';
+import ParcelInfoHeader from './ParcelInfoHeader'
 
 const InfoCard = (props) => {
 	console.log('info card rendered');
@@ -139,6 +140,7 @@ const closeSelectedParcel = () => {
 							Close 
 							</button>
 					</div>
+					<ParcelInfoHeader parcel={selectedParcel}/>
 					<PictureCard selectedParcel={selectedParcel}/>
 					{parcel}
 				</div>				
