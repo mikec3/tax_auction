@@ -5,6 +5,7 @@ import GetData from '../GetData'; // need to include this to initialize the parc
 import PictureCard from '../PictureCard';
 import InfoBarCard from '../InfoBarCard';
 import {GoogleMap, useGoogleMap, useJsApiLoader, Marker, InfoWindow, LoadScript, MarkerClusterer, ScriptLoaded} from '@react-google-maps/api';
+import ParcelInfoHeader from '../ParcelInfoHeader'
 
 
 function ParcelPage() {
@@ -71,6 +72,7 @@ const formatNumber = function (dollarFigure) {
 			    <HeaderBar/>
 			    {parcelList &&
 			    	<React.Fragment>
+			    		<ParcelInfoHeader parcel={selectedParcel}/>
 			    		<p> {selectedParcel.Basic['Site Address']}</p>
 			    		<PictureCard selectedParcel={selectedParcel}/>
 			    		<InfoBarCard selectedParcel={selectedParcel}/>
