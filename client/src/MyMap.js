@@ -1,6 +1,7 @@
 import React, {useState, useEffect, useRef} from 'react'
 import {GoogleMap, useGoogleMap, useJsApiLoader, Marker, InfoWindow, LoadScript, MarkerClusterer, ScriptLoaded} from '@react-google-maps/api';
 import {useList, useListDispatch} from './ParcelListContext';
+import useNumberFormat from './useNumberFormat'
 
 // TODO need to configure webpack file loader to import images in this way. Currently importing directly in script via relative path.
 //import markerImage from './test_marker.png';
@@ -75,27 +76,6 @@ const options = {
   //  '/clusterer/m' // so you must have m1.png, m2.png, m3.png, m4.png, m5.png and m6.png in that folder
 }
 
-//format TAXABLE_TOTAL values (for instance 100,00 -> 100K)
-const formatNumber = function (dollarFigure) {
-
-	// convert from input dollarFigure to an integer
-	//let numType = parseInt(dollarFigure.replace(/[^0-9]/g, ""));
-	let numType = dollarFigure;
-
-	// if number is over 1M
-	if (numType >= 1000000) {
-
-		// rounding to 1 decimal for millions
-		let mill = numType/1000000
-		mill = +mill.toFixed(1);
-		return String(mill)+"M"
-
-	// if number is less than 1M
-	} else {
-		// rounding to nearest integer for thousands
-		return String(parseInt(numType/1000))+"K"
-	}
-}
 
 const [mapRef, setMapRef] = useState(null);
 
@@ -139,6 +119,30 @@ const handleMapIdle = () => {
 
 
 }
+
+
+	//format TAXABLE_TOTAL values (for instance 100,00 -> 100K)
+const formatNumber = function (dollarFigure) {
+
+	// convert from input dollarFigure to an integer
+	//let numType = parseInt(dollarFigure.replace(/[^0-9]/g, ""));
+	let numType = dollarFigure;
+
+	// if number is over 1M
+	if (numType >= 1000000) {
+
+		// rounding to 1 decimal for millions
+		let mill = numType/1000000
+		mill = +mill.toFixed(1);
+		return String(mill)+"M"
+
+	// if number is less than 1M
+	} else {
+		// rounding to nearest integer for thousands
+		return String(parseInt(numType/1000))+"K"
+	}
+}
+
 
 // display map with Markers and MarkerClusterer
 // conditionally render map if parcels have been loaded and parcelList is no longer undefined or in loading state.

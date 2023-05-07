@@ -6,6 +6,8 @@ import PictureCard from '../PictureCard';
 import InfoBarCard from '../InfoBarCard';
 import {GoogleMap, useGoogleMap, useJsApiLoader, Marker, InfoWindow, LoadScript, MarkerClusterer, ScriptLoaded} from '@react-google-maps/api';
 import ParcelInfoHeader from '../ParcelInfoHeader'
+import ScoreCard from '../ScoreCard'
+import useNumberFormat from '../useNumberFormat'
 
 
 function ParcelPage() {
@@ -43,7 +45,7 @@ function ParcelPage() {
 		height: '50vh'
 	}
 
-	//format TAXABLE_TOTAL values (for instance 100,00 -> 100K)
+		//format TAXABLE_TOTAL values (for instance 100,00 -> 100K)
 const formatNumber = function (dollarFigure) {
 
 	// convert from input dollarFigure to an integer
@@ -67,7 +69,7 @@ const formatNumber = function (dollarFigure) {
 
 
   return (
-    	<React.Fragment>
+    	<div className='ParcelPageWrapper'>
     			<GetData/>
 			    <HeaderBar/>
 			    {parcelList &&
@@ -75,6 +77,7 @@ const formatNumber = function (dollarFigure) {
 			    		<ParcelInfoHeader parcel={selectedParcel}/>
 			    		<p> {selectedParcel.Basic['Site Address']}</p>
 			    		<PictureCard selectedParcel={selectedParcel}/>
+			    		<ScoreCard parcel = {selectedParcel}/>
 			    		<InfoBarCard selectedParcel={selectedParcel}/>
 					    <div>
 							<LoadScript >
@@ -103,7 +106,7 @@ const formatNumber = function (dollarFigure) {
 						</div>
 			    	</React.Fragment>
 				}
-	    </React.Fragment>
+	    </div>
   )
 }
 

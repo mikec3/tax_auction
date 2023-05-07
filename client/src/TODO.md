@@ -13,7 +13,6 @@ Create View Favorites
 
 
 ScoreCard = {
-	lotSize = Basic.['Lot Size'],
 	taxValue = Tax['TAXABLE_TOTAL'],
 	Acres = Land['Acres']
 	type = ['Has Building', 'Land'] // Use TAXABLE_BUILDING > 0 

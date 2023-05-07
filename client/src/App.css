@@ -233,9 +233,39 @@
   padding: 0.5em;
 }
 
+.ParcelPageWrapper {
+  max-width: 85%;
+  margin: auto;
+}
+
+.ScoreCard {
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  gap: 0.5em;
+}
+
+.ScoreCard-Cell {
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: column;
+}
+
+.ScoreCard-Cell h4 {
+  margin-bottom: -.8em;
+}
+
+.ScoreCard-Cell p {
+  white-space: pre;
+}
+
 
 
 @media (max-width: 500px) {
+
+  p {
+    font-size: .8em;
+  }
 
   .mapCard {
     display: flex;
@@ -266,6 +296,11 @@
     top: 20vh;
     background-color: white;
   }
+
+  .ParcelPageWrapper {
+  max-width: 95%;
+  margin: auto;
+}
 
 }
 
