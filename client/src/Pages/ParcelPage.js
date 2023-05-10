@@ -8,12 +8,46 @@ import {GoogleMap, useGoogleMap, useJsApiLoader, Marker, InfoWindow, LoadScript,
 import ParcelInfoHeader from '../ParcelInfoHeader'
 import ScoreCard from '../ScoreCard'
 import useNumberFormat from '../useNumberFormat'
+import io from 'socket.io-client';
 
 
 function ParcelPage() {
 
 	//get parcel list from context
 	let parcelList = useList();
+
+	const [socket, setSocket] = useState();
+	const [newUserRegistered, setNewUserRegistered] = useState(false);
+	const [googleMapsAPIKey, setGoogleMapsAPIKey] = useState();
+
+	// establish socket port if we haven't done it already
+	useEffect(() =>  {
+
+		// only establish socket port if we haven't done it already
+		if (!newUserRegistered){
+			// establish socket port
+			setSocket(io());
+			setNewUserRegistered(true);
+		}
+
+		// only if socket is already established do we setup the message reciever
+		if (socket) {
+			// Process socket messages from server.
+			// returns api key for google map
+			socket.on('message', (res) => {
+			  //console.log(res);
+			  handleSocketMessage(res);
+			})
+		}
+
+	}, [socket])
+
+	const handleSocketMessage = (res) => {
+		if(res.googleMapsAPIKey) {
+			setGoogleMapsAPIKey(res.googleMapsAPIKey);
+			console.log('setting google maps api key');
+		}
+	}
 
 	console.log(parcelList);
 
@@ -80,7 +114,7 @@ const formatNumber = function (dollarFigure) {
 			    		<ScoreCard parcel = {selectedParcel}/>
 			    		<InfoBarCard selectedParcel={selectedParcel}/>
 					    <div>
-							<LoadScript >
+							<LoadScript googleMapsApiKey = {googleMapsAPIKey}>
 								<GoogleMap
 									mapContainerStyle={containerStyle}
 									center={center}
