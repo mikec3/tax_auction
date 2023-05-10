@@ -16,6 +16,7 @@ Add more counties
 
 
 ScoreCard = {
+	description = Basic['Site Address'] OR Basic['Property Description']
 	taxValue = Tax['TAXABLE_TOTAL'],
 	Acres = Land['Acres']
 	type = ['Has Building', 'Land'] // Use TAXABLE_BUILDING > 0 
