@@ -259,6 +259,10 @@
   white-space: pre;
 }
 
+.Description {
+  margin-bottom: 0.3em;
+}
+
 
 
 @media (max-width: 500px) {

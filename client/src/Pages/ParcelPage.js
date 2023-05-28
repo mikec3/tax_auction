@@ -7,6 +7,7 @@ import InfoBarCard from '../InfoBarCard';
 import {GoogleMap, useGoogleMap, useJsApiLoader, Marker, InfoWindow, LoadScript, MarkerClusterer, ScriptLoaded} from '@react-google-maps/api';
 import ParcelInfoHeader from '../ParcelInfoHeader'
 import ScoreCard from '../ScoreCard'
+import Description from '../Description'
 import useNumberFormat from '../useNumberFormat'
 import io from 'socket.io-client';
 
@@ -109,7 +110,7 @@ const formatNumber = function (dollarFigure) {
 			    {parcelList &&
 			    	<React.Fragment>
 			    		<ParcelInfoHeader parcel={selectedParcel}/>
-			    		<p> {selectedParcel.Basic['Site Address']}</p>
+			    		<Description parcel={selectedParcel}/>
 			    		<PictureCard selectedParcel={selectedParcel}/>
 			    		<ScoreCard parcel = {selectedParcel}/>
 			    		<InfoBarCard selectedParcel={selectedParcel}/>
