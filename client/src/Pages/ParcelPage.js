@@ -10,6 +10,7 @@ import ScoreCard from '../ScoreCard'
 import Description from '../Description'
 import useNumberFormat from '../useNumberFormat'
 import io from 'socket.io-client';
+import AuctionBox from '../AuctionBox'
 
 
 function ParcelPage() {
@@ -112,7 +113,11 @@ const formatNumber = function (dollarFigure) {
 			    		<ParcelInfoHeader parcel={selectedParcel}/>
 			    		<Description parcel={selectedParcel}/>
 			    		<PictureCard selectedParcel={selectedParcel}/>
-			    		<ScoreCard parcel = {selectedParcel}/>
+			    		<div className='ScoreCard-Card'>
+			    			<div style={{"width" : "25%"}}> </div>
+			    			<ScoreCard parcel = {selectedParcel}/>
+			    			<AuctionBox parcel = {selectedParcel}/>
+			    		</div>
 			    		<InfoBarCard selectedParcel={selectedParcel}/>
 					    <div>
 							<LoadScript googleMapsApiKey = {googleMapsAPIKey}>

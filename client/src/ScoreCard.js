@@ -27,7 +27,7 @@ return (
 		<div className='ScoreCard-Cell'>
 			<h4> {propertyType} </h4>
 			<p> {propertyText} </p>
-		</div>				
+		</div>		
 	</div>
 	);
 }

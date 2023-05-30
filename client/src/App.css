@@ -238,11 +238,19 @@
   margin: auto;
 }
 
+.ScoreCard-Card {
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  gap: 0.5em;
+}
+
 .ScoreCard {
   display: flex;
   justify-content: center;
   flex-direction: row;
   gap: 0.5em;
+  width: 35%;
 }
 
 .ScoreCard-Cell {
@@ -257,6 +265,21 @@
 
 .ScoreCard-Cell p {
   white-space: pre;
+}
+
+.AuctionBox {
+  width: 25%;
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: column;
+}
+
+.AuctionBox h4 {
+  margin-bottom: -.8em;
+}
+
+.AuctionBox p {
+  margin-bottom: -.2em;
 }
 
 .Description {
