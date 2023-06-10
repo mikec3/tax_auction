@@ -77,8 +77,8 @@ function ParcelPage() {
 	}
 
 	let	containerStyle = {
-		width: '100vw',
-		height: '50vh'
+		width: '20vw',
+		height: '15vh'
 	}
 
 		//format TAXABLE_TOTAL values (for instance 100,00 -> 100K)
@@ -110,21 +110,18 @@ const formatNumber = function (dollarFigure) {
 			    <HeaderBar/>
 			    {parcelList &&
 			    	<React.Fragment>
+			    		<div className="Modal"> Modal </div>
 			    		<ParcelInfoHeader parcel={selectedParcel}/>
 			    		<Description parcel={selectedParcel}/>
 			    		<PictureCard selectedParcel={selectedParcel}/>
 			    		<div className='ScoreCard-Card'>
-			    			<div style={{"width" : "25%"}}> </div>
-			    			<ScoreCard parcel = {selectedParcel}/>
-			    			<AuctionBox parcel = {selectedParcel}/>
-			    		</div>
-			    		<InfoBarCard selectedParcel={selectedParcel}/>
-					    <div>
+			    			<div style={{"width" : "25%"}}> 
 							<LoadScript googleMapsApiKey = {googleMapsAPIKey}>
 								<GoogleMap
 									mapContainerStyle={containerStyle}
 									center={center}
-									zoom={13}
+									zoom={9}
+									onClick={()=>{console.log('map clicked')}}
 									options={{ gestureHandling: 'greedy' }}
 									>
 								 				<Marker 
@@ -144,6 +141,10 @@ const formatNumber = function (dollarFigure) {
 								</GoogleMap>
 							</LoadScript>
 						</div>
+			    			<ScoreCard parcel = {selectedParcel}/>
+			    			<AuctionBox parcel = {selectedParcel}/>
+			    		</div>
+			    		<InfoBarCard selectedParcel={selectedParcel}/>
 			    	</React.Fragment>
 				}
 	    </div>
