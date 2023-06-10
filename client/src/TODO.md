@@ -6,7 +6,8 @@ TODO
 --Create ScoreCard (The metrics at a glance that you need)
 --Get map key api into parcel page
 Style parcel info card and parcel page: View must contain all actionable items, pic, scorecard, auction info, map
-	Auction Box in parcelPage
+	-Auction Box in parcelPage
+	put Map in view on parcelPage
 Login functionality
 Create Save to Favorites
 Create View Favorites
