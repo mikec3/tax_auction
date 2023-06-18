@@ -77,8 +77,8 @@ function ParcelPage() {
 	}
 
 	let	containerStyle = {
-		width: '20vw',
-		height: '15vh'
+		width: '50vw',
+		height: '21vh'
 	}
 
 		//format TAXABLE_TOTAL values (for instance 100,00 -> 100K)
@@ -110,40 +110,41 @@ const formatNumber = function (dollarFigure) {
 			    <HeaderBar/>
 			    {parcelList &&
 			    	<React.Fragment>
-			    		<div className="Modal"> Modal </div>
 			    		<ParcelInfoHeader parcel={selectedParcel}/>
 			    		<Description parcel={selectedParcel}/>
 			    		<PictureCard selectedParcel={selectedParcel}/>
 			    		<div className='ScoreCard-Card'>
-			    			<div style={{"width" : "25%"}}> 
-							<LoadScript googleMapsApiKey = {googleMapsAPIKey}>
-								<GoogleMap
-									mapContainerStyle={containerStyle}
-									center={center}
-									zoom={9}
-									onClick={()=>{console.log('map clicked')}}
-									options={{ gestureHandling: 'greedy' }}
-									>
-								 				<Marker 
-								 					key={selectedParcel.Basic.PARCEL_NUM}
-									 				position={selectedParcel.location}
-									 				label={{
-									 					text: formatNumber(selectedParcel.Tax.TAXABLE_TOTAL),
-									 					color: 'white',
-									 					fontWeight: 'bold',
-									 					fontSize: '12px',
-									 					className: 'markerLabels'		// CSS properties are set in App.css (margin so that label lines up with icon image)
-									 				}}
-									 				icon={{
-									 					url: '/selected_marker.png'
-									 				}}
-								 				/>
-								</GoogleMap>
-							</LoadScript>
-						</div>
 			    			<ScoreCard parcel = {selectedParcel}/>
 			    			<AuctionBox parcel = {selectedParcel}/>
 			    		</div>
+			    		<div className='ScoreCard-Card'>
+				    		<div> 
+								<LoadScript googleMapsApiKey = {googleMapsAPIKey}>
+									<GoogleMap
+										mapContainerStyle={containerStyle}
+										center={center}
+										zoom={9}
+										onClick={()=>{console.log('map clicked')}}
+										options={{ gestureHandling: 'greedy' }}
+										>
+									 				<Marker 
+									 					key={selectedParcel.Basic.PARCEL_NUM}
+										 				position={selectedParcel.location}
+										 				label={{
+										 					text: formatNumber(selectedParcel.Tax.TAXABLE_TOTAL),
+										 					color: 'white',
+										 					fontWeight: 'bold',
+										 					fontSize: '12px',
+										 					className: 'markerLabels'		// CSS properties are set in App.css (margin so that label lines up with icon image)
+										 				}}
+										 				icon={{
+										 					url: '/selected_marker.png'
+										 				}}
+									 				/>
+									</GoogleMap>
+								</LoadScript>
+							</div>
+						</div>
 			    		<InfoBarCard selectedParcel={selectedParcel}/>
 			    	</React.Fragment>
 				}
@@ -152,3 +153,38 @@ const formatNumber = function (dollarFigure) {
 }
 
 export default ParcelPage;
+
+
+/**
+
+				    	<div className="ModalBackground">
+				    		<div className="ModalCard">
+				
+									<LoadScript googleMapsApiKey = {googleMapsAPIKey}>
+										<GoogleMap
+											mapContainerStyle={containerStyleModal}
+											center={center}
+											zoom={9}
+											onClick={()=>{console.log('map clicked')}}
+											options={{ gestureHandling: 'greedy' }}
+											>
+										 				<Marker 
+										 					key={selectedParcel.Basic.PARCEL_NUM}
+											 				position={selectedParcel.location}
+											 				label={{
+											 					text: formatNumber(selectedParcel.Tax.TAXABLE_TOTAL),
+											 					color: 'white',
+											 					fontWeight: 'bold',
+											 					fontSize: '12px',
+											 					className: 'markerLabels'		// CSS properties are set in App.css (margin so that label lines up with icon image)
+											 				}}
+											 				icon={{
+											 					url: '/selected_marker.png'
+											 				}}
+										 				/>
+										</GoogleMap>
+									</LoadScript>
+							
+				    		</div>	
+				    	</div>	
+**/
