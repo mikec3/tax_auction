@@ -10,6 +10,7 @@ Style parcel info card and parcel page: View must contain all actionable items, 
 	-put Map in view on parcelPage
 	style info bullets
 	style parcel info card in main page same as parcel page
+home button to parcelPage
 
 Login functionality
 Create Save to Favorites
