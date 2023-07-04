@@ -7,7 +7,10 @@ TODO
 --Get map key api into parcel page
 Style parcel info card and parcel page: View must contain all actionable items, pic, scorecard, auction info, map
 	-Auction Box in parcelPage
-	put Map in view on parcelPage
+	-put Map in view on parcelPage
+	style info bullets
+	style parcel info card in main page same as parcel page
+
 Login functionality
 Create Save to Favorites
 Create View Favorites
