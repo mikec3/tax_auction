@@ -3,6 +3,10 @@ import InfoBar from './InfoBar'
 import {useList, useListDispatch} from './ParcelListContext';
 import PictureCard from './PictureCard';
 import ParcelInfoHeader from './ParcelInfoHeader'
+import ScoreCard from './ScoreCard'
+// import Description from '../Description'
+// import useNumberFormat from '../useNumberFormat'
+import AuctionBox from './AuctionBox'
 
 const InfoCard = (props) => {
 	console.log('info card rendered');
@@ -142,6 +146,10 @@ const closeSelectedParcel = () => {
 					</div>
 					<ParcelInfoHeader parcel={selectedParcel}/>
 					<PictureCard selectedParcel={selectedParcel}/>
+					<div className='ScoreCard-Card'>
+			    		<ScoreCard parcel = {selectedParcel}/>
+			    		<AuctionBox parcel = {selectedParcel}/>
+			    	</div>
 					{parcel}
 				</div>				
 				)
