@@ -365,6 +365,17 @@
   margin: auto;
 }
 
+.ScoreCard-Card {
+  max-width: 95%;
+  justify-content: space-around;
+  margin: auto;
+  gap:0.1em;
+}
+
+.AuctionBox a {
+  margin-left: -5em;
+}
+
 }
 
 /* CSS */
