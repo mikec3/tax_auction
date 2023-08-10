@@ -36,8 +36,6 @@ return (
 		{!user &&
 			<React.Fragment>
 				<Login/>
-				<h2> Or </h2>
-				
 			</React.Fragment>
 		}
 	</div>);

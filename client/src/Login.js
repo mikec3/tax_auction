@@ -17,18 +17,23 @@ function Login (props) {
 AuthStateChanged();
 
 
-
-return (
-			<div>
+	// use this if you want to let email/password signups.
+	const loginForm = (
 				<div>
-					<h2> Firebase Auth </h2>
 					<form onSubmit={loginFormSubmitHandler}>
 						<input type='text' id='email' placeholder='E-mail'/>
 						<input type='text' id='password' placeholder='Password'/>
 						<button type="Submit"> Login </button>
 					</form>
 				</div>
+		)
+
+
+
+return (
+			<div>
 				<div>
+				<img src={"./blank_avatar.png"} style={{width:"2em", height: "2em"}}/>
 					<button className='GoogleButton' onClick={loginWithgoogle}> Sign in with Google+ </button>
 				</div>
 			</div>
