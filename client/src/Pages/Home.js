@@ -6,6 +6,7 @@ import InfoCard from '../InfoCard.js'
 import Filters from '../Filters.js'
 import io from 'socket.io-client';
 import GetData from '../GetData'
+import LoginCard from '../LoginCard'
 
 function Home() {
 
@@ -63,6 +64,7 @@ useEffect(() =>  {
   return (
     	<React.Fragment>
 	    	<GetData/>
+	    	<LoginCard/>
 			    <HeaderBar/>
 			    {googleMapsAPIKey && (
 			    		<div className="mapCard">

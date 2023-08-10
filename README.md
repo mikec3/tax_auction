@@ -121,6 +121,18 @@ git commit -m "added environment variables"
 git push heroku master
 ```
 
+
+## Firebase Auth
+
+Create project on Firebase
+
+Get configuration details
+
+Go to Auth - enable e-mail & Password sign in
+
+API config & key is in client, set API permissions to restrict to either domain or IP.
+
+
 ## Selenium
 1. Install selenium webdriver
 ```

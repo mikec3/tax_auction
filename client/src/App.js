@@ -8,11 +8,13 @@ import React, {useState, useEffect} from 'react'
 import Home from './Pages/Home'
 import ParcelPage from './Pages/ParcelPage'
 import {ParcelListProvider} from './ParcelListContext';
+import {UserProvider} from './UserContext'
 
 function App() {
 
   return (
   	<div className="App">
+  		<UserProvider>
   		<ParcelListProvider>
 		    <BrowserRouter>
 		      <Routes>
@@ -21,6 +23,7 @@ function App() {
 		      </Routes>
 		    </BrowserRouter>
 	    </ParcelListProvider>
+	    </UserProvider>
     </div>
   );
 }
