@@ -91,20 +91,27 @@ function LoggedIn(props) {
 	}
 
 return (
-			<div>
-				<h3> Welcome {props.user.displayName} </h3>
-				<h3> Your theme is {userTheme} </h3>
-					<form onSubmit={nameChangeFormSubmit}>
-						<input type='text' id='name' placeholder='New Display Name'/>
-						<button type="Submit"> Change Display Name </button>
-					</form>
-					<form onSubmit={updateUserThemeHandler}>
-						<input type='text' id='theme' placeholder='New Theme'/>
-						<button type="Submit"> Change Theme </button>
-					</form>
-				<button onClick={handleLogOutButtonPress}> Log Out </button>
+			<div className='LoggedIn'>
+				<button className='button-17' onClick={()=>{}}> Profile </button>
+				<button className='button-17' onClick={handleLogOutButtonPress}> Log Out </button>
 			</div>
 		)
 }
 
 export default LoggedIn;
+
+
+				// <p> Welcome {props.user.displayName} </p>
+				// <h3> Your theme is {userTheme} </h3>
+				// 	<form onSubmit={nameChangeFormSubmit}>
+				// 		<input type='text' id='name' placeholder='New Display Name'/>
+				// 		<button type="Submit"> Change Display Name </button>
+				// 	</form>
+				// 	<form onSubmit={updateUserThemeHandler}>
+				// 		<input type='text' id='theme' placeholder='New Theme'/>
+				// 		<button type="Submit"> Change Theme </button>
+				// 	</form>
+
+
+
+

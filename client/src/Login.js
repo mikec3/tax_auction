@@ -31,10 +31,8 @@ AuthStateChanged();
 
 
 return (
-			<div>
-				<div>
-				<img className='LoginButton' onClick={loginWithgoogle} src={"./blank_avatar.png"} />
-				</div>
+			<div className='Login'>
+				<button className='button-17' onClick={loginWithgoogle}> Log In </button>
 			</div>
 		)
 }
