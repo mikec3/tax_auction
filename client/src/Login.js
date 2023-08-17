@@ -33,8 +33,7 @@ AuthStateChanged();
 return (
 			<div>
 				<div>
-				<img src={"./blank_avatar.png"} style={{width:"2em", height: "2em"}}/>
-					<button className='GoogleButton' onClick={loginWithgoogle}> Sign in with Google+ </button>
+				<img className='LoginButton' onClick={loginWithgoogle} src={"./blank_avatar.png"} />
 				</div>
 			</div>
 		)

@@ -1,3 +1,4 @@
+import LoginCard from './LoginCard'
 
 const HeaderBar = () => {
 	
@@ -6,8 +7,9 @@ const HeaderBar = () => {
 return (
 	<div className='HeaderBar'>
 		<a style={{ textDecoration: 'none' , color: 'black'}} href='https://www.countyauctionproperties.com'>
-			<h3> Washington State County Tax Foreclosure Properties </h3>
-		</a>
+			<h4> Washington State County Tax Foreclosure Properties </h4>
+			</a>
+		<LoginCard/>
 	</div>
 )
 
