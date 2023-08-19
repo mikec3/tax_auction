@@ -60,6 +60,9 @@
 .LoggedIn {
   margin-top: 1em;
   margin-right: 1em;
+  display: flex;
+  gap: 0.2em;
+
 }
 
 .InfoCard h2 {

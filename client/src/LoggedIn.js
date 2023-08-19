@@ -92,7 +92,7 @@ function LoggedIn(props) {
 
 return (
 			<div className='LoggedIn'>
-				<button className='button-17' onClick={()=>{}}> Profile </button>
+				<button className='button-17' onClick={()=>{}}> Favorites </button>
 				<button className='button-17' onClick={handleLogOutButtonPress}> Log Out </button>
 			</div>
 		)
