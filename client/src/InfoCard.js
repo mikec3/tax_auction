@@ -7,6 +7,7 @@ import ScoreCard from './ScoreCard'
 // import Description from '../Description'
 // import useNumberFormat from '../useNumberFormat'
 import AuctionBox from './AuctionBox'
+import ParcelShareButton from './ParcelShareButton'
 
 const InfoCard = (props) => {
 	console.log('info card rendered');
@@ -137,14 +138,10 @@ const closeSelectedParcel = () => {
 			return (
 				<div className='InfoCard' ref={infoCardRef}>
 					<div className='InfoCardHeader'>
-						{title}
-							<button className='button-17'
-							onClick={closeSelectedParcel}
-							>
-							Close 
-							</button>
+							<ParcelShareButton parcel={selectedParcel}/>
+							<button className='button-17' onClick={()=>{}}> Favorite </button>
+							<button className='button-17' onClick={closeSelectedParcel}> Close </button>
 					</div>
-					<ParcelInfoHeader parcel={selectedParcel}/>
 					<PictureCard selectedParcel={selectedParcel}/>
 					<div className='ScoreCard-Card'>
 			    		<ScoreCard parcel = {selectedParcel}/>

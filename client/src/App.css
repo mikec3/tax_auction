@@ -199,6 +199,7 @@
 }
 
 .InfoCardHeader {
+  margin-top: 0.2em;
   min-width: 100%;
   max-width: 100%;
   display: flex;
