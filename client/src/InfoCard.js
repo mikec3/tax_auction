@@ -1,4 +1,5 @@
-import React, {useState, useEffec, useRef} from 'react'
+import React, {useState, useEffect, useRef} from 'react'
+import axios from 'axios'
 import InfoBar from './InfoBar'
 import {useList, useListDispatch} from './ParcelListContext';
 import PictureCard from './PictureCard';
@@ -8,9 +9,17 @@ import ScoreCard from './ScoreCard'
 // import useNumberFormat from '../useNumberFormat'
 import AuctionBox from './AuctionBox'
 import ParcelShareButton from './ParcelShareButton'
+import {useUser} from './UserContext'
 
 const InfoCard = (props) => {
 	console.log('info card rendered');
+
+	// current logged in user state
+	const [user, setUser] = useState();
+	const userCont = useUser();
+	useEffect(()=>{
+		setUser(userCont);
+	}, [userCont])
 
 	// get a reference to the infoCard div. This will allow for us to scroll to the top when selected parcel has changed
 	let infoCardRef = useRef();
@@ -84,6 +93,38 @@ const closeSelectedParcel = () => {
 	})
 }
 
+// add selectedParcel to favorites
+const addToFavorites = () => {
+		let data = JSON.stringify({
+			"user": user,
+			"parcel_num": selectedParcel.Basic.PARCEL_NUM
+		})
+
+		let config = {
+			method : 'post',
+			url: '/api/addParcelToFavorites',
+			headers: {
+				    'Content-Type': 'application/json', 
+    				'Accept': 'application/json'
+			},
+			data : data
+		};
+
+		axios(config)
+		.then((response) => {
+			if (response.status == 200) {
+			// if user theme update is successful, set the theme here.
+			//setUserTheme(event.target.theme.value);
+			console.log(response);
+			} else {
+			//setError('theme not found')
+			}
+		})
+		.catch((error) => {
+  		console.log(error);
+		});
+}
+
 	
 	// return (
 	// 	<div className='InfoCard'>
@@ -139,7 +180,7 @@ const closeSelectedParcel = () => {
 				<div className='InfoCard' ref={infoCardRef}>
 					<div className='InfoCardHeader'>
 							<ParcelShareButton parcel={selectedParcel}/>
-							<button className='button-17' onClick={()=>{}}> Favorite </button>
+							<button className='button-17' onClick={addToFavorites}> Favorite </button>
 							<button className='button-17' onClick={closeSelectedParcel}> Close </button>
 					</div>
 					<PictureCard selectedParcel={selectedParcel}/>

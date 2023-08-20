@@ -10,6 +10,7 @@ const axios = require('axios');
 
 const { initializeApp, applicationDefault, cert } = require('firebase-admin/app');
 const { getFirestore, Timestamp, FieldValue } = require('firebase-admin/firestore');
+const { getAuth, createUser, updateProfile, verifyIdToken } = require("firebase-admin/auth");
 
 const PORT = process.env.PORT || 3001;
 
@@ -30,6 +31,12 @@ app.use(express.static(path.resolve(__dirname, '../client/build')));
 	initializeApp({
 	  credential: cert(serviceAccount)
 	});
+
+// Initialize Firebase Authentication and get a reference to the service
+const auth = getAuth();
+
+// Initialize Firebase Firestore and get a reference to the service
+const db = getFirestore();
 
 // Send up the parcel data
 app.get("/api/parcelData", async function(req, res){
@@ -72,6 +79,70 @@ snapShot.forEach((doc) => {
 })
 return tempArray;
 }
+
+// api for adding parcel numbers to favorites list
+app.post("/api/addParcelToFavorites", async function(req, res) {
+	console.log('api/addParcelToFavorites called');
+
+	// validate token
+	auth.verifyIdToken(req.body.user.stsTokenManager.accessToken)
+	.then((decodedToken)=> {
+		//console.log(decodedToken.uid);
+
+		// set db users/{uid}/theme
+		uploadNewFavoriteParcel(decodedToken.uid, req.body.parcel_num)
+		.then((response)=> {
+			res.json(response);
+		});
+	})
+	.catch((error)=> {
+		console.log(error);
+		res.json(error);
+	})
+
+	// return new theme or success message
+});
+
+// TODO change to appending to the list of favorites
+const uploadNewFavoriteParcel = async function (uid, parcel_num) {
+
+	const docRef = db.collection('users').doc(uid).collection('Favorites').doc('Parcel_Numbers')
+
+	let upload_list = [parcel_num];
+
+		// docRef.get()
+		// .then(result=>{
+		// 	// if there's a result, pass it back to client, otherwise pass null
+		// 	if (result.data()) {
+		// 		console.log(result);
+		// 		console.log(result.data());
+		// 		//res.json(result.data().theme);
+		// 	} else {
+		// 		//res.json();
+		// 	}
+		// })
+
+	// get current favorites list so that we can append to it and re-upload
+	let currentFavList = await docRef.get();
+	console.log(currentFavList);
+	console.log(currentFavList.data());
+
+	// if the current fav list has data, then add the new parcel into the current list
+	if (typeof currentFavList.data() !== 'undefined') {
+		console.log('Looks like there is data in the favorites list already, adding new parcel to list');
+		upload_list = [...currentFavList.data().list, parcel_num]
+	}
+
+	docRef.set({list:upload_list})
+	.then(result => {
+		console.log(result);
+		// return the parcel number if write was successful
+		return result;
+	}).catch(error => {
+		console.log(error);
+		return error;
+	})
+};
 
 // All other GET requests not handled before will return our React app
 app.get('*', (req, res) => {
