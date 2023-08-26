@@ -1,6 +1,8 @@
 //import {useContext} from 'react'
 import { initializeApp } from "firebase/app";
 import {useUserDispatch} from './UserContext'
+import {useListDispatch} from './ParcelListContext'
+import axios from 'axios'
 import {
   GoogleAuthProvider,
   getAuth,
@@ -26,13 +28,20 @@ const firebaseConfig = {
   appId: "1:624670306919:web:fb8a61c55c9219ef149ac2"
 };
 
-
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
 const AuthStateChanged = async () => {
+  //console.log('auth state changed');
 
   const userDispatch = useUserDispatch();
+
+  // get access to parcel List Dispatch;
+  const listDispatch = useListDispatch();
+
+
+  // when auth state is changed AND there is a user present (meaning a new login)
+  // tell user context about user, and tell list context to update favorites.
   auth.onAuthStateChanged((user)=>{
     if (user){
       console.log(user);
@@ -40,6 +49,41 @@ const AuthStateChanged = async () => {
         type: 'changed',
         user: user
       })
+
+    console.log('Getting user favorites from Firebase...');
+
+      let data = JSON.stringify({
+      "user" : user
+    })
+
+    let config = {
+      method : 'post',
+      url: '/api/getUserFavorites',
+      headers: {
+            'Content-Type': 'application/json', 
+            'Accept': 'application/json' 
+      },
+      data : data
+    };
+
+    axios(config)
+    .then((response) => {
+      //console.log(JSON.stringify(response.data))
+      //console.log(response.data)
+      if (response.data != 'error' && response.data.length >=1) {
+        // send results to context
+        // tell parcel list dispatch to look at user's favorites list.
+        listDispatch({
+          type: 'authStateChanged_getFavorites',
+          favorites: response.data
+        })
+      }
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+
+      // TODO create a parcel list dispatch that un-sets all favorite parcels in parcel list
     } else {
       console.log('no user');
       userDispatch({

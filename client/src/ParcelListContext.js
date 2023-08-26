@@ -37,7 +37,8 @@ function listReducer(list, action) {
           Client: {
             isSelectedParcel: false,
             inMapViewBounds: false,
-            isHighlightedParcel: false
+            isHighlightedParcel: false,
+            isFavorite: false
           }
         }
       });
@@ -150,7 +151,8 @@ function listReducer(list, action) {
             Client: {
               inMapViewBounds: inMapView,
               isSelectedParcel: t.Client.isSelectedParcel,
-              isHighlightedParcel: t.Client.isHighlightedParcel
+              isHighlightedParcel: t.Client.isHighlightedParcel,
+              isFavorite: t.Client.isFavorite
             }
           }
         })
@@ -164,12 +166,38 @@ function listReducer(list, action) {
           Client: {
             inMapViewBounds: t.Client.inMapViewBounds,
             isSelectedParcel: false,
-            isHighlightedParcel: t.Client.isHighlightedParcel
+            isHighlightedParcel: t.Client.isHighlightedParcel,
+            isFavorite: t.Client.isFavorite
           }
         }
       })
 
       return listSelectedReset;
+    }
+    // get user's favorite parcels list, set t.Client.isFavorite to True if in list.
+    case 'authStateChanged_getFavorites': {
+      if (list) {
+        console.log('auth stat changed, get favorites');
+        console.log(action.favorites);
+        const listFavoritesAdded = list.map((t)=> {
+          let isFavorite = false;
+          if (t.Basic.PARCEL_NUM == action.favorites[0]) {
+            isFavorite = true;
+          }
+          return {
+            ...t,
+            Client: {
+              inMapViewBounds: t.Client.inMapViewBounds,
+              isSelectedParcel: t.Client.isSelectedParcel,
+              isHighlightedParcel: t.Client.isHighlightedParcel,
+              isFavorite: isFavorite
+            }
+          }
+        })
+        return listFavoritesAdded;
+      } else {
+        return list;
+      }
     }
     default: {
       throw Error('Unknown action: ' + action.type);

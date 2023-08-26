@@ -13,8 +13,7 @@ function Login (props) {
 		signInWithGoogle()
 	}
 
-// triggers firebase.js to check for a logged in user, will send user to UserContext if present
-AuthStateChanged();
+console.log('login.js');
 
 
 	// use this if you want to let email/password signups.

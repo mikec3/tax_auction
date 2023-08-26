@@ -144,6 +144,33 @@ const uploadNewFavoriteParcel = async function (uid, parcel_num) {
 	})
 };
 
+// API get call for getting user's favorites
+app.post("/api/getUserFavorites", async function(req, res){
+
+	// validate token
+	let decodedToken = await auth.verifyIdToken(req.body.user.stsTokenManager.accessToken)
+
+	let uid = decodedToken.uid;
+
+	// doc ref to user requesting favorites
+	let docRef = db.collection('users').doc(uid).collection('Favorites').doc('Parcel_Numbers');
+
+	docRef.get()
+	.then((result) => {
+		// if there are results, returen them, otherwise return empty array. front end will read empty array and do nothing with it.
+		if (typeof result.data() != 'undefined') {
+			res.json(result.data().list);
+		} else {
+			res.json([]);
+		}
+	})
+	.catch(error=>{
+		console.log(error);
+		res.json(error);
+	})
+
+});
+
 // All other GET requests not handled before will return our React app
 app.get('*', (req, res) => {
   res.sendFile(path.resolve(__dirname, '../client/build', 'index.html'));

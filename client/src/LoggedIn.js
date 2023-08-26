@@ -1,51 +1,55 @@
 import React, {useEffect, useState} from 'react'
 import axios from 'axios'
-import {logout, UpdateDisplayName} from './firebase'
+import {logout, UpdateDisplayName, AuthStateChanged} from './firebase'
 import {useUser} from './UserContext'
 
 
 function LoggedIn(props) {
+	console.log('loggedin.js');
 
 	const [userTheme, setUserTheme] = useState();
 
+	// triggers firebase.js to check for a logged in user, will send user to UserContext if present
+	AuthStateChanged();
+
 	// run everytime the user prop changes
-	useEffect(()=> {
-		// get current user's theme only if user present
-		if(props.user.accessToken){
-			getUserTheme();
-		}
-	}, [props.user])
+	// useEffect(()=> {
+	// 	// get current user's theme only if user present
+	// 	if(props.user.accessToken){
+	// 		getUserTheme();
+	// 	}
+	// }, [props.user])
 
-	const getUserTheme = async () => {
-		//console.log(props.user);
-		let data = JSON.stringify({
-			"user": props.user,
-		})
+	// const getUserTheme = async () => {
+	// 	//console.log(props.user);
+	// 	let data = JSON.stringify({
+	// 		"user": props.user,
+	// 	})
 
-		let config = {
-			method : 'post',
-			url: '/api/getUserTheme',
-			headers: {
-				    'Content-Type': 'application/json', 
-    				'Accept': 'application/json'
-			},
-			data : data
-		};
+	// 	let config = {
+	// 		method : 'post',
+	// 		url: '/api/getUserTheme',
+	// 		headers: {
+	// 			    'Content-Type': 'application/json', 
+ //    				'Accept': 'application/json'
+	// 		},
+	// 		data : data
+	// 	};
 
-		axios(config)
-		.then((response) => {
-			//console.log(JSON.stringify(response))
-			if (response != 'error') {
-			// if user theme update is successful, set the theme here.
-			setUserTheme(response.data);
-			} else {
-			//setError('theme not found')
-			}
-		})
-		.catch((error) => {
-  		console.log(error);
-		});
-	}
+	// 	axios(config)
+	// 	.then((response) => {
+	// 		//console.log(JSON.stringify(response))
+	// 		if (response != 'error') {
+	// 		// if user theme update is successful, set the theme here.
+	// 		setUserTheme(response.data);
+	// 		} else {
+	// 		//setError('theme not found')
+	// 		}
+	// 	})
+	// 	.catch((error) => {
+ //  		console.log(error);
+	// 	});
+	// }
 
 	const handleLogOutButtonPress = async () => {
 		logout();

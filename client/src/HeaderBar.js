@@ -1,7 +1,7 @@
 import LoginCard from './LoginCard'
 
 const HeaderBar = () => {
-	
+	console.log('headerbar.js');
 
 
 return (
