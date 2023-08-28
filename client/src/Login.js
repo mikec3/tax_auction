@@ -1,8 +1,13 @@
 import React from 'react'
 import {signInWithGoogle, logInWithEmailAndPassword, AuthStateChanged} from './firebase'
+import {useUserDispatch} from './UserContext'
 
 
 function Login (props) {
+
+
+  const userDispatch = useUserDispatch();
+
 
 	const loginFormSubmitHandler = (event) => {
 		event.preventDefault();
@@ -14,6 +19,8 @@ function Login (props) {
 	}
 
 console.log('login.js');
+
+AuthStateChanged();
 
 
 	// use this if you want to let email/password signups.

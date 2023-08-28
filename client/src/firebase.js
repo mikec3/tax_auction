@@ -7,6 +7,7 @@ import {
   GoogleAuthProvider,
   getAuth,
   signInWithPopup,
+  signInWithRedirect,
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
   signOut,
@@ -31,6 +32,9 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
+console.log('firebase.js');
+let currUser = null;
+
 const AuthStateChanged = async () => {
   //console.log('auth state changed');
 
@@ -43,8 +47,11 @@ const AuthStateChanged = async () => {
   // when auth state is changed AND there is a user present (meaning a new login)
   // tell user context about user, and tell list context to update favorites.
   auth.onAuthStateChanged((user)=>{
-    if (user){
+    console.log(user);
+    console.log(currUser);
+    if (user && currUser != user){
       console.log(user);
+      currUser = user;
       userDispatch({
         type: 'changed',
         user: user
@@ -53,8 +60,8 @@ const AuthStateChanged = async () => {
     console.log('Getting user favorites from Firebase...');
 
       let data = JSON.stringify({
-      "user" : user
-    })
+         "user" : user
+      })
 
     let config = {
       method : 'post',
@@ -84,7 +91,7 @@ const AuthStateChanged = async () => {
     });
 
       // TODO create a parcel list dispatch that un-sets all favorite parcels in parcel list
-    } else {
+    } else if(!user) {
       console.log('no user');
       userDispatch({
         type: 'changed',

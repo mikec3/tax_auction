@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react'
 import axios from 'axios'
 import {logout, UpdateDisplayName, AuthStateChanged} from './firebase'
-import {useUser} from './UserContext'
+import {useUser, useUserDispatch} from './UserContext'
 
 
 function LoggedIn(props) {
@@ -10,7 +10,7 @@ function LoggedIn(props) {
 	const [userTheme, setUserTheme] = useState();
 
 	// triggers firebase.js to check for a logged in user, will send user to UserContext if present
-	AuthStateChanged();
+	//AuthStateChanged();
 
 	// run everytime the user prop changes
 	// useEffect(()=> {
