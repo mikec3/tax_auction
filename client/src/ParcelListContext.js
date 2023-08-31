@@ -181,7 +181,7 @@ function listReducer(list, action) {
         console.log(action.favorites);
         const listFavoritesAdded = list.map((t)=> {
           let isFavorite = false;
-          if (t.Basic.PARCEL_NUM == action.favorites[0]) {
+          if (action.favorites.includes(t.Basic.PARCEL_NUM)) {
             isFavorite = true;
           }
           return {
