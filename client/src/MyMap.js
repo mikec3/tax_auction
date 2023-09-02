@@ -168,6 +168,9 @@ if (typeof parcelList != 'undefined') {
 				 				// change marker image if it's the active selected parcel
 					 			if (parcel.Client.isSelectedParcel || parcel.Client.isHighlightedParcel) {
 					 					iconURL = '/selected_marker.png';
+					 			} else if (parcel.Client.isFavorite) {
+					 				console.log('Favorite: ' + parcel.Basic.PARCEL_NUM);
+					 				iconURL = '/Heart_Icon_2.png';
 					 			}
 				 				
 				 				// build marker object
