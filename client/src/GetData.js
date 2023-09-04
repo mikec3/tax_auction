@@ -4,12 +4,17 @@ import React, {useEffect, useState} from 'react'
 // import MyMap from './MyMap.js'
 import axios from 'axios'
 import {useListDispatch} from './ParcelListContext';
+import {GetUserFavorites} from './firebase'
+import {useUser} from './UserContext'
 
 
 function GetData(props) {
 
 	// give access to the list dispatcher
 	const listDispatch = useListDispatch();
+
+	// get user context
+	const user = useUser();
 
 	let results;
 
@@ -49,6 +54,14 @@ console.log('Retrieving FireBase Data...')
 useEffect(()=> {
 getData()
 }, []);
+
+// useEffect(()=> {
+// 	// if there's a user, get the favorites (will update parcelListContext);
+// 	if (user) {
+// 		console.log('Get Data is getting the favorites');
+// 		GetUserFavorites(user, listDispatch);
+// 	}
+// }, [user]);
 
 return (<></>);
 }

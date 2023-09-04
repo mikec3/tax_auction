@@ -146,6 +146,7 @@ const uploadNewFavoriteParcel = async function (uid, parcel_num) {
 
 // API get call for getting user's favorites
 app.post("/api/getUserFavorites", async function(req, res){
+	console.log('Attempting to getting user favorites from firebase');
 
 	// validate token
 	let decodedToken = await auth.verifyIdToken(req.body.user.stsTokenManager.accessToken)

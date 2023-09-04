@@ -40,7 +40,7 @@ const AuthStateChanged = async () => {
 
   const userDispatch = useUserDispatch();
 
-  // get access to parcel List Dispatch;
+      // get access to parcel List Dispatch;
   const listDispatch = useListDispatch();
 
 
@@ -56,6 +56,21 @@ const AuthStateChanged = async () => {
         type: 'changed',
         user: user
       })
+
+      GetUserFavorites(user, listDispatch);
+
+      // TODO create a parcel list dispatch that un-sets all favorite parcels in parcel list
+    } else if(!user) {
+      console.log('no user');
+      userDispatch({
+        type: 'changed',
+        user: null
+      })
+    }
+  })
+}
+
+const GetUserFavorites = (user, listDispatch) => {
 
     console.log('Getting user favorites from Firebase...');
 
@@ -81,7 +96,7 @@ const AuthStateChanged = async () => {
         // send results to context
         // tell parcel list dispatch to look at user's favorites list.
         listDispatch({
-          type: 'authStateChanged_getFavorites',
+          type: 'setFavorites',
           favorites: response.data
         })
       }
@@ -89,16 +104,6 @@ const AuthStateChanged = async () => {
     .catch((error) => {
       console.log(error);
     });
-
-      // TODO create a parcel list dispatch that un-sets all favorite parcels in parcel list
-    } else if(!user) {
-      console.log('no user');
-      userDispatch({
-        type: 'changed',
-        user: null
-      })
-    }
-  })
 }
 
 const googleProvider = new GoogleAuthProvider();
@@ -160,5 +165,6 @@ export {
   logout,
   getCurrentUser,
   UpdateDisplayName,
-  AuthStateChanged
+  AuthStateChanged,
+  GetUserFavorites
 };

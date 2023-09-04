@@ -28,6 +28,8 @@ function LoginCard(props) {
 		}
 	}
 
+	console.log(user);
+
 return (
 	<div className='LoginCard'>
 		{user && 

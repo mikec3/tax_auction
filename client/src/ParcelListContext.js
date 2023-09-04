@@ -175,9 +175,10 @@ function listReducer(list, action) {
       return listSelectedReset;
     }
     // get user's favorite parcels list, set t.Client.isFavorite to True if in list.
-    case 'authStateChanged_getFavorites': {
+    case 'setFavorites': {
+      console.log('parcelListContext wants to set favorites');
       if (list) {
-        console.log('auth stat changed, get favorites');
+        console.log('setting favorites');
         console.log(action.favorites);
         const listFavoritesAdded = list.map((t)=> {
           let isFavorite = false;

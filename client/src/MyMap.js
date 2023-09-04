@@ -2,6 +2,8 @@ import React, {useState, useEffect, useRef} from 'react'
 import {GoogleMap, useGoogleMap, useJsApiLoader, Marker, InfoWindow, LoadScript, MarkerClusterer, ScriptLoaded} from '@react-google-maps/api';
 import {useList, useListDispatch} from './ParcelListContext';
 import useNumberFormat from './useNumberFormat'
+import {GetUserFavorites} from './firebase'
+import {useUser} from './UserContext'
 
 // TODO need to configure webpack file loader to import images in this way. Currently importing directly in script via relative path.
 //import markerImage from './test_marker.png';
@@ -13,6 +15,18 @@ const MyMap = props => {
 
 // initialize the dispatcher for parcelList
 const listDispatch = useListDispatch();
+
+		// current logged in user state
+	const [user, setUser] = useState();
+
+	const userCont = useUser();
+
+	useEffect(()=>{
+		setUser(userCont);
+
+	}, [userCont])
+
+console.log(user);
 
 const [selected, setSelected] = useState();
 const [mapRender, setMapRender] = useState();
@@ -28,7 +42,9 @@ const [mapViewBounds, setMapViewBounds] = useState(0);
 
 // get parcel list from useList() context hook.
 const parcelList = useList();
-//console.log(parcelList);
+
+// use this to avoid infinite loops
+const [favoritesCalled, setFavoritesCalled] = useState(false);
 
 // when parcel Marker is selected, send the parcel up to app.js, so that app.js can send the selected parcel down to the info window
 const onParcelSelected = item => {
@@ -41,11 +57,22 @@ const onParcelSelected = item => {
 }
 
 useEffect(()=> {
+
+	// only get favorites if we have a parcel list AND the favorites haven't been called yet (avoid loops)
+	if (user && parcelList && !favoritesCalled) {
+		console.log('my map has a user and a parcel list, go get the user favorites');
+		GetUserFavorites(user, listDispatch);
+		setFavoritesCalled(true);
+	}
+}, [parcelList]);
+
+useEffect(()=> {
 	//console.log(props.filtersClass);
+	// map idle helps the info card know which parcels are in view
 	if (props.filtersClass=='FiltersHide' && mapRef) {
 		handleMapIdle();
 	}
-}, [props.filtersClass])
+}, [props.filtersClass]);
 
 // map styling - make responsive according to window, width-height need to be set in absolute terms (can't take %).
 let containerStyle = {};
@@ -71,7 +98,7 @@ if (window.innerWidth <= 500) {
 
 // MarkerClusterer options
 const options = {
-	minimumClusterSize: 10,
+	minimumClusterSize: 15,
   //	imagePath:
   //  '/clusterer/m' // so you must have m1.png, m2.png, m3.png, m4.png, m5.png and m6.png in that folder
 }
