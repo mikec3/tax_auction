@@ -6,7 +6,7 @@ import Checkbox from '@mui/material/Checkbox';
 const AuctionFilters = (props) => {
 
 	// configure default availability checkbox value here
-	const defaultAvailCheckBoxValue = true;
+	const defaultAvailCheckBoxValue = false;
 	const defaultOnlineCheckBoxValue = false;
 	const defaultPictureCheckBoxValue = false;
 

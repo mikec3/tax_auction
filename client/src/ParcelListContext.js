@@ -85,7 +85,7 @@ function listReducer(list, action) {
     }
 
     case 'filter_apply_all': {
-      //console.log('applying all filters');
+      console.log('applying all filters');
       //console.log('price max: ' + action.price.max);
       //console.log('price min: ' + action.price.min);
       //console.log('acres max: ' + action.acre.max);
@@ -111,6 +111,7 @@ function listReducer(list, action) {
       filtersApplied = filtersApplied.filter(t=> t.Land.Acres <= action.acre.max && t.Land.Acres >= action.acre.min);
 
       // filter everything with an auction date in the past IF avail.value is true
+      console.log(action.avail.value);
       if (action.avail.value) {
         //console.log('applying date filter');
         filtersApplied = filtersApplied.filter(t=> new Date(t.Meta.AUCTION_DATE) >= new Date());

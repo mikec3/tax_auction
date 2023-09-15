@@ -58,6 +58,8 @@ const onParcelSelected = item => {
 
 useEffect(()=> {
 
+	console.log(parcelList);
+
 	// only get favorites if we have a parcel list AND the favorites haven't been called yet (avoid loops)
 	if (user && parcelList && !favoritesCalled) {
 		console.log('my map has a user and a parcel list, go get the user favorites');
