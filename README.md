@@ -138,6 +138,8 @@ API config & key is in client, set API permissions to restrict to either domain 
 1. Install selenium webdriver
 ```
 npm install selenium-webdriver
+
+npm install chromedriver // use this instead of steps 2-4
 ```
 2. Download chromedriver from chrome
 3. Navigate (using Finder->Go->Go To Folder...) to /usr/local/bin and place chromdriver in folder
