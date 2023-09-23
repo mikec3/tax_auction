@@ -18,7 +18,8 @@ This app is the only source of multiple county tax foreclosure auction parcel in
 * scrape King County
 * scrape other counties
 * subscription login
-* marketing!!!!
+* market feedback
+* marketing!!!
 
 
 
