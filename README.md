@@ -139,8 +139,13 @@ API config & key is in client, set API permissions to restrict to either domain 
 ```
 npm install selenium-webdriver
 
-npm install chromedriver // use this instead of steps 2-4
+npm install chromedriver // use this instead if steps 2-4 don't work
 ```
+2. download chromedriver zip file from chrome for testing https://googlechromelabs.github.io/chrome-for-testing/ - use the https://edgedl.me.gvt1.com/edgedl/chrome/chrome-for-testing/118.0.5993.70/mac-x64/chromedriver-mac-x64.zip
+3. unzip the download and extract the chromedriver.exe
+4. paste the chromedriver.exe into this repo
+
+archive steps 2-4
 2. Download chromedriver from chrome
 3. Navigate (using Finder->Go->Go To Folder...) to /usr/local/bin and place chromdriver in folder
 4. Test that chromedriver is setup by calling 'chromedriver' from CLI.
@@ -156,6 +161,12 @@ npm install jest
   "test": "jest"
 }
 ```
+3. Call tests
+```
+npm test                // run all tests
+npm test <myTestFile>   // call individual test file
+```
+
  ## Material UI
  1. install Material UI @ client directory
  

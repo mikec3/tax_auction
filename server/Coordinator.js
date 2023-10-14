@@ -1,5 +1,6 @@
 const Snohomish = require('./Snohomish_Scraper');
 const King = require('./King_Scraper');
+const Pierce = require('./Pierce_Scraper');
 const Read_Auction_Notes = require('./Read_Auction_Notes');
 const Firebase = require('./UploadToFirebase.js');
 
@@ -111,6 +112,58 @@ const getKing = async function () {
 	return parcelOutput;
 }
 
+const getPierce = async function () {
+	// Get Snohomish Parcel List
+	let PierceParcelList = Read_Auction_Notes.readAuctionNotes('ParcelList').filter(item => item.COUNTY == 'Pierce');
+
+	//  get auction meta data
+	let pierceMetaData = Read_Auction_Notes.readAuctionNotes('AuctionNotes').filter(item => item.COUNTY == 'Pierce')[0];
+
+	let parcelOutput = [];
+
+	// loop counter for showing progress
+	let increment = 1;
+
+	let listLength = PierceParcelList.length;
+
+	// loop through snohomish parcel list
+	for await (const parcel of PierceParcelList) {
+		//console.log(parcel);
+
+		// add meta data to parcelObj
+		parcel['AUCTION_DATE'] = pierceMetaData['AUCTION_DATE'];
+		parcel['AUCTION_INFO_URL'] = pierceMetaData['AUCTION_INFO_URL'];
+		parcel['PARCEL_INFO_URL'] = pierceMetaData['PARCEL_INFO_URL'];
+		parcel['PARCEL_DATA_BASE_URL'] = pierceMetaData['PARCEL_DATA_BASE_URL'];
+
+		parcel['PARCEL_VIEWER_URL'] = pierceMetaData['PARCEL_VIEWER_URL'];
+		parcel['AUCTION_SITE'] = pierceMetaData['AUCTION_SITE'];
+		parcel['AUCTION_SITE_FLAG'] = pierceMetaData['AUCTION_SITE_FLAG'];
+
+		// get the scraper data
+		let parcelInfo = await Pierce.getParcelInfo(parcel['PARCEL_DATA_BASE_URL'],
+														parcel['PARCEL_VIEWER_URL'],
+														parcel['PARCEL_NUM']);
+		// add the metadata to the scraper data
+		parcelInfo['Meta'] = parcel;
+
+		// push the full parcel info onto the outputArray
+		parcelOutput.push(parcelInfo);
+
+		console.log(parcelInfo);
+		console.log('Scraped parcel: ' + increment + ' of ' + listLength);
+
+		// uncomment the below break if you want to do any testing and have it stop short of the full length
+		increment++;
+		if (increment >=20) {
+			//break;
+		}
+	};
+
+	// return the output Array
+	return parcelOutput;
+}
+
 const Scrape = async function () {
 
 	// Uncomment out to re-scrape snohomish. last scrape was 10/12/22.
@@ -122,6 +175,12 @@ const Scrape = async function () {
 	// get King County. Uncomment out to rescrape. Developing now.
 	// let king = await getKing();
 	// king.forEach(parcel=> {
+	// 	Firebase.upload(database, parcel);
+	// });
+
+	// get Pierce County. Uncomment out to rescrape. Developing now.
+	// let pierce = await getPierce();
+	// pierce.forEach(parcel=> {
 	// 	Firebase.upload(database, parcel);
 	// });
 }
