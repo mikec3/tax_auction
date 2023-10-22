@@ -36,24 +36,14 @@ const getParcelInfo = async function (baseUrl, parcelViewerURL, parcelNum) {
 	// get basic info
 	try {
 
-		// create empty parcelInfo object to hold key-value pairs
-		parcelInfo = {};
-
 			await driver.get(parcelURL.concat('/summary'));
 			console.log('finding summary info');
 
+			// create empty parcelInfo object to hold key-value pairs
+			parcelInfo = {};
+
 			//scrape all ux-data-display-table classes and sort out which elements to add
 			let dataDisplayTables = await driver.findElements(By.css('.ux-data-display-table'));
-
-			// let dataDisplayRows = await dataDisplayTables[0].findElements(By.tagName('tr'));
-
-			// let text = await dataDisplayRows[0].getAttribute('innerText');
-
-			// let cells = await dataDisplayRows[0].findElements(By.tagName('td'));
-
-			// let cellKey = await cells[0].getAttribute('innerText');
-
-			// let cellValue = await cells[1].getAttribute('innerText');
 
 			// iterate through tables
 			for (let table of dataDisplayTables) {
@@ -68,10 +58,10 @@ const getParcelInfo = async function (baseUrl, parcelViewerURL, parcelNum) {
 					let cellKey = await cells[0].getAttribute('innerText');
 
 					let cellValue = await cells[1].getAttribute('innerText');
-					console.log(cellKey + ": " + cellValue);
+					//console.log(cellKey + ": " + cellValue);
 
 					// add table data into parcelInfo as key-value pairs
-					parcelInfo[cellKey] = cellValue;
+					currentParcel['Basic'][cellKey] = cellValue;
 				}
 			}
 
@@ -85,22 +75,6 @@ const getParcelInfo = async function (baseUrl, parcelViewerURL, parcelNum) {
 
 						// scrape all ux-data-display-table classes and sort out which elements to add
 			dataDisplayTables = await driver.findElements(By.css('.ux-data-display-table'));
-			// console.log(dataDisplayTables);
-			// //console.log(await dataDisplayTables[0].getAttribute('innerText'));
-
-			// let dataDisplayRows = await dataDisplayTables[0].findElements(By.tagName('tr'));
-
-			// let text = await dataDisplayRows[0].getAttribute('innerText');
-
-			// let cells = await dataDisplayRows[0].findElements(By.tagName('td'));
-
-			// let cellKey = await cells[0].getAttribute('innerText');
-
-			// let cellValue = await cells[1].getAttribute('innerText');
-
-			// console.log(text);
-			// console.log(cellKey);
-			// console.log(cellValue);
 
 
 			// try to loop through tables
@@ -118,10 +92,10 @@ const getParcelInfo = async function (baseUrl, parcelViewerURL, parcelNum) {
 						let cellKey = await cells[0].getAttribute('innerText');
 
 						let cellValue = await cells[1].getAttribute('innerText');
-						console.log(cellKey + ": " + cellValue);
+						//console.log(cellKey + ": " + cellValue);
 											
 						// add table data into parcelInfo as key-value pairs
-						parcelInfo[cellKey] = cellValue;
+						currentParcel['Tax'][cellKey] = cellValue;
 					}
 				}
 			} catch (error) {
@@ -142,19 +116,6 @@ const getParcelInfo = async function (baseUrl, parcelViewerURL, parcelNum) {
 						// scrape all ux-data-display-table classes and sort out which elements to add
 			dataDisplayTables = await driver.findElements(By.css('.ux-data-display-table'));
 
-			let dataDisplayRows = await dataDisplayTables[0].findElements(By.tagName('tr'));
-
-			let text = await dataDisplayRows[0].getAttribute('innerText');
-
-			let cells = await dataDisplayRows[0].findElements(By.tagName('td'));
-
-			let cellKey = await cells[0].getAttribute('innerText');
-
-			let cellValue = await cells[1].getAttribute('innerText');
-
-			console.log(text);
-			console.log(cellKey + " " + cellValue);
-
 			// try looping through land tables
 			try {
 				// iterate through tables
@@ -170,10 +131,10 @@ const getParcelInfo = async function (baseUrl, parcelViewerURL, parcelNum) {
 						let cellKey = await cells[0].getAttribute('innerText');
 
 						let cellValue = await cells[1].getAttribute('innerText');
-						console.log(cellKey + ": " + cellValue);
+						//console.log(cellKey + ": " + cellValue);
 
 						// add table data into parcelInfo as key-value pairs
-						parcelInfo[cellKey] = cellValue;
+						currentParcel['Land'][cellKey] = cellValue;
 					}
 				}
 			} catch (error) {
@@ -215,11 +176,45 @@ const getParcelInfo = async function (baseUrl, parcelViewerURL, parcelNum) {
 						let cellValue = await cells[1].getAttribute('innerText');
 
 						// add table data into parcelInfo as key-value pairs
-						parcelInfo[cellKey] = cellValue;
+						currentParcel['Building'][cellKey] = cellValue;
 					
 				}
 			} catch (error) {
 				console.log('error looping through building tables');
+				console.log(error);
+			}
+
+			// try looping through the second building table
+			try {
+
+				let dataTables = await driver.findElements(By.css('.panel.panel-info'));
+
+				let dataTable2 = await dataTables[2].findElement(By.css('.panel-body'));
+
+				let tableHeaders = await dataTable2.findElements(By.tagName('th'));
+
+				let tableData = await dataTable2.findElements(By.tagName('td'));
+
+				for (let x = 0; x < tableHeaders.length; x++) {
+					let cellKey = await tableHeaders[x].getAttribute('innerText');
+					let cellValue = await tableData[x].getAttribute('innerText');
+					currentParcel['Building'][cellKey] = cellValue;
+				}
+
+
+				// diagnostics
+				let panelText = await dataTable2.getAttribute('innerText');
+
+				console.log(panelText);
+
+				console.log(await tableHeaders[0].getAttribute('innerText'));
+
+				console.log(await tableData[0].getAttribute('innerText'));
+
+
+
+			} catch (error) {
+				console.log('problem looping through second building table');
 				console.log(error);
 			}
 
@@ -287,26 +282,49 @@ const getParcelInfo = async function (baseUrl, parcelViewerURL, parcelNum) {
 			console.log(e);
 		}
 
-		let mapElement = await driver.findElement(By.css('#map'));
+		try {
+
+			let mapElement = await driver.findElement(By.css('#map'));
 
 
-			// instantiate actions
-		const actions = driver.actions({async: true});
-				// click the map near the results box (parcel that was searched). This activates the lat/lon display at the bottom of the map
-		actions.move({origin:mapElement})
-				.contextClick()
-				.pause(1000)
-				.perform();
+				// instantiate actions
+			const actions = driver.actions({async: true});
+					// click the map near the results box (parcel that was searched). This activates the lat/lon display at the bottom of the map
+			actions.move({origin:mapElement})
+					.click()
+					.pause(2000)
+					.perform();
 
-		let coordinateInfo = await driver.findElement(By.css('.coordinate-info.jimu-float-leading.jimu-align-leading'));
+			actions.clear();
 
-		let coordinateText = await coordinateInfo.getAttribute('innerText');
+			let infoBox = await driver.findElement(By.css('#dijit__WidgetBase_2'));
 
-		console.log(coordinateText);
+			actions.move({origin:infoBox})
+					.click()
+					.pause(2000)
+					.perform();
+
+			actions.clear();
+
+			// wait after clicking coordinate info box
+	 		await new Promise(resolve => setTimeout(resolve, pauseTime));
+
+	 		console.log('paused after clicking map');
+
+			// try to find using classes
+			let coordinateInfoByClass = await driver.findElements(By.css('.jimu-widget-cc.outputCoordinateContainer'));
+
+			let coordinateInfoTextBox = await coordinateInfoByClass[3].findElement(By.css('.ta'));
+
+			let coordinateTextext = await coordinateInfoTextBox.getAttribute('value');
+
+			console.log(coordinateText);
 
 
- 											
-
+		} catch (error) {
+			console.log('problem selecting the map and info box for lat/lon');
+			console.log(error);
+		}
 
 
 	} catch (error) {
@@ -319,4 +337,20 @@ const getParcelInfo = async function (baseUrl, parcelViewerURL, parcelNum) {
 	return currentParcel;
 }
 
-module.exports = {getParcelInfo};
+// takes a single text element '+47.193184N -122.777412W' and returns a two element array of ['47.193184', '-122.777412']
+const StripLatLon = function (coordinates) {
+
+	// split by space character into two array elements
+	let latLonArray = coordinates.split(" ");
+
+	//replace everything but numbers decimals and negative signs
+	latLonArray[0] = latLonArray[0].replace(/[^0-9.-]/g,"");
+	latLonArray[1] = latLonArray[1].replace(/[^0-9.-]/g,"");
+
+
+	console.log(latLonArray);
+
+	return latLonArray;
+}
+
+module.exports = {getParcelInfo, StripLatLon};
