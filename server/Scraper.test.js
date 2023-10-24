@@ -84,15 +84,15 @@ test('Pierce County Scraper', async () => {
 	let fetchedSquareFeet = result['Building']['Square Feet'];
 	let fetchedLat = result['Location']['LAT'];
 	//let fetchedSaleDate = result['History']['Sale Date'];
-	let fetchedPicture = result['Pictures'];
+	let fetchedPicture = result['Pictures'][0];
 
 	expect(fetchedParcelNum).toEqual('0020262018');
 	expect(fetchedAddress).toEqual('7019 180TH AVE SW');
 	expect(fetchedYear).toEqual('1981');
 	expect(fetchedTaxValue).toEqual('44,920');
-	expect(fetchedAcres).toEqual('5.090');
+	expect(fetchedAcres).toEqual('5.09');
 	expect(fetchedSquareFeet).toEqual('1,440');
-	expect(fetchedLat).toEqual('47.54411');
+	expect(fetchedLat).toEqual('47.193147');
 	//expect(fetchedSaleDate).toEqual('10/01/1999');
 	expect(fetchedPicture).toEqual('https://atip.piercecountywa.gov/imageView?parcelNumber=0020262018&fileName=2020_PRI_1-7-2020_EZ_.jpg&imageType=Photos');
 });

@@ -131,7 +131,7 @@ const getParcelInfo = async function (baseUrl, parcelViewerURL, parcelNum) {
 						let cellKey = await cells[0].getAttribute('innerText');
 
 						let cellValue = await cells[1].getAttribute('innerText');
-						//console.log(cellKey + ": " + cellValue);
+						console.log(cellKey + ": " + cellValue);
 
 						// add table data into parcelInfo as key-value pairs
 						currentParcel['Land'][cellKey] = cellValue;
@@ -225,7 +225,7 @@ const getParcelInfo = async function (baseUrl, parcelViewerURL, parcelNum) {
 
 									// build in delay
 			 	// wait 5 seconds for full parcelViewerURL to load
- 			await new Promise(resolve => setTimeout(resolve, pauseTime));
+ 			await new Promise(resolve => setTimeout(resolve, pauseTime+2000));
 
  			// Get table of picture URLs
  			let imagePanel = await driver.findElement(By.css('.panel-body.grid-images'));
@@ -242,8 +242,7 @@ const getParcelInfo = async function (baseUrl, parcelViewerURL, parcelNum) {
  				console.log(imageURL);
  			}
 
- 			parcelInfo['Pictures'] = parcelImageURLs;
-			console.log(parcelInfo);
+ 			currentParcel['Pictures'] = parcelImageURLs;
 
 
 	} catch (error) {
@@ -259,7 +258,7 @@ const getParcelInfo = async function (baseUrl, parcelViewerURL, parcelNum) {
 
 									// build in delay
 			 	// wait 5 seconds for full parcelViewerURL to load
- 			await new Promise(resolve => setTimeout(resolve, pauseTime+3000));
+ 			await new Promise(resolve => setTimeout(resolve, pauseTime+1000));
 
  			// try to close the warning modal
  		try {
@@ -316,9 +315,12 @@ const getParcelInfo = async function (baseUrl, parcelViewerURL, parcelNum) {
 
 			let coordinateInfoTextBox = await coordinateInfoByClass[3].findElement(By.css('.ta'));
 
-			let coordinateTextext = await coordinateInfoTextBox.getAttribute('value');
+			let coordinateTextRaw = await coordinateInfoTextBox.getAttribute('value');
 
-			console.log(coordinateText);
+			let coordinateText = StripLatLon(coordinateTextRaw);
+
+			currentParcel['Location']['LAT'] = coordinateText[0];
+			currentParcel['Location']['LON'] = coordinateText[1];
 
 
 		} catch (error) {
