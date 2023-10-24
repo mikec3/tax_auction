@@ -2,10 +2,10 @@ const snohomish = require('./Snohomish_Scraper');
 const king_county = require('./King_Scraper');
 const pierce = require('./Pierce_Scraper');
 
-// TODO change toMatch to toEqual & add time limits that each test must be passed under (different then jest.setTimeout).
+// TODO change toMatch to toEqual
 
 // set new timeout for long running tests
-jest.setTimeout(70000);
+jest.setTimeout(30000);
 
 // test('Snohomish Scraper', async () => {
 

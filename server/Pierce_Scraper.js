@@ -5,7 +5,7 @@ const webdriver = require('selenium-webdriver');
 const {By, until, Key} = require('selenium-webdriver');
 const chrome = require('selenium-webdriver/chrome');
 
-let pauseTime = 2000;
+let pauseTime = 1000;
 
 // get info
 const getParcelInfo = async function (baseUrl, parcelViewerURL, parcelNum) {
@@ -39,9 +39,6 @@ const getParcelInfo = async function (baseUrl, parcelViewerURL, parcelNum) {
 			await driver.get(parcelURL.concat('/summary'));
 			console.log('finding summary info');
 
-			// create empty parcelInfo object to hold key-value pairs
-			parcelInfo = {};
-
 			//scrape all ux-data-display-table classes and sort out which elements to add
 			let dataDisplayTables = await driver.findElements(By.css('.ux-data-display-table'));
 
@@ -71,7 +68,7 @@ const getParcelInfo = async function (baseUrl, parcelViewerURL, parcelNum) {
 
 						// build in delay
 			 	// wait 5 seconds for full parcelViewerURL to load
- 			await new Promise(resolve => setTimeout(resolve, pauseTime+1000));
+ 			await new Promise(resolve => setTimeout(resolve, pauseTime+1500));
 
 						// scrape all ux-data-display-table classes and sort out which elements to add
 			dataDisplayTables = await driver.findElements(By.css('.ux-data-display-table'));
@@ -131,7 +128,7 @@ const getParcelInfo = async function (baseUrl, parcelViewerURL, parcelNum) {
 						let cellKey = await cells[0].getAttribute('innerText');
 
 						let cellValue = await cells[1].getAttribute('innerText');
-						console.log(cellKey + ": " + cellValue);
+						//console.log(cellKey + ": " + cellValue);
 
 						// add table data into parcelInfo as key-value pairs
 						currentParcel['Land'][cellKey] = cellValue;
@@ -205,11 +202,11 @@ const getParcelInfo = async function (baseUrl, parcelViewerURL, parcelNum) {
 				// diagnostics
 				let panelText = await dataTable2.getAttribute('innerText');
 
-				console.log(panelText);
+				//console.log(panelText);
 
-				console.log(await tableHeaders[0].getAttribute('innerText'));
+				//console.log(await tableHeaders[0].getAttribute('innerText'));
 
-				console.log(await tableData[0].getAttribute('innerText'));
+				//console.log(await tableData[0].getAttribute('innerText'));
 
 
 
@@ -239,7 +236,7 @@ const getParcelInfo = async function (baseUrl, parcelViewerURL, parcelNum) {
  			for (let image of images) {
  				let imageURL = await image.getAttribute('src');
  				parcelImageURLs.push(imageURL);
- 				console.log(imageURL);
+ 				//console.log(imageURL);
  			}
 
  			currentParcel['Pictures'] = parcelImageURLs;
@@ -258,20 +255,20 @@ const getParcelInfo = async function (baseUrl, parcelViewerURL, parcelNum) {
 
 									// build in delay
 			 	// wait 5 seconds for full parcelViewerURL to load
- 			await new Promise(resolve => setTimeout(resolve, pauseTime+1000));
+ 			await new Promise(resolve => setTimeout(resolve, pauseTime+2000));
 
  			// try to close the warning modal
  		try {
 			let splashContainerButton = await driver.findElement(By.css('.jimu-btn.jimu-float-trailing.enable-btn.lastFocusNode'));
 			let splashContainerText = await splashContainerButton.getAttribute('innerText');
-			console.log(splashContainerText);
+			//console.log(splashContainerText);
 
 			 				     	// instantiate actions
 		 	const actions = driver.actions({async: true});
 			// enter parcel number into search input
 			await actions.click(splashContainerButton)
 					.keyDown(Key.RETURN)
-					.pause(2000)
+					.pause(1000)
 					.perform();
 
 			actions.clear();
@@ -291,7 +288,7 @@ const getParcelInfo = async function (baseUrl, parcelViewerURL, parcelNum) {
 					// click the map near the results box (parcel that was searched). This activates the lat/lon display at the bottom of the map
 			actions.move({origin:mapElement})
 					.click()
-					.pause(2000)
+					.pause(500)
 					.perform();
 
 			actions.clear();
@@ -300,12 +297,12 @@ const getParcelInfo = async function (baseUrl, parcelViewerURL, parcelNum) {
 
 			actions.move({origin:infoBox})
 					.click()
-					.pause(2000)
+					.pause(500)
 					.perform();
 
 			actions.clear();
 
-			// wait after clicking coordinate info box
+			// // wait after clicking coordinate info box
 	 		await new Promise(resolve => setTimeout(resolve, pauseTime));
 
 	 		console.log('paused after clicking map');
