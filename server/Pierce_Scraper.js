@@ -37,6 +37,7 @@ const getParcelInfo = async function (baseUrl, parcelViewerURL, parcelNum) {
 	try {
 
 			await driver.get(parcelURL.concat('/summary'));
+			await new Promise(resolve => setTimeout(resolve, pauseTime));
 			console.log('finding summary info');
 
 			//scrape all ux-data-display-table classes and sort out which elements to add
@@ -321,8 +322,54 @@ const getParcelInfo = async function (baseUrl, parcelViewerURL, parcelNum) {
 
 
 		} catch (error) {
-			console.log('problem selecting the map and info box for lat/lon');
+			console.log('problem selecting the map and info box for lat/lon, trying again');
 			console.log(error);
+
+			try {
+				let mapElement = await driver.findElement(By.css('#map'));
+
+
+					// instantiate actions
+				const actions = driver.actions({async: true});
+						// click the map near the results box (parcel that was searched). This activates the lat/lon display at the bottom of the map
+				actions.move({origin:mapElement})
+						.click()
+						.pause(500)
+						.perform();
+
+				actions.clear();
+
+				let infoBox = await driver.findElement(By.css('#dijit__WidgetBase_2'));
+
+				actions.move({origin:infoBox})
+						.click()
+						.pause(500)
+						.perform();
+
+				actions.clear();
+
+				// // wait after clicking coordinate info box
+		 		await new Promise(resolve => setTimeout(resolve, pauseTime));
+
+		 		console.log('paused after clicking map');
+
+				// try to find using classes
+				let coordinateInfoByClass = await driver.findElements(By.css('.jimu-widget-cc.outputCoordinateContainer'));
+
+				let coordinateInfoTextBox = await coordinateInfoByClass[3].findElement(By.css('.ta'));
+
+				let coordinateTextRaw = await coordinateInfoTextBox.getAttribute('value');
+
+				let coordinateText = StripLatLon(coordinateTextRaw);
+
+				currentParcel['Location']['LAT'] = coordinateText[0];
+				currentParcel['Location']['LON'] = coordinateText[1];
+
+			} catch (error) {
+				console.log(error);
+				console.log('failed twice to select the map and info box for lat/lon');
+			}
+
 		}
 
 

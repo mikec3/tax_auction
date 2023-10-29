@@ -135,7 +135,7 @@ const getParcelInfo = async function (baseUrl, parcelViewerURL, parcelNum) {
 			// Click the property detail button then wait for it to load
 		 	await actions.move({origin:propertyDetailLinkButton})
 		 					.click()
-		 					.pause(3000)
+		 					.pause(2000)
 		 					.perform();
 
 		 	await actions.clear();
@@ -215,7 +215,7 @@ const getParcelInfo = async function (baseUrl, parcelViewerURL, parcelNum) {
 
 			// build in delay
 			 	// wait 5 seconds for full parcelViewerURL to load
- 			await new Promise(resolve => setTimeout(resolve, 4000));
+ 			await new Promise(resolve => setTimeout(resolve, 3000));
 
 			// locate map element
 			let gisMap = await driver.findElement(By.css('#map'));
@@ -235,7 +235,7 @@ const getParcelInfo = async function (baseUrl, parcelViewerURL, parcelNum) {
 					.pause(1000)
 					.sendKeys(String(parcelNum))
 					.keyDown(Key.RETURN)
-					.pause(2000)
+					.pause(1000)
 					.perform();
 
 			actions.clear();
