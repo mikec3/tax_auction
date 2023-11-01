@@ -19,12 +19,11 @@ const upload = async function (database, parcelInfo) {
 
 	const docRef = db.collection(database).doc(String(parcelInfo.Basic.PARCEL_NUM));
 
-	await docRef.set(parcelInfo)
-	.then(result => {
-		console.log(result);
-	}).catch(error => {
-		console.log(error);
-	})
+	let results = await docRef.set(parcelInfo);
+
+	console.log(results);
+
+	return results;
 };
 
 const read = async function (database) {
