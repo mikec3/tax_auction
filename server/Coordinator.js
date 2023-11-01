@@ -251,14 +251,27 @@ const getCounty = async function (auctionNotesLoc, countyName) {
 // call scrapers for each county in county list, then upload to firebase.
 const Scraper = async function (auctionNotesLoc, countyList, databaseName) {
 
+	let uploadResults = [];
+
 	// loop through counties in countyList and upload parcel data results to firebase.
-	for await (const countyName of countyList) {
+	for (const countyName of countyList) {
+
 		let results = await getCounty(auctionNotesLoc, countyName);
-		results.forEach(parcel=> {
-		let uploadResult = Firebase.upload(databaseName, parcel);
-		console.log(uploadResult);
-	});	
+
+		for (const result of results) {
+			let uploadResult = await Firebase.upload(databaseName, result);
+			uploadResults.push(uploadResult);
+			//resultsArray.push(uploadResult);
+			//console.log(uploadResult);
+		}
+
+		// results.forEach(parcel=> {
+		// let uploadResult = Firebase.upload(databaseName, parcel);
+		// console.log(uploadResult);
+	// });	
 	}
+
+	return uploadResults;
 
 }
 

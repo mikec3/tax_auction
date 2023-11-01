@@ -7,10 +7,16 @@ jest.setTimeout(50000);
 
 test('Test coordinator script with fake test county request', async () => {
 
-	let result = await coordinator.Scraper('Auction_Notes_2022.xlsx', ['FakeTestCounty'], 'parcel_test');
+	let actual = await coordinator.Scraper('Auction_Notes_2022.xlsx', ['FakeTestCounty'], 'parcel_test');
 
-	console.log(result);
+	let expected = [{"_writeTime": {"_nanoseconds": 94973000, "_seconds": 1698803779}}];
 
-	expect(result).toEqual(true);
+
+	console.log(actual);
+
+	expect(actual).not.toBeNull();
+	expect(actual[0]).toHaveProperty('_writeTime');
+
+	//expect(actual).toMatchObject(expected);
 
 });
