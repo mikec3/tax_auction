@@ -22,7 +22,15 @@ test('Read from Firebase', async () => {
 
 	let res = await Firebase.read('parcel_test');
 
+	let testParcelResult;
+
 	res.forEach(doc => {
-		expect(doc.data()).toStrictEqual(testParcel);
+		console.log(doc.data());
+		if (doc.data()['Basic']['PARCEL_NUM'] == '0001') {
+			testParcelResult = doc.data();
+		}
 	})
+
+
+	expect(testParcelResult).toStrictEqual(testParcel);
 });

@@ -2,13 +2,13 @@
 const path = require('path');
 const xlsx = require("xlsx");
 
-let file_location = 'Auction_Notes_2022.xlsx';
+//let file_location = 'Auction_Notes_2022.xlsx';
 
 // console.log(__filename);
 // console.log(__dirname);
 
 
-const readAuctionNotes = function (sheetName) {
+const readAuctionNotes = function (file_location, sheetName) {
 	let filePath = path.resolve(__dirname, file_location);
 
 	const workbook = xlsx.readFile(filePath);
