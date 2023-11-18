@@ -141,7 +141,7 @@ npm install selenium-webdriver
 
 npm install chromedriver // use this instead if steps 2-4 don't work
 ```
-2. download chromedriver zip file from chrome for testing https://googlechromelabs.github.io/chrome-for-testing/ - use the https://edgedl.me.gvt1.com/edgedl/chrome/chrome-for-testing/118.0.5993.70/mac-x64/chromedriver-mac-x64.zip
+2. download chromedriver zip file from chrome for testing https://googlechromelabs.github.io/chrome-for-testing/ - use the https://edgedl.me.gvt1.com/edgedl/chrome/chrome-for-testing/119.0.6045.105/mac-x64/chromedriver-mac-x64.zip
 3. unzip the download and extract the chromedriver.exe
 4. paste the chromedriver.exe into this repo
 
