@@ -5,7 +5,7 @@ const webdriver = require('selenium-webdriver');
 const {By, until, Key} = require('selenium-webdriver');
 const chrome = require('selenium-webdriver/chrome');
 
-let pauseTime = 1000;
+let pauseTime = 2000;
 
 // get info
 const getParcelInfo = async function (baseUrl, parcelViewerURL, parcelNum) {
@@ -140,22 +140,29 @@ const getParcelInfo = async function (baseUrl, parcelViewerURL, parcelNum) {
 				console.log(error);
 			}
 
-						// go to land page
-			await driver.get(parcelURL.concat('/building'));
+			// try to get building info
+			try {
+							// go to land page
+				await driver.get(parcelURL.concat('/building'));
 
-									// build in delay
-			 	// wait 5 seconds for full parcelViewerURL to load
- 			await new Promise(resolve => setTimeout(resolve, pauseTime));
+										// build in delay
+				 	// wait 5 seconds for full parcelViewerURL to load
+	 			await new Promise(resolve => setTimeout(resolve, pauseTime+2000));
 
- 			
-			console.log('finding building information');
+	 			
+				console.log('finding building information');
 
-						// scrape all ux-data-display-table classes and sort out which elements to add
-			let dataTable = await driver.findElement(By.css('.container-fluid'));
+							// scrape all ux-data-display-table classes and sort out which elements to add
+				let dataTable = await driver.findElement(By.css('.container-fluid'));
 
-			let dataBlock = await dataTable.findElement(By.css('.row'));
+				let dataBlock = await dataTable.findElement(By.css('.row'));
 
-			let dataRows = await dataBlock.findElements(By.css('.row'));
+				let dataRows = await dataBlock.findElements(By.css('.row'));
+
+			} catch (error) {
+				console.log('error looping through building page');
+				console.log(error);
+			}
 
 			//text = await dataRow.getAttribute('innerText');
 

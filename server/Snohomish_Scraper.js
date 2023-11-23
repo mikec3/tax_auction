@@ -38,7 +38,7 @@ const getParcelInfo = async function (baseUrl, parcelViewerURL, parcelNum) {
 		currentParcel['Basic']['PROPERTY_INFO_LINK'] = parcelURL;
 
 			 		// wait 2 seconds for full parcel info page to load
-	 	await new Promise(resolve => setTimeout(resolve, 5000));
+	 	await new Promise(resolve => setTimeout(resolve, 1000));
 
 		// start with general information section
 		let generalInformationRows = await driver.findElement(By.css('#mGeneralInformation'))

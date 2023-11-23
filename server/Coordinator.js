@@ -101,7 +101,7 @@ const Scraper = async function (auctionNotesLoc, countyList, databaseName) {
 }
 
 // new way to call, allows for testing too // Scrape(auctionNotesLoc, [countyList], databaseName)
-//Scraper('Auction_Notes_2022.xlsx', ['Pierce'], 'parcels_v2');
+Scraper('Auction_Notes_2022.xlsx', ['Pierce'], 'parcels_v2');
 
 module.exports = {Scraper};
 
