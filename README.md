@@ -169,5 +169,44 @@ npm test <myTestFile>   // call individual test file
 
  ## Material UI
  1. install Material UI @ client directory
+
+ ## Scrapers
+ ```
+	let currentParcel = {
+		'Basic' : {
+			'PARCEL_NUM' : str,
+			'PROPERTY_INFO_LINK' : str
+			},
+		'Building' : {},
+		'Tax' : {
+			'TAXABLE_LAND' : number,
+			'TAXABLE_BUILDING': number,
+			'TAXABLE_TOTAL': number
+			},
+		'Location' : {
+			'LAT' : str,
+			'LON' : str
+			},
+		'Land' : {
+			'Acres' : number
+			},
+		'Pictures': {
+			[]
+		},
+		'Meta' : {
+			'AUCTION_DATE' = str,
+			'AUCTION_INFO_URL' = str,
+			'PARCEL_INFO_URL' = str,
+			'PARCEL_DATA_BASE_URL' = str,
+			'PARCEL_VIEWER_URL' = str,
+			'AUCTION_SITE' = str,
+			'AUCTION_SITE_FLAG' = str
+		}
+
+	};
+
+
+
+ ```
  
 
