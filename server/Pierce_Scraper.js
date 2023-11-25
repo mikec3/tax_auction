@@ -1,6 +1,11 @@
 // Scrape Pierce County
 // manually scrape parcel list and add to auction notes
 
+// TODO re-scrape and fix the following
+// tax : add TAXABLE_TOTAL, etc...
+// 		: Fix tax scraper error
+// acres : Change value to number
+
 const webdriver = require('selenium-webdriver');
 const {By, until, Key} = require('selenium-webdriver');
 const chrome = require('selenium-webdriver/chrome');

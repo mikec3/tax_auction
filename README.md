@@ -175,7 +175,8 @@ npm test <myTestFile>   // call individual test file
 	let currentParcel = {
 		'Basic' : {
 			'PARCEL_NUM' : str,
-			'PROPERTY_INFO_LINK' : str
+			'PROPERTY_INFO_LINK' : str,
+			'Site Address' : str
 			},
 		'Building' : {},
 		'Tax' : {
@@ -191,7 +192,7 @@ npm test <myTestFile>   // call individual test file
 			'Acres' : number
 			},
 		'Pictures': {
-			[]
+			[str, str]
 		},
 		'Meta' : {
 			'AUCTION_DATE' = str,
