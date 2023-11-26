@@ -2,9 +2,7 @@
 // manually scrape parcel list and add to auction notes
 
 // TODO re-scrape and fix the following
-// tax : add TAXABLE_TOTAL, etc...
-// 		: Fix tax scraper error
-// acres : Change value to number
+// tax : Fix tax scraper error
 
 const webdriver = require('selenium-webdriver');
 const {By, until, Key} = require('selenium-webdriver');
@@ -99,6 +97,20 @@ const getParcelInfo = async function (baseUrl, parcelViewerURL, parcelNum) {
 											
 						// add table data into parcelInfo as key-value pairs
 						currentParcel['Tax'][cellKey] = cellValue;
+
+						// add the needed fields
+						if (cellKey == 'Assessed Total') {
+							// convert cellValue to number and add as 'TAXABLE_TOTAL'
+							currentParcel['Tax']['TAXABLE_TOTAL'] = parseInt(cellValue.replace(',', ''));
+						}
+
+						if (cellKey == 'Assessed Improvements') {
+							currentParcel['Tax']['TAXABLE_BUILDING'] = parseInt(cellValue.replace(',', ''));
+						}
+
+						if (cellKey == 'Assessed Land') {
+							currentParcel['Tax']['TAXABLE_LAND'] = parseInt(cellValue.replace(',', ''));
+						}
 					}
 				}
 			} catch (error) {
@@ -138,6 +150,11 @@ const getParcelInfo = async function (baseUrl, parcelViewerURL, parcelNum) {
 
 						// add table data into parcelInfo as key-value pairs
 						currentParcel['Land'][cellKey] = cellValue;
+
+						// store 'Acres' as a float not a string
+						if (cellKey == 'Acres') {
+							currentParcel['Land']['Acres'] = parseFloat(cellValue.replace(',',''));
+						}
 					}
 				}
 			} catch (error) {

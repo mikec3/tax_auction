@@ -90,7 +90,7 @@ test('Pierce County Scraper', async () => {
 	expect(fetchedAddress).toEqual('7019 180TH AVE SW');
 	expect(fetchedYear).toEqual('1981');
 	expect(fetchedTaxValue).toEqual('44,920');
-	expect(fetchedAcres).toEqual('5.09');
+	expect(fetchedAcres).toEqual(5.09);
 	expect(fetchedSquareFeet).toEqual('1,440');
 	expect(fetchedLat).toEqual('47.193147');
 	//expect(fetchedSaleDate).toEqual('10/01/1999');
