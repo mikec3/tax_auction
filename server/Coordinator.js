@@ -27,10 +27,14 @@ const countyFile = {
 // get auction notes for meta data, links to parcel info, and parcel list, call each parcel scraper for each parcel and return object of parcel info for upload to db
 const getCounty = async function (auctionNotesLoc, countyName) {
 	// Get Parcel List
-	let parcelList = Read_Auction_Notes.readAuctionNotes(auctionNotesLoc, 'ParcelList').filter(item => item.COUNTY == countyName);
+	let parcelListRaw = await Read_Auction_Notes.readAuctionNotes(auctionNotesLoc, '_Parcel_List');
+
+	let parcelList = parcelListRaw.filter(item => item.COUNTY == countyName);
 
 	//  get auction meta data
-	let parcelMetaData = Read_Auction_Notes.readAuctionNotes(auctionNotesLoc, 'AuctionNotes').filter(item => item.COUNTY == countyName)[0];
+	let parcelMetaDataRaw = await Read_Auction_Notes.readAuctionNotes(auctionNotesLoc, '_Auction_Notes');
+
+	let parcelMetaData = parcelMetaDataRaw.filter(item => item.COUNTY == countyName)[0];
 
 	let parcelOutput = [];
 
@@ -41,7 +45,7 @@ const getCounty = async function (auctionNotesLoc, countyName) {
 
 		// loop through parcel list
 	for await (const parcel of parcelList) {
-		console.log(parcel);
+		//console.log(parcel);
 
 		// add meta data to parcelObj
 		parcel['AUCTION_DATE'] = parcelMetaData['AUCTION_DATE'];
@@ -63,7 +67,7 @@ const getCounty = async function (auctionNotesLoc, countyName) {
 		parcelOutput.push(parcelInfo);
 
 
-		console.log(parcelInfo);
+		//console.log(parcelInfo);
 		console.log(countyName + ' Scraped parcel: ' + increment + ' of ' + listLength);
 		increment++;
 	};
@@ -101,7 +105,7 @@ const Scraper = async function (auctionNotesLoc, countyList, databaseName) {
 }
 
 // new way to call, allows for testing too // Scrape(auctionNotesLoc, [countyList], databaseName)
-Scraper('Auction_Notes_2022.xlsx', ['Pierce'], 'parcels_v2');
+//Scraper('Auction_Notes_2022', ['Pierce'], 'parcels_v2');
 
 module.exports = {Scraper};
 

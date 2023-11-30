@@ -1,6 +1,8 @@
 // This file will read the auction notes to give auction info to the scrapers
 const path = require('path');
-const xlsx = require("xlsx");
+//const xlsx = require("xlsx");
+const fs = require('fs');
+const Papa = require('papaparse');
 
 //let file_location = 'Auction_Notes_2022.xlsx';
 
@@ -8,14 +10,25 @@ const xlsx = require("xlsx");
 // console.log(__dirname);
 
 
-const readAuctionNotes = function (file_location, sheetName) {
-	let filePath = path.resolve(__dirname, file_location);
+const readAuctionNotes = async function (file_location, sheetName) {
+	let filePath = path.resolve(__dirname, file_location+sheetName+'.txt');
 
-	const workbook = xlsx.readFile(filePath);
-	//const sheetNames = workbook.SheetNames;
+  const csvFile = fs.readFileSync(filePath)
+  const csvData = csvFile.toString()  
+  return new Promise(resolve => {
+    Papa.parse(csvData, {
+      header: true,
+      skipEmptyLines: true,
+      complete: results => {
+        console.log('Complete', results.data.length, 'records.'); 
+        //console.log(results.data);
+        resolve(results.data);
+      }
+    });
+  });
 
-	// Get the data of "Sheet1"
-	const data = xlsx.utils.sheet_to_json(workbook.Sheets[sheetName])
+
+
 
 	//console.log(data);
 	return data;

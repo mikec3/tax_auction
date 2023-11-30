@@ -17,11 +17,13 @@ const { getFirestore, Timestamp, FieldValue } = require('firebase-admin/firestor
 
 const upload = async function (database, parcelInfo) {
 
+	//console.log(parcelInfo);
+
 	const docRef = db.collection(database).doc(String(parcelInfo.Basic.PARCEL_NUM));
 
 	let results = await docRef.set(parcelInfo);
 
-	console.log(results);
+	//console.log(results);
 
 	return results;
 };
