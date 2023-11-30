@@ -1,15 +1,17 @@
 const auction_notes = require('./Read_Auction_Notes');
 
-test('Read Auction Notes', () => {
-	result = auction_notes.readAuctionNotes('Auction_Notes_2022.xlsx', 'AuctionNotes');
-	resultParsed = result[0]['COUNTY'];
+test('Read Auction Notes', async () => {
+	result = await auction_notes.readAuctionNotes('Auction_Notes_2022', '_Auction_Notes');
+	//console.log(result);
+	resultParsed = result[1]['COUNTY'];
 
 	expect(resultParsed).toMatch('Snohomish');
 });
 
-test('Read Parcel List', () => {
-	result = auction_notes.readAuctionNotes('Auction_Notes_2022.xlsx', 'ParcelList');
-	resultParsed = result[0]['PARCEL_NUM'];
+test('Read Parcel List', async () => {
+	result = await auction_notes.readAuctionNotes('Auction_Notes_2022', '_Parcel_List');
+	//console.log(result);
+	resultParsed = result[1]['PARCEL_NUM'];
 
 	expect(resultParsed).toMatch('00373301100301');
 });
