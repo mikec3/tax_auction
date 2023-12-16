@@ -148,10 +148,34 @@ const getParcelInfo = async function (baseUrl, parcelViewerURL, parcelNum) {
 
 	// get tax info
 	try {
+		// create tax values url
+		let taxURL = parcelURL.replace('basic', 'value');
 
+		await driver.get(taxURL);
 
+		// grab the first element with class 'normal_right' then go up to it's parent, then grab all rows
+		let tableFirstRow = await driver.findElement(By.css('.normal_right'));
+		let taxInfoTable = await tableFirstRow.findElement(By.xpath('../..'));
+		let taxInfoRows = await taxInfoTable.findElements(By.tagName('tr'));
 
-		
+		// 4th row has land tax
+		let landTaxCell = await taxInfoRows[3].findElement(By.css('.normal_right'));
+
+		let landTaxValue = await landTaxCell.getAttribute('innerText');
+
+		currentParcel['Tax']['TAXABLE_LAND'] = parseInt(landTaxValue.replace(/[$,]/g, ''));  // strip $ and , from text to convert to number
+
+		// 5th row has building tax
+		let buildingTaxCell = await taxInfoRows[4].findElement(By.css('.normal_right'));
+		let buildingTaxValue = await buildingTaxCell.getAttribute('innerText');
+
+		currentParcel['Tax']['TAXABLE_BUILDING'] = parseInt(buildingTaxValue.replace(/[$,]/g, ''));  // strip $ and , from text to convert to number
+
+		// 6th row has market total
+		let totalTaxCell = await taxInfoRows[5].findElement(By.css('.emphatic_right'));
+		let totalTaxValue = await totalTaxCell.getAttribute('innerText');
+
+		currentParcel['Tax']['TAXABLE_TOTAL'] = parseInt(totalTaxValue.replace(/[$,]/g, ''));  // strip $ and , from text to convert to number
 
 	} catch (error) {
 		console.log('error finding tax info');

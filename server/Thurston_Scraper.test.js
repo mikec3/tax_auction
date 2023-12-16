@@ -18,7 +18,7 @@ test('Thurston County Scraper', async () => {
 	let fetchedParcelNum = result['Basic']['PARCEL_NUM'];
 	let fetchedAddress = result['Basic']['Site Address'];
 	let fetchedYear = result['Building']['Year Built'];
-	let fetchedTaxValue = result['Tax']['Taxable Value'];
+	let fetchedTaxValue = result['Tax']['TAXABLE_TOTAL'];
 	let fetchedAcres = result['Land']['Acres'];
 	let fetchedSquareFeet = result['Building']['Square Feet'];
 	let fetchedLat = result['Location']['LAT'];
@@ -30,7 +30,7 @@ test('Thurston County Scraper', async () => {
 	expect(fetchedYear).toEqual('2008');
 	expect(fetchedSquareFeet).toEqual('1215');
 	expect(fetchedAcres).toEqual(0.12);
-	expect(fetchedTaxValue).toEqual('597,600');
+	expect(fetchedTaxValue).toEqual(587400);
 	expect(fetchedLat).toEqual('47.193147');
 	//expect(fetchedSaleDate).toEqual('10/01/1999');
 	expect(fetchedPicture).toEqual('https://atip.piercecountywa.gov/imageView?parcelNumber=0020262018&fileName=2020_PRI_1-7-2020_EZ_.jpg&imageType=Photos');
