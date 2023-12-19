@@ -2,6 +2,8 @@ const webdriver = require('selenium-webdriver');
 const {By, until, Key} = require('selenium-webdriver');
 const chrome = require('selenium-webdriver/chrome');
 
+let pictureURLBase = 'https://tcproperty.co.thurston.wa.us/propsql/photos/'; // end with 'parcelNumber.jpg'
+
 let pauseTime = 2000;
 
 // get info
@@ -180,6 +182,19 @@ const getParcelInfo = async function (baseUrl, parcelViewerURL, parcelNum) {
 	} catch (error) {
 		console.log('error finding tax info');
 		console.log(error);
+	}
+
+	// try to get picture URLs
+	try {
+
+		// build picture URL
+		let pictureURL = pictureURLBase + parcelNum + '.jpg';
+
+		currentParcel['Pictures'] = [pictureURL];
+
+	} catch (error) {
+		console.log('error adding picture URL');
+		console.log('error');
 	}
 
 
