@@ -317,18 +317,18 @@ Pierce	7470031250	9/23/23
 Pierce	7697000330	9/23/23	
 Pierce	7755000853	9/23/23	
 Thurston	09680077001	12/2/23	https://www.thurstoncountywa.gov/media/18379
-	09740022000		https://www.thurstoncountywa.gov/media/18380
-	09740026000		https://www.thurstoncountywa.gov/media/18382
-	09740027000		https://www.thurstoncountywa.gov/media/18383
-	11607440102		https://www.thurstoncountywa.gov/media/18385
-	11613414202		https://www.thurstoncountywa.gov/media/18386
-	11805130205		https://www.thurstoncountywa.gov/media/18388
-	11822220200		https://www.thurstoncountywa.gov/media/18389
-	12521240301		https://www.thurstoncountywa.gov/media/18393
-	12521240302		https://www.thurstoncountywa.gov/media/18395
-	12711130801		https://www.thurstoncountywa.gov/media/18398
-	12730220200		https://www.thurstoncountywa.gov/media/18399
-	21835340400		https://www.thurstoncountywa.gov/media/18403
-	31420400100		https://www.thurstoncountywa.gov/media/18409
-	36700000500		https://www.thurstoncountywa.gov/media/18412
-	41200040200		https://www.thurstoncountywa.gov/media/18418
+Thurston	09740022000	12/2/23	https://www.thurstoncountywa.gov/media/18380
+Thurston	09740026000	12/2/23	https://www.thurstoncountywa.gov/media/18382
+Thurston	09740027000	12/2/23	https://www.thurstoncountywa.gov/media/18383
+Thurston	11607440102	12/2/23	https://www.thurstoncountywa.gov/media/18385
+Thurston	11613414202	12/2/23	https://www.thurstoncountywa.gov/media/18386
+Thurston	11805130205	12/2/23	https://www.thurstoncountywa.gov/media/18388
+Thurston	11822220200	12/2/23	https://www.thurstoncountywa.gov/media/18389
+Thurston	12521240301	12/2/23	https://www.thurstoncountywa.gov/media/18393
+Thurston	12521240302	12/2/23	https://www.thurstoncountywa.gov/media/18395
+Thurston	12711130801	12/2/23	https://www.thurstoncountywa.gov/media/18398
+Thurston	12730220200	12/2/23	https://www.thurstoncountywa.gov/media/18399
+Thurston	21835340400	12/2/23	https://www.thurstoncountywa.gov/media/18403
+Thurston	31420400100	12/2/23	https://www.thurstoncountywa.gov/media/18409
+Thurston	36700000500	12/2/23	https://www.thurstoncountywa.gov/media/18412
+Thurston	41200040200	12/2/23	https://www.thurstoncountywa.gov/media/18418
