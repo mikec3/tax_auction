@@ -197,6 +197,54 @@ const getParcelInfo = async function (baseUrl, parcelViewerURL, parcelNum) {
 		console.log('error');
 	}
 
+	// try and get lat lon coordinates
+	try {
+
+		// build map info URL - this doesn't have the map, need to click a link to go to a google maps page, then get lat/lon from google map
+		let mapURL = parcelViewerURL + parcelNum;
+
+		await driver.get(mapURL);
+
+		// get href to google map of property
+		let mapLinkObject = await driver.findElement(By.css('#thirdPartyLink')).findElement(By.tagName('a'));
+
+		let googleMapLinkURL = await mapLinkObject.getAttribute('href');
+
+		await driver.get(googleMapLinkURL);
+
+		// // wait after opening google map - URL fills out to include the lat and lon after a couple seconds.
+	 	await new Promise(resolve => setTimeout(resolve, pauseTime+2000));
+
+	 	let url = await driver.getCurrentUrl();
+	 	//console.log(url);
+
+	 	// extract lat lon from google maps URL
+	 	let partsOfUrl = url.split('/');
+
+		// loop through parts of url to find start of lat which is @47.3,-122.3,17z
+		for (let part of partsOfUrl) {
+			if (part[0] == '@') {
+		  //console.log(part);
+		  
+		  // split part on comma
+		  let latLonRaw = part.split(',');
+		  
+		  // process lat and lon
+		  // change lat @47.3 -> 47.3(string)
+		  let lat = latLonRaw[0].replace(/[@,]/g, '');
+		  let lon = latLonRaw[1];
+
+		  currentParcel['Location']['LAT'] = lat;
+		  currentParcel['Location']['LON'] = lon;
+		  }
+		}
+
+
+	} catch (error) {
+		console.log('error finding lat/lon coordinates');
+		console.log(error);
+	}
+
 
  	driver.close();
 	return currentParcel;

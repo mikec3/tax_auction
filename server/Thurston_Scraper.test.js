@@ -9,7 +9,7 @@ jest.setTimeout(50000);
 test('Thurston County Scraper', async () => {
 
 	let result = await thurston.getParcelInfo('https://tcproperty.co.thurston.wa.us/propsql/basic.asp?fe=PR&pn=',
-		'https://map.co.thurston.wa.us/Html5Viewer/index.html?viewer=uMap.Main&run=FindParcelsByIDs&pids='
+		'https://map.co.thurston.wa.us/parcelinfo/details.ext.html?id='
 		, '09680077001');
 
 	console.log(result);
@@ -32,6 +32,6 @@ test('Thurston County Scraper', async () => {
 	expect(fetchedAcres).toEqual(0.12);
 	expect(fetchedTaxValue).toEqual(587400);
 	expect(fetchedPicture).toEqual('https://tcproperty.co.thurston.wa.us/propsql/photos/09680077001.jpg');
-	expect(fetchedLat).toEqual('47.193147');
+	expect(fetchedLat).toEqual('47.0650021');
 	//expect(fetchedSaleDate).toEqual('10/01/1999');
 });
