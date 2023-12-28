@@ -1,24 +1,17 @@
 const Snohomish = require('./Snohomish_Scraper');
 const King = require('./King_Scraper');
 const Pierce = require('./Pierce_Scraper');
+const Thurston = require('./Thurston_Scraper');
 const Read_Auction_Notes = require('./Read_Auction_Notes');
 const Firebase = require('./UploadToFirebase.js');
 
-// call Read_Auction_Notes to get snohomish meta data and parcel list
-// pass parcel list through snomohish_scraper and attach meta data to each parcel
-// Upload snohomish parcel info to firebase
-// get the auction meta data and snohomish parcel info
-
-// TODO add tests
-// TODO getSnohomish() and getKing() are basically the same, refactor so that I'm not repeating code.
-
-//let database = 'parcels_v2';
 
 //create definition of which scraper file to call for each countyName
 const countyFile = {
 	'King': King,
 	'Pierce': Pierce,
 	'Snohomish': Snohomish,
+	'Thurston': Thurston,
 	'FakeTestCounty': Snohomish
 }
 
@@ -105,7 +98,7 @@ const Scraper = async function (auctionNotesLoc, countyList, databaseName) {
 }
 
 // new way to call, allows for testing too // Scrape(auctionNotesLoc, [countyList], databaseName)
-//Scraper('Auction_Notes_2022', ['Pierce'], 'parcels_v2');
+//Scraper('Auction_Notes_2022', ['Thurston'], 'parcels_v2');
 
 module.exports = {Scraper};
 

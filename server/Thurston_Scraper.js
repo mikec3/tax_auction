@@ -37,6 +37,8 @@ const getParcelInfo = async function (baseUrl, parcelViewerURL, parcelNum) {
 
 		await driver.get(parcelURL);
 
+		await new Promise(resolve => setTimeout(resolve, pauseTime));
+
 		//grab the first element with class 'emphatic' (info table header), then go up to it's parent table, then grab all rows
 		let tableHeader = await driver.findElement(By.css('.emphatic'));
 		let basicInfoTable = await tableHeader.findElement(By.xpath('../../..'));  // go up to parent table
@@ -74,6 +76,8 @@ const getParcelInfo = async function (baseUrl, parcelViewerURL, parcelNum) {
 		let buildingURL = parcelURL.replace('basic', 'struct');
 
 		await driver.get(buildingURL);
+
+				await new Promise(resolve => setTimeout(resolve, pauseTime));
 
 		// grab the first element with class 'emphatic' then go up to it's parent, then grab all rows
 		let tableFirstRow = await driver.findElement(By.css('.emphatic'));
@@ -113,6 +117,7 @@ const getParcelInfo = async function (baseUrl, parcelViewerURL, parcelNum) {
 		let landURL = parcelURL.replace('basic', 'land');
 
 		await driver.get(landURL);
+				await new Promise(resolve => setTimeout(resolve, pauseTime));
 
 				// grab the first element with class 'emphatic' then go up to it's parent, then grab all rows
 		let tableFirstRow = await driver.findElement(By.css('.emphatic'));
@@ -154,6 +159,7 @@ const getParcelInfo = async function (baseUrl, parcelViewerURL, parcelNum) {
 		let taxURL = parcelURL.replace('basic', 'value');
 
 		await driver.get(taxURL);
+				await new Promise(resolve => setTimeout(resolve, pauseTime));
 
 		// grab the first element with class 'normal_right' then go up to it's parent, then grab all rows
 		let tableFirstRow = await driver.findElement(By.css('.normal_right'));
@@ -204,6 +210,7 @@ const getParcelInfo = async function (baseUrl, parcelViewerURL, parcelNum) {
 		let mapURL = parcelViewerURL + parcelNum;
 
 		await driver.get(mapURL);
+				await new Promise(resolve => setTimeout(resolve, pauseTime));
 
 		// get href to google map of property
 		let mapLinkObject = await driver.findElement(By.css('#thirdPartyLink')).findElement(By.tagName('a'));
