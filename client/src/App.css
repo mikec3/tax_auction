@@ -61,6 +61,10 @@
   height: 4.2em;
 }
 
+.HeaderBar h2 {
+  margin-top: 1em;
+}
+
 .Login {
   margin-top: 1em;
   margin-right: 1em;
@@ -362,6 +366,10 @@
   p {
     font-size: .8em;
   }
+
+  .HeaderBar h2 {
+  font-size: 1.2em;
+}
 
   .mapCard {
     display: flex;
