@@ -43,7 +43,7 @@
 }
 
 .HeaderBar {
-  max-height: 10vh;
+  height: 5em;
   border-bottom: 0.2px solid grey;
   padding-left: 0.1em;
   padding-right: 0.1em;
@@ -80,10 +80,22 @@
 
 .InfoCard {
   max-height: 90vh;
-  min-width: 50%;
+  width: 50%;
   overflow-y: scroll;
   scroll-behavior: smooth;
-    background-color: #fbfaf4;
+  background-color: #fbfaf4;
+}
+
+.InfoCardHeader {
+  margin-top: 0.2em;
+  min-width: 90%;
+  max-width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding-left: 1em;
+  padding-right: 1em;
 }
 
 
@@ -184,6 +196,7 @@
 
 .ParcelCardInfo p {
   font-size: 0.75em;
+  font-weight: 500;
   color: #3c4043;
 }
 
@@ -211,18 +224,6 @@
   justify-content: flex-start;
   transform: translateX(-56vw);
   background-color: white;
-}
-
-.InfoCardHeader {
-  margin-top: 0.2em;
-  min-width: 100%;
-  max-width: 100%;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-around;
-  align-items: center;
-  padding-left: 1em;
-  padding-right: 1em;
 }
 
 .FilterHeader {
@@ -369,13 +370,16 @@
 
   .InfoCardHeader {
     padding-left: 0;
-    padding-right: 0;
+    padding-right: 0.5em;
+    width: 95%;
   }
 
 /* This allows the user to scroll past the map */
   .InfoCard {
   overflow-y: visible;
+  width: 100%;
   }
+
 
   .ParcelCard {
     width: 20em;

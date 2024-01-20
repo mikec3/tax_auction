@@ -65,7 +65,7 @@ const InfoCard = (props) => {
 
 	let infoLink;
 
-	let title = <h3> Select a Marker </h3>;
+	let title = "Parcels for Auction";
 
 	// filter button was pressed, pass up the trigger to show the filter modal
 	const filterButtonPressed = () => {
@@ -83,7 +83,7 @@ if(selectedParcel != [] && selectedParcel != null && typeof selectedParcel != 'u
 		}
 	}
 	// change title to show that a property has been selected
-	title = <h2> Selected Property </h2>;
+	title = "Selected Property";
 }
 
 const closeSelectedParcel = () => {
@@ -129,7 +129,7 @@ const addToFavorites = () => {
 	// return (
 	// 	<div className='InfoCard'>
 	// 			<div className='InfoCardHeader'>
-	// 				{title}
+	// 				<h3>{title}</h3>
 	// 					{!selectedParcel &&
 	// 						<button className='button-17'
 	// 							onClick={props.filterButtonPressed}
@@ -161,7 +161,7 @@ const addToFavorites = () => {
 			return (
 				<div className='InfoCard' ref={infoCardRef}>
 					<div className='InfoCardHeader'>
-						{title}
+						<h3> {title} </h3>
 							<button className='button-17'
 								onClick={props.filterButtonPressed}
 								> 
