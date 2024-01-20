@@ -43,13 +43,26 @@
 }
 
 .HeaderBar {
-  max-height: 10vh;
+  height: 5em;
   border-bottom: 0.2px solid grey;
   padding-left: 0.1em;
   padding-right: 0.1em;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  background-color: #fbfaf4; /*lighter - #f5f2eb , darker-> f5f0e4 */
+}
+
+.HeaderBar img {
+  margin-top: 0.3em;
+  margin-bottom: 0.3em;
+  margin-left: 0.3em;
+  width: 7em;
+  height: 4.2em;
+}
+
+.HeaderBar h2 {
+  margin-top: 1em;
 }
 
 .Login {
@@ -71,9 +84,22 @@
 
 .InfoCard {
   max-height: 90vh;
-  min-width: 50%;
+  width: 50%;
   overflow-y: scroll;
   scroll-behavior: smooth;
+  background-color: #fbfaf4;
+}
+
+.InfoCardHeader {
+  margin-top: 0.2em;
+  min-width: 90%;
+  max-width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding-left: 1em;
+  padding-right: 1em;
 }
 
 
@@ -152,10 +178,12 @@
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
+  background-color: #fbfaf4; /*lighter -> #bbe3c6, darker -> #95d2a5 */
+  box-shadow: rgba(60, 64, 67, .3) 0 1px 3px 0, rgba(60, 64, 67, .15) 0 4px 8px 3px;
 }
 
 .ParcelCard:hover {
-  box-shadow: rgba(60, 64, 67, .3) 0 1px 3px 0, rgba(60, 64, 67, .15) 0 4px 8px 3px;
+  box-shadow: rgba(60, 64, 67, .6) 0 1px 3px 0, rgba(60, 64, 67, .3) 0 4px 8px 3px;
 }
 
 .ParcelCard img {
@@ -166,10 +194,14 @@
 .ParcelCardInfo {
   display: flex;
   justify-content: flex-start;
+  background-color: #bbe3c6;
+  height: 25%;
 }
 
 .ParcelCardInfo p {
   font-size: 0.75em;
+  font-weight: 500;
+  color: #3c4043;
 }
 
 .mapCard {
@@ -196,18 +228,6 @@
   justify-content: flex-start;
   transform: translateX(-56vw);
   background-color: white;
-}
-
-.InfoCardHeader {
-  margin-top: 0.2em;
-  min-width: 100%;
-  max-width: 100%;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-around;
-  align-items: center;
-  padding-left: 1em;
-  padding-right: 1em;
 }
 
 .FilterHeader {
@@ -347,6 +367,10 @@
     font-size: .8em;
   }
 
+  .HeaderBar h2 {
+  font-size: 1.2em;
+}
+
   .mapCard {
     display: flex;
     flex-direction: column;
@@ -354,13 +378,16 @@
 
   .InfoCardHeader {
     padding-left: 0;
-    padding-right: 0;
+    padding-right: 0.5em;
+    width: 95%;
   }
 
 /* This allows the user to scroll past the map */
   .InfoCard {
   overflow-y: visible;
+  width: 100%;
   }
+
 
   .ParcelCard {
     width: 20em;
@@ -395,11 +422,19 @@
 
 }
 
+.button-18 {
+background-color: #a0e1c0;
+/*background-image: url("/landscape1.jpg");*/
+background-position: center;
+background-repeat: no-repeat;
+background-size: cover;
+}
+
 /* CSS */
 .button-17 {
   align-items: center;
   appearance: none;
-  background-color: #fff;
+  background-color: #ffffff; /* f5f0e4 light grey*/
   border-radius: 1em;
   border-style: none;
   box-shadow: rgba(0, 0, 0, .2) 0 3px 5px -1px,rgba(0, 0, 0, .14) 0 6px 10px 0,rgba(0, 0, 0, .12) 0 1px 18px 0;
