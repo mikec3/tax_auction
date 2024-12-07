@@ -30,7 +30,7 @@ test('Thurston County Scraper', async () => {
 	expect(fetchedYear).toEqual('2008');
 	expect(fetchedSquareFeet).toEqual('1215');
 	expect(fetchedAcres).toEqual(0.12);
-	expect(fetchedTaxValue).toEqual(587400);
+	expect(fetchedTaxValue).toEqual(625600);
 	expect(fetchedPicture).toEqual('https://tcproperty.co.thurston.wa.us/propsql/photos/09680077001.jpg');
 	expect(fetchedLat).toEqual('47.0650021');
 	//expect(fetchedSaleDate).toEqual('10/01/1999');

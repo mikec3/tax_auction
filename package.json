@@ -20,7 +20,7 @@
     "@mui/material": "^5.10.16",
     "@react-google-maps/api": "^2.12.2",
     "axios": "^0.27.2",
-    "chromedriver": "^120.0.1",
+    "chromedriver": "^131.0.1",
     "dotenv": "^16.0.2",
     "express": "^4.18.1",
     "fast-csv": "^4.3.6",
@@ -30,7 +30,7 @@
     "path": "^0.12.7",
     "react-router-dom": "^6.10.0",
     "read-excel-file": "^5.5.3",
-    "selenium-webdriver": "^4.14.0",
+    "selenium-webdriver": "^4.26.0",
     "socket.io": "^4.5.2",
     "socket.io-client": "^4.5.2",
     "xlsx": "^0.18.5"

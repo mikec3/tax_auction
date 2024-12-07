@@ -10,6 +10,11 @@ This app is the only source of multiple county tax foreclosure auction parcel in
 
 # Dev
 
+## Run
+```
+npm run build && npm start
+```
+
 ## Roadmap
 * Re-scrape so that tax values are integers
 * parcel filtering
@@ -87,6 +92,7 @@ git checkout new_feature
 
 ...do stuff...
 
+
 git add .
 git commit -m 'added features'
 git push github new_feature
@@ -137,9 +143,11 @@ API config & key is in client, set API permissions to restrict to either domain 
 ## Selenium
 1. Install selenium webdriver
 ```
-npm install selenium-webdriver
+npm install selenium-webdriver // one time I just re-ran this and then it worked.
 
-npm install chromedriver // use this instead if steps 2-4 don't work
+npm install chromedriver --chromedriver-force-download // skips the local temp version and forces a download of the latest package
+
+npm install chromedriver
 ```
 2. download chromedriver zip file from chrome for testing https://googlechromelabs.github.io/chrome-for-testing/ - use the https://edgedl.me.gvt1.com/edgedl/chrome/chrome-for-testing/120.0.6099.109/mac-x64/chromedriver-mac-x64.zip
 3. unzip the download and extract the chromedriver.exe

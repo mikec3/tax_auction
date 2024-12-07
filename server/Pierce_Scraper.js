@@ -289,7 +289,15 @@ const getParcelInfo = async function (baseUrl, parcelViewerURL, parcelNum) {
 
  			// try to close the warning modal
  		try {
-			let splashContainerButton = await driver.findElement(By.css('.jimu-btn.jimu-float-trailing.enable-btn.lastFocusNode'));
+
+
+			//
+//<button class="jimu-btn app-root-emotion-cache-ltr-czrfzi icon-btn btn btn-primary" style="font-size: 16px;"><span class="icon-btn-sizer">OK</span></button>
+
+
+			//
+			//let splashContainerButton = await driver.findElement(By.css('.jimu-btn.jimu-float-trailing.enable-btn.lastFocusNode'));
+			let splashContainerButton = await driver.findElement(By.css('.modal-content')).findElement(By.tagName('button'));
 			let splashContainerText = await splashContainerButton.getAttribute('innerText');
 			//console.log(splashContainerText);
 
@@ -310,21 +318,12 @@ const getParcelInfo = async function (baseUrl, parcelViewerURL, parcelNum) {
 
 		try {
 
-			let mapElement = await driver.findElement(By.css('#map'));
+			// click coordiantes info box first to activate it, then click the map to populate it with coordinates
+			let infoBox = await driver.findElement(By.css('.scroll-list-root')).findElement(By.tagName('button'));
 
-
-				// instantiate actions
+			// instantiate actions
 			const actions = driver.actions({async: true});
 					// click the map near the results box (parcel that was searched). This activates the lat/lon display at the bottom of the map
-			actions.move({origin:mapElement})
-					.click()
-					.pause(500)
-					.perform();
-
-			actions.clear();
-
-			let infoBox = await driver.findElement(By.css('#dijit__WidgetBase_2'));
-
 			actions.move({origin:infoBox})
 					.click()
 					.pause(500)
@@ -332,17 +331,61 @@ const getParcelInfo = async function (baseUrl, parcelViewerURL, parcelNum) {
 
 			actions.clear();
 
-			// // wait after clicking coordinate info box
-	 		await new Promise(resolve => setTimeout(resolve, pauseTime));
+			// click the map element to populate the coordinates info box
+			let mapElement = driver.findElement(By.css('.arcgis-map'));
 
-	 		console.log('paused after clicking map');
+			actions.move({origin:mapElement})
+			.click()
+			.pause(500)
+			.perform();
+
+			actions.clear();
+
+			// let mapElement = await driver.findElement(By.css('#map'));
+
+
+			// 	// instantiate actions
+			// const actions = driver.actions({async: true});
+			// 		// click the map near the results box (parcel that was searched). This activates the lat/lon display at the bottom of the map
+			// actions.move({origin:mapElement})
+			// 		.click()
+			// 		.pause(500)
+			// 		.perform();
+
+			// actions.clear();
+
+			// let infoBox = await driver.findElement(By.css('#dijit__WidgetBase_2'));
+
+			// actions.move({origin:infoBox})
+			// 		.click()
+			// 		.pause(500)
+			// 		.perform();
+
+			// actions.clear();
+
+			// // // wait after clicking coordinate info box
+	 		// await new Promise(resolve => setTimeout(resolve, pauseTime));
+
+	 		// console.log('paused after clicking map');
 
 			// try to find using classes
-			let coordinateInfoByClass = await driver.findElements(By.css('.jimu-widget-cc.outputCoordinateContainer'));
+			// let coordinateInfoByClass = await driver.findElements(By.css('.jimu-widget-cc.outputCoordinateContainer'));
 
-			let coordinateInfoTextBox = await coordinateInfoByClass[3].findElement(By.css('.ta'));
+			// let textFromInfoBox = await coordinateInfoByClass.getAttribute('innerText');
+			// console.log(textFromInfoBox);
 
-			let coordinateTextRaw = await coordinateInfoTextBox.getAttribute('value');
+			// let coordinateInfoTextBox = await coordinateInfoByClass[3].findElement(By.css('.ta'));
+
+			// let coordinateTextRaw = await coordinateInfoTextBox.getAttribute('value');
+
+			// wait after clicking coordinate info box
+	 		await new Promise(resolve => setTimeout(resolve, pauseTime));
+
+			let coordinateInfo = await driver.findElement(By.css('#coordDD'));
+
+			let coordinateTextRaw = await coordinateInfo.getAttribute('value');
+
+			//console.log('coordinate value' + coordinateTextValue);
 
 			let coordinateText = StripLatLon(coordinateTextRaw);
 
@@ -355,44 +398,7 @@ const getParcelInfo = async function (baseUrl, parcelViewerURL, parcelNum) {
 			console.log(error);
 
 			try {
-				let mapElement = await driver.findElement(By.css('#map'));
-
-
-					// instantiate actions
-				const actions = driver.actions({async: true});
-						// click the map near the results box (parcel that was searched). This activates the lat/lon display at the bottom of the map
-				actions.move({origin:mapElement})
-						.click()
-						.pause(500)
-						.perform();
-
-				actions.clear();
-
-				let infoBox = await driver.findElement(By.css('#dijit__WidgetBase_2'));
-
-				actions.move({origin:infoBox})
-						.click()
-						.pause(500)
-						.perform();
-
-				actions.clear();
-
-				// // wait after clicking coordinate info box
-		 		await new Promise(resolve => setTimeout(resolve, pauseTime));
-
-		 		console.log('paused after clicking map');
-
-				// try to find using classes
-				let coordinateInfoByClass = await driver.findElements(By.css('.jimu-widget-cc.outputCoordinateContainer'));
-
-				let coordinateInfoTextBox = await coordinateInfoByClass[3].findElement(By.css('.ta'));
-
-				let coordinateTextRaw = await coordinateInfoTextBox.getAttribute('value');
-
-				let coordinateText = StripLatLon(coordinateTextRaw);
-
-				currentParcel['Location']['LAT'] = coordinateText[0];
-				currentParcel['Location']['LON'] = coordinateText[1];
+				console.log('if you see this message, I should have made a backup if the first lat/lon attempt failed');
 
 			} catch (error) {
 				console.log(error);
