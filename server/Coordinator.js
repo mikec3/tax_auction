@@ -1,7 +1,7 @@
-const Snohomish = require('./Snohomish_Scraper');
-const King = require('./King_Scraper');
-const Pierce = require('./Pierce_Scraper');
-const Thurston = require('./Thurston_Scraper');
+const Snohomish = require('./Scrapers/Snohomish_Scraper.js');
+const King = require('./Scrapers/King_Scraper.js');
+const Pierce = require('./Scrapers/Pierce_Scraper.js');
+const Thurston = require('./Scrapers/Thurston_Scraper.js');
 const Read_Auction_Notes = require('./Read_Auction_Notes');
 const Firebase = require('./UploadToFirebase.js');
 
