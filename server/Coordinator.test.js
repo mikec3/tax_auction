@@ -7,7 +7,7 @@ jest.setTimeout(50000);
 
 test('Test coordinator script with fake test county request', async () => {
 
-	let actual = await coordinator.Scraper('Auction_Notes_2022', ['FakeTestCounty'], 'parcel_test');
+	let actual = await coordinator.Scraper('Auction_Notes/Auction_Notes_2022', ['FakeTestCounty'], 'parcel_test');
 
 	let expected = [{"_writeTime": {"_nanoseconds": 94973000, "_seconds": 1698803779}}];
 
