@@ -16,6 +16,10 @@ npm run build && npm start
 ```
 
 ## Roadmap
+** Re-scrape 2024 for Snohomish, Thurston, and Pierce
+** County filter
+** Date filter
+** Analytics
 * Re-scrape so that tax values are integers
 * parcel filtering
 * format info card
