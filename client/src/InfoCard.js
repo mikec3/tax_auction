@@ -10,6 +10,7 @@ import ScoreCard from './ScoreCard'
 import AuctionBox from './AuctionBox'
 import ParcelShareButton from './ParcelShareButton'
 import {useUser} from './UserContext'
+import AnalyticsCard from './AnalyticsCard';
 
 const InfoCard = (props) => {
 	console.log('info card rendered');
@@ -191,7 +192,7 @@ const addToFavorites = () => {
 							{parcelsInView}
 						</div>
 						:
-						<div>Analytics Page Placeholder</div>
+						<AnalyticsCard parcelList={parcelList}/>
 					}
 				</div>
 			)
