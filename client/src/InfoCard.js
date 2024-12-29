@@ -14,6 +14,10 @@ import {useUser} from './UserContext'
 const InfoCard = (props) => {
 	console.log('info card rendered');
 
+	// toggle the analytics page on/off from a button
+	const [showAnalyticsPage, setShowAnalyticsPage] = useState(false);
+	const [showAnalyticsButtonText, setShowanalyticsButtonText] = useState('Show Analytics');
+
 	// current logged in user state
 	const [user, setUser] = useState();
 	const userCont = useUser();
@@ -93,6 +97,16 @@ const closeSelectedParcel = () => {
 	})
 }
 
+const showAnalyticsButtonPressed = () => {
+	if (showAnalyticsPage) {
+		setShowAnalyticsPage(false);
+		setShowanalyticsButtonText('Show Analytics');
+	} else {
+		setShowAnalyticsPage(true);
+		setShowanalyticsButtonText('Show Parcels');
+	}
+}
+
 // add selectedParcel to favorites
 const addToFavorites = () => {
 		let data = JSON.stringify({
@@ -161,17 +175,23 @@ const addToFavorites = () => {
 			return (
 				<div className='InfoCard' ref={infoCardRef}>
 					<div className='InfoCardHeader'>
-						<h3> {title} </h3>
+							<button className='button-17'
+								onClick={showAnalyticsButtonPressed}
+								>{showAnalyticsButtonText}</button>
+							<h3> {title} </h3>
 							<button className='button-17'
 								onClick={props.filterButtonPressed}
 								> 
 								Filters 
 							</button>
 					</div>
-					{parcelsInView && 
+					{(parcelsInView && !showAnalyticsPage)
+						?
 						<div className='ParcelCardWrapper'>
 							{parcelsInView}
 						</div>
+						:
+						<div>Analytics Page Placeholder</div>
 					}
 				</div>
 			)
