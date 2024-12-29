@@ -126,6 +126,9 @@ function listReducer(list, action) {
       if (action.picture.value) {
         filtersApplied = filtersApplied.filter(t=> t.Pictures);
       }
+
+      // filter counties
+      filtersApplied = filtersApplied.filter(t=>action.county.value.includes(t.Meta.COUNTY));
       return filtersApplied;
     }
 

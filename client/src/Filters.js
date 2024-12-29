@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react';
 import PriceFilter from './Filters/PriceFilter';
 import AcreFilter from './Filters/AcreFilter'
 import AuctionFilters from './Filters/AuctionFilters'
+import CountyFilter from './Filters/CountyFilter'
 import {useList, useListDispatch} from './ParcelListContext';
 
 const Filters = (props) => {
@@ -18,6 +19,8 @@ const [onlineFilterSettings, setOnlineFilterSettings] = useState();
 const [initialOnlineFilterSettings, setInitialOnlineFilterSettings] = useState();
 const [pictureFilterSettings, setPictureFilterSettings] = useState();
 const [initialPictureFilterSettings, setInitialPictureFilterSettings] = useState();
+const [countyFilterSettings, setCountyFilterSettings] = useState([]);
+const [initialCountyFilterSettings, setInitialCountyFilterSettings] = useState([]);
 
 const [triggerFilterReset, setTriggerFilterReset] = useState(false);
 
@@ -33,7 +36,8 @@ useEffect(()=> {
 	if (priceFilterSettings != null && acreFilterSettings != null) {
 		applyFilters();
 	}
-}, [priceFilterSettings, acreFilterSettings, availFilterSettings, onlineFilterSettings, pictureFilterSettings]);
+}, [priceFilterSettings, acreFilterSettings, 
+	availFilterSettings, onlineFilterSettings, pictureFilterSettings, countyFilterSettings]);
 
 
 const handleFilterSettings = (settings) => {
@@ -59,6 +63,10 @@ const handleFilterSettings = (settings) => {
 			setPictureFilterSettings(settings.value);
 			break;
 		}
+		case 'county': {
+			setCountyFilterSettings(settings.value);
+			break;
+		}
 		default: {
       throw Error('Unknown filter: ' + settings.filter);
 		}
@@ -67,6 +75,8 @@ const handleFilterSettings = (settings) => {
 
 // Recieve and save the initial filter settings from each filter component
 const setInitialFilterSettings = (settings) => {
+	console.log('setting initial filter settings for ' + settings.filter)
+	console.log(settings.value);
 	switch(settings.filter){
 		case 'price': {
 			setInitialPriceFilterSettings(settings.value);
@@ -86,6 +96,10 @@ const setInitialFilterSettings = (settings) => {
 		}
 		case 'picture': {
 			setInitialPictureFilterSettings(settings.value);
+			break;
+		}
+		case 'county': {
+			setInitialCountyFilterSettings(settings.value);
 			break;
 		}
 		default: {
@@ -119,6 +133,9 @@ const applyFilters = () => {
 		, picture: {
 			value: pictureFilterSettings
 		}
+		, county: {
+			value: countyFilterSettings
+		}
 	});
 
 	// close the filter box after filters have been applied
@@ -137,6 +154,7 @@ const resetFilters = () => {
 	setAvailFilterSettings(initialAvailFilterSettings);
 	setOnlineFilterSettings(initialOnlineFilterSettings);
 	setPictureFilterSettings(initialPictureFilterSettings);
+	setCountyFilterSettings(initialCountyFilterSettings);
 
 	// toggle trigger filter reset so that child componenets (filters) will reset in their useEffect that listens for triggerFilterReset.
 	if(triggerFilterReset){
@@ -170,6 +188,8 @@ return (
 							Close
 					</button>
 				</div>
+				<CountyFilter parcelList={parcelList} passUpFilterSettings={handleFilterSettings}
+					setInitialFilterSettings={setInitialFilterSettings} triggerReset={triggerFilterReset}/>
 				<PriceFilter parcelList={parcelList} passUpFilterSettings={handleFilterSettings} 
 					setInitialFilterSettings={setInitialFilterSettings} triggerReset={triggerFilterReset}/>
 
