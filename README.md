@@ -179,6 +179,11 @@ npm test                // run all tests
 npm test <myTestFile>   // call individual test file
 ```
 
+```
+cd client
+npm test 				// run all .test.js files in client (frontend logic)
+```
+
  ## Material UI
  1. install Material UI @ client directory
 

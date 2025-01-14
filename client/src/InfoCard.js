@@ -10,7 +10,7 @@ import ScoreCard from './ScoreCard'
 import AuctionBox from './AuctionBox'
 import ParcelShareButton from './ParcelShareButton'
 import {useUser} from './UserContext'
-import AnalyticsCard from './AnalyticsCard';
+import AnalyticsCard from './Analytics/AnalyticsCard';
 
 const InfoCard = (props) => {
 	console.log('info card rendered');
